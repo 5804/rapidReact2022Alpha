@@ -9,11 +9,20 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.commands.ActivateSolenoidCommand;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.RunMotorsCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.TestPistonSubsystem;
 
 public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+  private final TestPistonSubsystem testPistonSubsystem = new TestPistonSubsystem();
+
+  private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(shooterSubsystem);
+  private final ActivateSolenoidCommand activateSolenoidCommand = new ActivateSolenoidCommand(testPistonSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -45,6 +54,12 @@ public class RobotContainer {
     new Button(m_controller::getBackButton)
             // No requirements because we don't need to interrupt anything
             .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+
+    new Button(m_controller::getAButton)
+            .whileHeld(runMotorsCommand);
+
+    new Button(m_controller::getBButton)
+            .whileHeld(activateSolenoidCommand);
   }
 
   /**
