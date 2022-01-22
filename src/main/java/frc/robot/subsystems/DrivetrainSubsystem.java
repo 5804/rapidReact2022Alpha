@@ -44,6 +44,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
           SdsModuleConfigurations.MK3_FAST.getDriveReduction() *
           SdsModuleConfigurations.MK3_FAST.getWheelDiameter() * Math.PI;
+
+//public static final double MAX_VELOCITY_METERS_PER_SECOND = 20.0;
   /**
    * The maximum angular velocity of the robot in radians per second.
    * <p>

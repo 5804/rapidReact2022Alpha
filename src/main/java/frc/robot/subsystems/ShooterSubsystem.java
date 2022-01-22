@@ -17,8 +17,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public WPI_TalonFX leftShooter;
 
   public ShooterSubsystem() {
-    leftShooter = new WPI_TalonFX(1);
-    rightShooter = new WPI_TalonFX(2);
+    leftShooter = new WPI_TalonFX(2);
+    rightShooter = new WPI_TalonFX(1);
 
     leftShooter.configFactoryDefault();
     rightShooter.configFactoryDefault();
@@ -33,8 +33,13 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void runMotors() {
-    leftShooter.set(ControlMode.PercentOutput, .5);
-    rightShooter.set(ControlMode.PercentOutput, .5);
+    leftShooter.set(ControlMode.PercentOutput, 0.5);
+    rightShooter.set(ControlMode.PercentOutput, 0.5);
+  }
+
+  public void runBackMotors() {
+    leftShooter.set(ControlMode.PercentOutput, -0.5);
+    rightShooter.set(ControlMode.PercentOutput, -0.5);
   }
 
   public void stopMotors() {

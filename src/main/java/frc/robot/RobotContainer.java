@@ -11,10 +11,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.ActivateSolenoidCommand;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TestPistonSubsystem;
+import frc.robot.commands.DeactivateSolenoidCommand;
 
 public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
@@ -22,7 +24,9 @@ public class RobotContainer {
   private final TestPistonSubsystem testPistonSubsystem = new TestPistonSubsystem();
 
   private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(shooterSubsystem);
+  private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(shooterSubsystem);
   private final ActivateSolenoidCommand activateSolenoidCommand = new ActivateSolenoidCommand(testPistonSubsystem);
+  private final DeactivateSolenoidCommand deactivateSolenoidCommand = new DeactivateSolenoidCommand(testPistonSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -34,9 +38,9 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> -modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> -modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-            () -> -modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+            () -> modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            () -> modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+            () -> modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
 
     // Configure the button bindings
@@ -55,11 +59,17 @@ public class RobotContainer {
             // No requirements because we don't need to interrupt anything
             .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
-    new Button(m_controller::getAButton)
-            .whileHeld(runMotorsCommand);
+     new Button(m_controller::getAButton)
+             .whileHeld(runMotorsCommand);
 
     new Button(m_controller::getBButton)
+        .whileHeld(runBackMotorsCommand);
+
+    new Button(m_controller::getXButton)
             .whileHeld(activateSolenoidCommand);
+
+    new Button(m_controller::getYButton)
+        .whileHeld(deactivateSolenoidCommand);
   }
 
   /**
@@ -86,7 +96,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value) {
     // Deadband
-    value = deadband(value, 0.05);
+    value = deadband(value, 0.08);
 
     // Square the axis
     value = Math.copySign(value * value, value);
