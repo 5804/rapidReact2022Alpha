@@ -10,10 +10,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import frc.robot.commands.ActivateSolenoidCommand;
+import frc.robot.commands.AlignToGoalWithLimelightCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.TestPistonSubsystem;
 import frc.robot.commands.DeactivateSolenoidCommand;
@@ -22,11 +24,13 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
   private final TestPistonSubsystem testPistonSubsystem = new TestPistonSubsystem();
+  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(shooterSubsystem);
   private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(shooterSubsystem);
   private final ActivateSolenoidCommand activateSolenoidCommand = new ActivateSolenoidCommand(testPistonSubsystem);
   private final DeactivateSolenoidCommand deactivateSolenoidCommand = new DeactivateSolenoidCommand(testPistonSubsystem);
+  private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
 
@@ -55,9 +59,9 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     // Back button zeros the gyroscope
-    new Button(m_controller::getBackButton)
-            // No requirements because we don't need to interrupt anything
-            .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    // new Button(m_controller::getBackButton) // FIXME This button press has an error because the getBackButton function does not have any code
+    //         // No requirements because we don't need to interrupt anything
+    //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
      new Button(m_controller::getAButton)
              .whileHeld(runMotorsCommand);
@@ -70,6 +74,9 @@ public class RobotContainer {
 
     new Button(m_controller::getYButton)
         .whileHeld(deactivateSolenoidCommand);
+
+    new Button(m_controller::getLeftBumper)
+        .whenPressed(alignToGoalWithLimelightCommand);
   }
 
   /**
