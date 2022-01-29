@@ -80,13 +80,13 @@ public class RobotContainer {
         .whileHeld(deactivateSolenoidCommand);
 
     new Button(m_controller::getLeftBumper)
-        .whenPressed(alignToGoalWithLimelightCommand);
+        .whenPressed(deactivateSolenoid2Command);
     
     new Button(m_controller::getStartButton)
         .whileHeld(activateSolenoid2Command);
 
      new Button(m_controller::getRightBumper)
-        .whileHeld(deactivateSolenoid2Command);
+        .whileHeld(alignToGoalWithLimelightCommand);
 
   }
 
