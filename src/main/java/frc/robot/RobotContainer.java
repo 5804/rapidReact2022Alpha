@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
+import frc.robot.commands.ActivateSolenoid2Command;
 import frc.robot.commands.ActivateSolenoidCommand;
 import frc.robot.commands.AlignToGoalWithLimelightCommand;
+import frc.robot.commands.DeactivateSolenoid2Command;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
@@ -30,6 +32,8 @@ public class RobotContainer {
   private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(shooterSubsystem);
   private final ActivateSolenoidCommand activateSolenoidCommand = new ActivateSolenoidCommand(testPistonSubsystem);
   private final DeactivateSolenoidCommand deactivateSolenoidCommand = new DeactivateSolenoidCommand(testPistonSubsystem);
+  private final ActivateSolenoid2Command activateSolenoid2Command = new ActivateSolenoid2Command(testPistonSubsystem);
+  private final DeactivateSolenoid2Command deactivateSolenoid2Command = new DeactivateSolenoid2Command(testPistonSubsystem);
   private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
@@ -77,6 +81,13 @@ public class RobotContainer {
 
     new Button(m_controller::getLeftBumper)
         .whenPressed(alignToGoalWithLimelightCommand);
+    
+    new Button(m_controller::getStartButton)
+        .whileHeld(activateSolenoid2Command);
+
+     new Button(m_controller::getRightBumper)
+        .whileHeld(deactivateSolenoid2Command);
+
   }
 
   /**

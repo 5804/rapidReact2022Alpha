@@ -15,10 +15,12 @@ public class TestPistonSubsystem extends SubsystemBase {
 
   public Compressor compressor;
   public DoubleSolenoid solenoid;
+  public DoubleSolenoid solenoid2;
 
   public TestPistonSubsystem() {
     solenoid = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0);
-    // solenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 1, 0); // this is suspect, the first argument of this function wasn't originally there
+    solenoid2 = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 2, 3);
+    //solenoid = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0); // this is suspect, the first argument of this function wasn't originally there
     compressor = new Compressor(50, PneumaticsModuleType.CTREPCM);
     compressor.enableDigital();
   }
@@ -35,4 +37,12 @@ public class TestPistonSubsystem extends SubsystemBase {
   public void deactivatePiston() {
  solenoid.set(DoubleSolenoid.Value.kReverse);
   }
+  
+  public void activatePiston2() {
+    solenoid2.set(DoubleSolenoid.Value.kForward);
+   }
+ 
+   public void deactivatePiston2() {
+  solenoid2.set(DoubleSolenoid.Value.kReverse);
+   }
 }

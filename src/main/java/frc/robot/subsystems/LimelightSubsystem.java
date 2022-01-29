@@ -68,66 +68,7 @@ public class LimelightSubsystem extends SubsystemBase {
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     return tv >= 1.0;
   }
-
-  public boolean isRedPath() {
-    // If red path reutrn true else return false
-    // This is determined by the limelights first reading
-    // 
-    double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
   
-    // for the blue path for both paths, the area is .25%
-    // for the red path for both paths, the area is 2.0%
-
-    // ta for red: 2.1%
-    // ta for blue: 
-
-    if (ta > 1.0) {
-      return true;
-      // and drive forward 5 feed
-    } else {
-      return false;
-      // and drive forward 12 feed
-    }
-  }
-
-  public boolean isRedPathA() {
-    // IF redpath A return true else return false
-    // Determined by the limelights second reading
-
-    // but how do we determine if a ball is right in front of us
-    // so we have to put the robot in the place that it will be after picking up the first ball and then look at the ta values
-
-    // if ta < .01, then path A, else path B
-
-    // ta for red path A: 
-    // ta for red path B:
-
-    double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-
-    if (ta < 0.2) {
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  public boolean isBluePathA() {
-    // IF redpath A return true else return false
-    // Determined by the limelights second reading
-
-    // ta for blue path A: 
-    // ta for blue path B: 
-
-    double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-
-    if (ta < 0.2) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
   // public boolean isAligned() {
   //   // double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
 
