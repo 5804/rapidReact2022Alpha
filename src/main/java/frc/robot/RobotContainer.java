@@ -74,7 +74,7 @@ public class RobotContainer {
         .whileHeld(runBackMotorsCommand);
 
     new Button(m_controller::getXButton)
-            .whileHeld(activateSolenoidCommand);
+        .whileHeld(activateSolenoidCommand);
 
     new Button(m_controller::getYButton)
         .whileHeld(deactivateSolenoidCommand);

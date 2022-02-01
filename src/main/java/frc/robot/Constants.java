@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 
 /**
@@ -55,4 +58,18 @@ public final class Constants {
     // Limelight constants
     public static final double LIMELIGHT_DEADBAND = 1;
 	public static final double MIN_STEER_K = .4;
+
+    // The autonomous command needs these values
+    public static final double kMaxSpeedMetersPerSecond = 3.1;
+	public static final double kMaxAccelerationMetersPerSecondSquared = 3.1;
+    public static final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
+          // Front left
+          new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
+          // Front right
+          new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0),
+          // Back left
+          new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
+          // Back right
+          new Translation2d(-DRIVETRAIN_TRACKWIDTH_METERS / 2.0, -DRIVETRAIN_WHEELBASE_METERS / 2.0)
+  );
 }
