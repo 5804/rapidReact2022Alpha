@@ -48,16 +48,16 @@ public class AutonomousTestCommand extends CommandBase {
           kMaxSpeedMetersPerSecond,
           kMaxAccelerationMetersPerSecondSquared)
           // Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(K_DRIVE_KINEMATICS);
+          .setKinematics(drivetrainSubsystem.m_kinematics);
 
     Trajectory exampleTrajectory =
       TrajectoryGenerator.generateTrajectory(
         // Start at the origin facing the +X direction
         new Pose2d(0, 0, new Rotation2d(0)),
         // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(1, 1), new Translation2d(2, -1)),
+        List.of(new Translation2d(1, 0)),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, new Rotation2d(0)),
+        new Pose2d(1, 0, new Rotation2d(0)),
         config);
 
     var thetaController =
@@ -69,7 +69,7 @@ public class AutonomousTestCommand extends CommandBase {
         new SwerveControllerCommand(
             exampleTrajectory,
             drivetrainSubsystem::getPose, // Functional interface to feed supplier
-            m_kinematics,
+            drivetrainSubsystem.m_kinematics,
 
             // Position controllers
             new PIDController(kPXController, 0, 0),
