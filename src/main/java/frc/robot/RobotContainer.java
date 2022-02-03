@@ -153,7 +153,11 @@ public class RobotContainer {
     m_drivetrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> m_drivetrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
+    // return swerveControllerCommand.andThen(() -> m_drivetrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
+    return new InstantCommand();
+
+    // this is a message from the push from february 2:
+    // the robot was able to move in the x direction but not the y direction
   }
 
   private static double deadband(double value, double deadband) {
