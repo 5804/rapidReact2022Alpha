@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,10 +17,12 @@ public class TestPistonSubsystem extends SubsystemBase {
   public Compressor compressor;
   public DoubleSolenoid solenoid;
   public DoubleSolenoid solenoid2;
+  public DoubleSolenoid solenoid3;
 
   public TestPistonSubsystem() {
     solenoid = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0);
     solenoid2 = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 2, 3);
+    solenoid3 = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 4, 5);
     //solenoid = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0); // this is suspect, the first argument of this function wasn't originally there
     compressor = new Compressor(50, PneumaticsModuleType.CTREPCM);
     compressor.enableDigital();
@@ -45,4 +48,12 @@ public class TestPistonSubsystem extends SubsystemBase {
    public void deactivatePiston2() {
   solenoid2.set(DoubleSolenoid.Value.kReverse);
    }
+
+  public void activatePiston3() {
+    solenoid3.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void deactivatePiston3() {
+    solenoid3.set(DoubleSolenoid.Value.kReverse);
+  }
 }

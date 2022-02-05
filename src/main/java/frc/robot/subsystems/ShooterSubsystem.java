@@ -33,13 +33,13 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void runMotors() {
-    leftShooter.set(ControlMode.PercentOutput, 0.5);
-    rightShooter.set(ControlMode.PercentOutput, 0.5);
+    leftShooter.set(ControlMode.PercentOutput, 1.0);
+    rightShooter.set(ControlMode.PercentOutput, 1.0);
   }
 
   public void runBackMotors() {
-    leftShooter.set(ControlMode.PercentOutput, -0.5);
-    rightShooter.set(ControlMode.PercentOutput, -0.5);
+    leftShooter.set(ControlMode.PercentOutput, -1.0);
+    rightShooter.set(ControlMode.PercentOutput, -1.0);
   }
 
   public void stopMotors() {
