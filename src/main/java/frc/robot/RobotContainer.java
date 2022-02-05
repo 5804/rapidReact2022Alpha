@@ -42,12 +42,11 @@ import static frc.robot.Constants.*;
 
 public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-  private final ClimberSubsystem shooterSubsystem = new ClimberSubsystem();
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
-  private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(shooterSubsystem);
-  private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(shooterSubsystem);
+  private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
+  private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
   private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
   private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
   private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
