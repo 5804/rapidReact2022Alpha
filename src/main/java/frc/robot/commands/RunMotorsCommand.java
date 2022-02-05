@@ -5,14 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 
 public class RunMotorsCommand extends CommandBase {
   /** Creates a new RunMotorsCommand. */
 
-  private final ShooterSubsystem shooterSubsystem;
+  private final ClimberSubsystem shooterSubsystem;
 
-  public RunMotorsCommand(ShooterSubsystem shoot) {
+  public RunMotorsCommand(ClimberSubsystem shoot) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     shooterSubsystem = shoot;

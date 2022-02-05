@@ -33,8 +33,7 @@ import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.TestPistonSubsystem;
+import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DeactivateSolenoidCommand;
 import frc.robot.commands.ActivateSolenoid3Command;
 import frc.robot.commands.DeactivateSolenoid3Command;
@@ -43,19 +42,19 @@ import static frc.robot.Constants.*;
 
 public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-  private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
-  private final TestPistonSubsystem testPistonSubsystem = new TestPistonSubsystem();
+  private final ClimberSubsystem shooterSubsystem = new ClimberSubsystem();
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
   private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(shooterSubsystem);
   private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(shooterSubsystem);
-  private final ActivateSolenoidCommand activateSolenoidCommand = new ActivateSolenoidCommand(testPistonSubsystem);
-  private final DeactivateSolenoidCommand deactivateSolenoidCommand = new DeactivateSolenoidCommand(testPistonSubsystem);
-  private final ActivateSolenoid2Command activateSolenoid2Command = new ActivateSolenoid2Command(testPistonSubsystem);
-  private final DeactivateSolenoid2Command deactivateSolenoid2Command = new DeactivateSolenoid2Command(testPistonSubsystem);
+  private final ActivateSolenoidCommand activateSolenoidCommand = new ActivateSolenoidCommand(climberSubsystem);
+  private final DeactivateSolenoidCommand deactivateSolenoidCommand = new DeactivateSolenoidCommand(climberSubsystem);
+  private final ActivateSolenoid2Command activateSolenoid2Command = new ActivateSolenoid2Command(climberSubsystem);
+  private final DeactivateSolenoid2Command deactivateSolenoid2Command = new DeactivateSolenoid2Command(climberSubsystem);
   private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
-  private final ActivateSolenoid3Command activateSolenoid3Command = new ActivateSolenoid3Command(testPistonSubsystem);
-  private final DeactivateSolenoid3Command deactivateSolenoid3Command = new DeactivateSolenoid3Command(testPistonSubsystem);
+  private final ActivateSolenoid3Command activateSolenoid3Command = new ActivateSolenoid3Command(climberSubsystem);
+  private final DeactivateSolenoid3Command deactivateSolenoid3Command = new DeactivateSolenoid3Command(climberSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
   private final Joystick m_board = new Joystick(1);
@@ -91,7 +90,7 @@ public class RobotContainer {
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
      new Button(m_controller::getAButton)
-             .whileHeld(runMotorsCommand);
+        .whileHeld(runMotorsCommand);
 
     new Button(m_controller::getBButton)
         .whileHeld(runBackMotorsCommand);
@@ -106,16 +105,16 @@ public class RobotContainer {
         .whenPressed(deactivateSolenoid2Command);
     
     new Button(m_controller::getStartButton)
-        .whileHeld(activateSolenoid2Command);
+        .whileHeld(activateSolenoid2Command); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
-     new Button(m_controller::getRightBumper)
+    new Button(m_controller::getRightBumper)
         .whileHeld(alignToGoalWithLimelightCommand);
 
     new Button(m_controller::getRightBumper)
-          .whileHeld(activateSolenoid3Command);
+        .whileHeld(activateSolenoid3Command);
 
     new Button(m_controller::getBackButton)
-          .whileHeld(deactivateSolenoid3Command);
+        .whileHeld(deactivateSolenoid3Command);
 
     final JoystickButton b1 = new JoystickButton(m_board, 1);
     b1.whileHeld(runMotorsCommand);
