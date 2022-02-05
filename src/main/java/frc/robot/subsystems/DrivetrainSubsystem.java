@@ -18,6 +18,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -162,6 +163,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
             BACK_RIGHT_MODULE_STEER_ENCODER,
             BACK_RIGHT_MODULE_STEER_OFFSET
     );
+        tab.getLayout("Back Left Module", BuiltInLayouts.kList).addNumber("Back Left Module", ()->m_backLeftModule.getDriveEncoderValue());
+        tab.getLayout("Back Right Module", BuiltInLayouts.kList).addNumber("Back Right Module", ()->m_backRightModule.getDriveEncoderValue());
+        tab.getLayout("Front Left Module", BuiltInLayouts.kList).addNumber("Front Left Module", ()->m_frontLeftModule.getDriveEncoderValue());
+        tab.getLayout("Front Right Module", BuiltInLayouts.kList).addNumber("Front Right Module", ()->m_frontRightModule.getDriveEncoderValue());
+        
   }
 
   /**
@@ -222,5 +228,52 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
+
+    
   }
+
+
+  public double getClicksNeeded(double desiredDistance) {
+        double clicksPerDegree = ((2048*6.86)/360);
+        double clicksPerRadians = Units.degreesToRadians(clicksPerDegree);
+        double wheelRadius = Units.inchesToMeters(2); 
+        double clicks = (desiredDistance/wheelRadius)*clicksPerRadians;
+        return clicks;  
+  }
+
+  public void driveForward(double speed) {
+        m_frontLeftModule.set(speed, 0);
+        m_frontRightModule.set(speed, 0);
+        m_backLeftModule.set(speed, 0);
+        m_backRightModule.set(speed, 0);
+  }
+
+  public void rotate(double rotationSpeed) {
+        drive(
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                0, // translation x supplier is 0
+                0, // translation y supplier is 0
+                rotationSpeed, // we only want the robot to rotate, so this value is nonzero
+                new Rotation2d(0) // i dont know why we need this line...
+                )
+        );
+  }
+
+  public double getFrontLeftEncoderValue() {
+        return m_frontLeftModule.getDriveEncoderValue();
+  }
+  public double getFrontRightEncoderValue() {
+        return m_frontRightModule.getDriveEncoderValue();
+  }
+  public double getBackRightEncoderValue() {
+        return m_backRightModule.getDriveEncoderValue();
+  }
+  public double getBackLeftEncoderValue() {
+        return m_backLeftModule.getDriveEncoderValue();
+  }
+  public double getAverageEncoderValues() {
+        double averageEncoderValue = (getFrontLeftEncoderValue() + getFrontRightEncoderValue() + getBackLeftEncoderValue() + getBackRightEncoderValue())/4;
+        return averageEncoderValue;
+  }
+  
 }

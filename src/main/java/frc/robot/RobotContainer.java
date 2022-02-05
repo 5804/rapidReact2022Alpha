@@ -29,6 +29,7 @@ import frc.robot.commands.AlignToGoalWithLimelightCommand;
 import frc.robot.commands.DeactivateBottomPistonCommand;
 import frc.robot.commands.DeactivateHookPistonCommand;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DriveToDistanceCommand;
 import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -40,20 +41,23 @@ import frc.robot.commands.DeactivateHookPistonCommand;
 
 import static frc.robot.Constants.*;
 
+
 public class RobotContainer {
+
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  private final Command DriveToDistanceCommand = new DriveToDistanceCommand(m_drivetrainSubsystem, 0.5);
+//private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
-  private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
-  private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
-  private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
-  private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
-  private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
-  private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
-  private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
-  private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
-  private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
+  // private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
+  // private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
+  // private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
+  // private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
+  // private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
+  // private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
+  // private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
+  // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
+  // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
   private final Joystick m_board = new Joystick(1);
@@ -88,35 +92,37 @@ public class RobotContainer {
     //         // No requirements because we don't need to interrupt anything
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
-     new Button(m_controller::getAButton)
-        .whileHeld(runMotorsCommand);
+        new Button(m_controller::getAButton)
+          .whileHeld(DriveToDistanceCommand);
+    //  new Button(m_controller::getAButton)
+    //     .whileHeld(runMotorsCommand);
 
-    new Button(m_controller::getBButton)
-        .whileHeld(runBackMotorsCommand);
+    // new Button(m_controller::getBButton)
+    //     .whileHeld(runBackMotorsCommand);
 
-    new Button(m_controller::getXButton)
-        .whileHeld(activateTopPistonCommand);
+    // new Button(m_controller::getXButton)
+    //     .whileHeld(activateTopPistonCommand);
 
-    new Button(m_controller::getYButton)
-        .whileHeld(deactivateTopPistonCommand);
+    // new Button(m_controller::getYButton)
+    //     .whileHeld(deactivateTopPistonCommand);
 
-    new Button(m_controller::getLeftBumper)
-        .whenPressed(deactivateBottomPistonCommand);
+    // new Button(m_controller::getLeftBumper)
+    //     .whenPressed(deactivateBottomPistonCommand);
     
-    new Button(m_controller::getStartButton)
-        .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
+    // new Button(m_controller::getStartButton)
+    //     .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
+
+    // // new Button(m_controller::getRightBumper)
+    // //     .whileHeld(alignToGoalWithLimelightCommand);
 
     // new Button(m_controller::getRightBumper)
-    //     .whileHeld(alignToGoalWithLimelightCommand);
+    //     .whileHeld(activateHookPistonCommand);
 
-    new Button(m_controller::getRightBumper)
-        .whileHeld(activateHookPistonCommand);
+    // new Button(m_controller::getBackButton)
+    //     .whileHeld(deactivateHookPistonCommand);
 
-    new Button(m_controller::getBackButton)
-        .whileHeld(deactivateHookPistonCommand);
-
-    final JoystickButton b1 = new JoystickButton(m_board, 1);
-    b1.whileHeld(runMotorsCommand);
+    // final JoystickButton b1 = new JoystickButton(m_board, 1);
+    // b1.whileHeld(runMotorsCommand);
  
 
   }
