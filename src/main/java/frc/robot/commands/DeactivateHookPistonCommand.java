@@ -7,12 +7,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class DeactivateSolenoidCommand extends CommandBase {
+public class DeactivateHookPistonCommand extends CommandBase {
   /** Creates a new ActivateSolenoidCommand. */
-
   private final ClimberSubsystem climberSubsystem;
 
-  public DeactivateSolenoidCommand(ClimberSubsystem cs) {
+  public DeactivateHookPistonCommand(ClimberSubsystem cs) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     climberSubsystem = cs;
@@ -27,7 +26,7 @@ public class DeactivateSolenoidCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climberSubsystem.deactivatePiston();
+    climberSubsystem.deactivateHookPiston();
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +38,6 @@ public class DeactivateSolenoidCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

@@ -20,9 +20,9 @@ public class ClimberSubsystem extends SubsystemBase {
   public WPI_TalonFX leftWinch;
 
   public Compressor compressor;
-  public DoubleSolenoid solenoid;
-  public DoubleSolenoid solenoid2;
-  public DoubleSolenoid solenoid3;
+  public DoubleSolenoid topPiston;
+  public DoubleSolenoid bottomPiston;
+  public DoubleSolenoid hookPiston;
 
   public ClimberSubsystem() {
     leftWinch = new WPI_TalonFX(2);
@@ -34,36 +34,36 @@ public class ClimberSubsystem extends SubsystemBase {
     leftWinch.setNeutralMode(NeutralMode.Brake);
     rightWinch.setNeutralMode(NeutralMode.Brake);
 
-    solenoid = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0);
-    solenoid2 = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 2, 3);
-    solenoid3 = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 4, 5);
+    topPiston = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0);
+    bottomPiston = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 2, 3);
+    hookPiston = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 4, 5);
     //solenoid = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0); // this is suspect, the first argument of this function wasn't originally there
     compressor = new Compressor(50, PneumaticsModuleType.CTREPCM);
     compressor.enableDigital();
   }
 
-  public void activatePiston() {
-   solenoid.set(DoubleSolenoid.Value.kForward);
+  public void activateTopPiston() {
+    topPiston.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void deactivatePiston() {
-    solenoid.set(DoubleSolenoid.Value.kReverse);
+  public void deactivateTopPiston() {
+    topPiston.set(DoubleSolenoid.Value.kReverse);
   }
   
-  public void activatePiston2() {
-    solenoid2.set(DoubleSolenoid.Value.kForward);
+  public void activateBottonPiston() {
+    bottomPiston.set(DoubleSolenoid.Value.kForward);
    }
  
-   public void deactivatePiston2() {
-    solenoid2.set(DoubleSolenoid.Value.kReverse);
+   public void deactivateBottonPiston() {
+    bottomPiston.set(DoubleSolenoid.Value.kReverse);
    }
 
-  public void activatePiston3() {
-    solenoid3.set(DoubleSolenoid.Value.kForward);
+  public void activateHookPiston() {
+    hookPiston.set(DoubleSolenoid.Value.kForward);
   }
 
-  public void deactivatePiston3() {
-    solenoid3.set(DoubleSolenoid.Value.kReverse);
+  public void deactivateHookPiston() {
+    hookPiston.set(DoubleSolenoid.Value.kReverse);
   }
 
   @Override
