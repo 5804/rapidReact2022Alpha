@@ -5,16 +5,11 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ClimberSubsystem;
 
-public class RunMotorsCommand extends CommandBase {
-  private final ClimberSubsystem climberSubsystem;
-  /** Creates a new RunRightMotor. */
-  public RunMotorsCommand(ClimberSubsystem motor) {
+public class RunRightMotorBackCommand extends CommandBase {
+  /** Creates a new RunRightMotorBackCommand. */
+  public RunRightMotorBackCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    climberSubsystem = motor;
-
-    addRequirements(climberSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -23,15 +18,11 @@ public class RunMotorsCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    climberSubsystem.runMotors();
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    climberSubsystem.stopMotors();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override

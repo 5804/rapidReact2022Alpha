@@ -7,10 +7,10 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
 
-public class RunMotorsCommand extends CommandBase {
+public class RunRightMotor extends CommandBase {
   private final ClimberSubsystem climberSubsystem;
   /** Creates a new RunRightMotor. */
-  public RunMotorsCommand(ClimberSubsystem motor) {
+  public RunRightMotor(ClimberSubsystem motor) {
     // Use addRequirements() here to declare subsystem dependencies.
     climberSubsystem = motor;
 
@@ -24,7 +24,7 @@ public class RunMotorsCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    climberSubsystem.runMotors();
+    climberSubsystem.runBackMotors();
   }
 
   // Called once the command ends or is interrupted.
