@@ -271,9 +271,12 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public double getBackLeftEncoderValue() {
         return m_backLeftModule.getDriveEncoderValue();
   }
-  public double getAverageEncoderValues() {
-        double averageEncoderValue = (getFrontLeftEncoderValue() + getFrontRightEncoderValue() + getBackLeftEncoderValue() + getBackRightEncoderValue())/4;
-        return averageEncoderValue;
+
+  public void resetEncoders() {
+        m_frontLeftModule.resetDriveEncoder();
+        m_frontRightModule.resetDriveEncoder();
+        m_backLeftModule.resetDriveEncoder();
+        m_backRightModule.resetDriveEncoder();
   }
   
 }

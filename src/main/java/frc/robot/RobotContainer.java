@@ -33,6 +33,7 @@ import frc.robot.commands.DriveToDistanceCommand;
 import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
+import frc.robot.commands.TestDriveForwardCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -45,21 +46,22 @@ import static frc.robot.Constants.*;
 
 public class RobotContainer {
 
-  private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
+  private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  private final Command DriveToDistanceCommand = new DriveToDistanceCommand(m_drivetrainSubsystem, 0.5);
-  private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
+  //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
-  private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
-  private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
-  private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
-  private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
-  private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
-  private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
-  //private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
-  private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
-  private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
-  private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
+  // private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
+  // private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
+  // private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
+  // private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
+  // private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
+  // private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
+  // //private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
+  // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
+  // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
+  // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
+  private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
   private final Joystick m_board = new Joystick(1);
@@ -71,12 +73,12 @@ public class RobotContainer {
     // Left stick Y axis -> forward and backwards movement
     // Left stick X axis -> left and right movement
     // Right stick X axis -> rotation
-    //m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
-    //         m_drivetrainSubsystem,
-    //        () -> modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //        () -> modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
-    //        () -> modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
-    //));
+    driveTrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
+            driveTrainSubsystem,
+           () -> modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+           () -> modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+           () -> modifyAxis(m_controller.getRightX()) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+    ));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -94,38 +96,45 @@ public class RobotContainer {
     //         // No requirements because we don't need to interrupt anything
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
-        // new Button(m_controller::getAButton)
-        //   .whileHeld(DriveToDistanceCommand);
-     new Button(m_controller::getAButton)
-        .whileHeld(runMotorsCommand);
+    new Button(m_controller::getAButton)
+      .whenPressed(DriveToDistanceCommand);
+    //  new Button(m_controller::getAButton)
+    //     .whileHeld(runMotorsCommand);
 
-    new Button(m_controller::getBButton)
-      .whileHeld(runBackMotorsCommand);
+     new Button(m_controller::getBButton)
+        .whileHeld(testDriveForwardCommand);
 
-    new Button(m_controller::getXButton)
-        .whileHeld(activateTopPistonCommand);
+    // new Button(m_controller::getBButton)
+    //   .whileHeld(runBackMotorsCommand);
 
-    new Button(m_controller::getYButton)
-         .whileHeld(deactivateTopPistonCommand);
+    // new Button(m_controller::getXButton)
+    //     .whileHeld(activateTopPistonCommand);
 
-     new Button(m_controller::getLeftBumper)
-         .whenPressed(deactivateBottomPistonCommand);
+    // new Button(m_controller::getYButton)
+    //      .whileHeld(deactivateTopPistonCommand);
+
+    //  new Button(m_controller::getLeftBumper)
+    //      .whenPressed(deactivateBottomPistonCommand);
     
-     new Button(m_controller::getStartButton)
-         .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
+    //  new Button(m_controller::getStartButton)
+    //      .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
-    // // new Button(m_controller::getRightBumper)
-    // //     .whileHeld(alignToGoalWithLimelightCommand);
+    // // // new Button(m_controller::getRightBumper)
+    // // //     .whileHeld(alignToGoalWithLimelightCommand);
 
-     new Button(m_controller::getRightBumper)
-         .whileHeld(activateHookPistonCommand);
+    //  new Button(m_controller::getRightBumper)
+    //      .whileHeld(activateHookPistonCommand);
 
-    new Button(m_controller::getBackButton)
-         .whileHeld(deactivateHookPistonCommand);
+    // new Button(m_controller::getBackButton)
+    //      .whileHeld(deactivateHookPistonCommand);
+
+    new Button(m_controller::getLeftStickButtonPressed)
+            .whenPressed(driveTrainSubsystem::resetEncoders);
+    
 
 
-    final JoystickButton b2 = new JoystickButton(m_board, 2);
-        b2.whileHeld(runRightMotor);
+    // final JoystickButton b2 = new JoystickButton(m_board, 2);
+    //     b2.whileHeld(runRightMotor);
  
 
   }
@@ -145,7 +154,7 @@ public class RobotContainer {
           kMaxSpeedMetersPerSecond,
           kMaxAccelerationMetersPerSecondSquared)
           // Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(m_drivetrainSubsystem.m_kinematics);
+          .setKinematics(driveTrainSubsystem.m_kinematics);
 
     Trajectory exampleTrajectory =
       TrajectoryGenerator.generateTrajectory(
@@ -165,18 +174,18 @@ public class RobotContainer {
     SwerveControllerCommand swerveControllerCommand =
         new SwerveControllerCommand(
             exampleTrajectory,
-            m_drivetrainSubsystem::getPose, // Functional interface to feed supplier
-            m_drivetrainSubsystem.m_kinematics,
+            driveTrainSubsystem::getPose, // Functional interface to feed supplier
+            driveTrainSubsystem.m_kinematics,
 
             // Position controllers
             new PIDController(kPXController, 0, 0),
             new PIDController(kPYController, 0, 0),
             thetaController,
-            m_drivetrainSubsystem::setModuleStates,
-            m_drivetrainSubsystem);
+            driveTrainSubsystem::setModuleStates,
+            driveTrainSubsystem);
 
     // Reset odometry to the starting pose of the trajectory.
-    m_drivetrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+    driveTrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     // return swerveControllerCommand.andThen(() -> m_drivetrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));

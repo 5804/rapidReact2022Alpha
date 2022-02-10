@@ -28,21 +28,21 @@ public class DriveToDistanceCommand extends CommandBase {
     desiredDistance = distance;
     addRequirements(drivetrainSubsystem);
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-      tab.addNumber("Left Module Inches", ()->getClicksNeeded(distance));
+      tab.addNumber("Left Module Clicks", ()->getClicksNeeded(distance));
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    encoderClicks = getClicksNeeded(desiredDistance);
-    initialClicks = drivetrainSubsystem.getAverageEncoderValues();
-    desiredClicks = initialClicks + encoderClicks;
+    desiredClicks = getClicksNeeded(desiredDistance);
+    drivetrainSubsystem.resetEncoders();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrainSubsystem.driveForward(0.2);
+   drivetrainSubsystem.driveForward(1);
+  // drivetrainSubsystem.drive(new ChassisSpeeds(0.2, 0, 0));
   }
 
   // Called once the command ends or is interrupted.
@@ -55,8 +55,9 @@ public class DriveToDistanceCommand extends CommandBase {
   @Override
   public boolean isFinished() {
 
-    // this if statement checks the reading of the encoder of the front left drive motor
-    if (drivetrainSubsystem.getAverageEncoderValues() >= desiredClicks) { 
+    // this if statement checks the reading of the encoder used to check average encoder values. 
+    // we will now make it read the encoder values of only one encoder, after running reset encoder value method
+    if (Math.abs(drivetrainSubsystem.getFrontLeftEncoderValue()) >= desiredClicks) { 
       return true;
     } else {
       return false;
@@ -70,7 +71,9 @@ public class DriveToDistanceCommand extends CommandBase {
     // double clicksPerRadians = Units.degreesToRadians(clicksPerDegree);
     // double wheelRadius = Units.inchesToMeters(2); 
     // double clicks = (desiredDistance/wheelRadius)*clicksPerRadians;
-    double tickin = ((2048*6.86)/Math.PI*2*0.051);
+
+    // this will deliver ticks needed given a desired distance in inches
+    double tickin = ((2048*6.86)/(Math.PI*4));
     double clicks = tickin*desiredDistance;
     return clicks;  
 }
