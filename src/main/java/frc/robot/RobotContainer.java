@@ -34,6 +34,8 @@ import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
 import frc.robot.commands.TestDriveForwardCommand;
+import frc.robot.commands.TestRotateCommand;
+import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -62,6 +64,8 @@ public class RobotContainer {
   // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
   // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
   private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
+  private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
+  private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
 
   private final XboxController m_controller = new XboxController(0);
   private final Joystick m_board = new Joystick(1);
@@ -102,7 +106,7 @@ public class RobotContainer {
     //     .whileHeld(runMotorsCommand);
 
      new Button(m_controller::getBButton)
-        .whileHeld(testDriveForwardCommand);
+        .whenPressed(turnToAngleCommand);
 
     // new Button(m_controller::getBButton)
     //   .whileHeld(runBackMotorsCommand);

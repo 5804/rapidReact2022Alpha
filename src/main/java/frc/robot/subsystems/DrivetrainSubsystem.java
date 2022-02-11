@@ -22,6 +22,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -83,6 +84,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_frontRightModule;
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
+
+public double target = (getGyroscopeRotation().getDegrees());
 
   private ChassisSpeeds m_chassisSpeeds = new ChassisSpeeds(0.0, 0.0, 0.0);
 
@@ -167,7 +170,8 @@ public class DrivetrainSubsystem extends SubsystemBase {
         tab.getLayout("Back Right Module", BuiltInLayouts.kList).addNumber("Back Right Module", ()->m_backRightModule.getDriveEncoderValue());
         tab.getLayout("Front Left Module", BuiltInLayouts.kList).addNumber("Front Left Module", ()->m_frontLeftModule.getDriveEncoderValue());
         tab.getLayout("Front Right Module", BuiltInLayouts.kList).addNumber("Front Right Module", ()->m_frontRightModule.getDriveEncoderValue());
-        
+      
+      
   }
 
   /**
@@ -180,6 +184,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
     // FIXME Uncomment if you are using a NavX
     m_navx.zeroYaw();
+  }
+
+  public double getRawRoation() {
+      return m_navx.getRotation2d().getDegrees();
   }
 
   public Rotation2d getGyroscopeRotation() {
@@ -209,6 +217,10 @@ public class DrivetrainSubsystem extends SubsystemBase {
         m_odometry.resetPosition(pose, m_navx.getRotation2d());
   }
 
+  public void resetGyro() {
+        m_navx.zeroYaw();
+  }
+
   public void setModuleStates(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, kMaxSpeedMetersPerSecond);
 
@@ -221,6 +233,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
@@ -229,7 +242,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
 
-    
+    SmartDashboard.putNumber("Raw Angle", getRawRoation());
+    SmartDashboard.putNumber("current angle", getGyroscopeRotation().getDegrees());
+//     SmartDashboard.putNumber("Target", target);
+
+
   }
 
 

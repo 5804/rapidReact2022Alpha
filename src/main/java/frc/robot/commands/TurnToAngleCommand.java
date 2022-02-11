@@ -5,8 +5,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class TurnToAngleCommand extends CommandBase {
 
@@ -15,6 +19,7 @@ public class TurnToAngleCommand extends CommandBase {
   public double numberOfDegrees;
   public double direction;
   public double angleInit;
+  public double target;
 
 
   /** Creates a new TurnToAngleCommand. */
@@ -25,13 +30,22 @@ public class TurnToAngleCommand extends CommandBase {
     direction = dir;
     addRequirements(drivetrainSubsystem);
 
+    // ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+    //   tab.addNumber("Angle", ()->((Math.abs(drivetrainSubsystem.getGyroscopeRotation().getDegrees() - (angleInit + 90)))));
+
+    
+
+      SmartDashboard.putNumber("Target", target);
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-      angleInit = drivetrainSubsystem.getGyroscopeRotation().getDegrees();
 
+      target = drivetrainSubsystem.getRawRoation() + direction*numberOfDegrees;
+      SmartDashboard.putNumber("angle", drivetrainSubsystem.getRawRoation());
+      SmartDashboard.putNumber("Target", target);
 
   }
 
@@ -40,9 +54,9 @@ public class TurnToAngleCommand extends CommandBase {
   public void execute() {
 
     if (direction > 0) {
-      drivetrainSubsystem.rotate(0.2);
+      drivetrainSubsystem.rotate(2);
     } else {
-      drivetrainSubsystem.rotate(-0.2);
+      drivetrainSubsystem.rotate(-2);
     }
 
 
@@ -51,16 +65,27 @@ public class TurnToAngleCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
+      drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(drivetrainSubsystem.getGyroscopeRotation().getDegrees() - angleInit) > 0) {
-      return true;
-    } else {
-      return false;
-    }
+      if (direction >= 1 ) {
+        return drivetrainSubsystem.getRawRoation() >= (target-8);
+      }
+      else if (direction <= -1) {
+        return drivetrainSubsystem.getRawRoation() <= (target+8);
+      }
+      else {
+        return true;
+      }
+
+
+    // if (((Math.abs(drivetrainSubsystem.getGyroscopeRotation().getDegrees()) - target)) > 0) {
+    //   return true;
+    // } else {
+    //   return false;
+    // }
   }
 }
