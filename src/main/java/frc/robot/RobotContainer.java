@@ -33,14 +33,17 @@ import frc.robot.commands.DriveToDistanceCommand;
 import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
+import frc.robot.commands.RunShooterCommand;
 import frc.robot.commands.TestDriveForwardCommand;
 import frc.robot.commands.TestRotateCommand;
 import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
+import frc.robot.subsystems.ShooterSubsytem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DeactivateTopPistonCommand;
 import frc.robot.commands.ActivateHookPistonCommand;
+import frc.robot.subsystems.ShooterSubsytem;
 import frc.robot.commands.DeactivateHookPistonCommand;
 
 import static frc.robot.Constants.*;
@@ -50,6 +53,7 @@ public class RobotContainer {
 
   private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
   private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
   //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
@@ -66,6 +70,7 @@ public class RobotContainer {
   private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
   private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
   private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
+  private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
 
   private final XboxController m_controller = new XboxController(0);
   private final Joystick m_board = new Joystick(1);
@@ -100,13 +105,25 @@ public class RobotContainer {
     //         // No requirements because we don't need to interrupt anything
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
-    new Button(m_controller::getAButton)
-      .whenPressed(DriveToDistanceCommand);
+    //FOR AUTO:
+    // new Button(m_controller::getAButton)
+    //   .whenPressed(DriveToDistanceCommand);
+
+    //FOR CLIMBER:
     //  new Button(m_controller::getAButton)
     //     .whileHeld(runMotorsCommand);
 
+    //FOR SHOOTER:
+    new Button(m_controller::getAButton)
+      .whileHeld(runShooterCommand);
+
      new Button(m_controller::getBButton)
         .whenPressed(turnToAngleCommand);
+
+      new Button(m_controller::getYButton)
+        .whenPressed(driveTrainSubsystem::zeroGyroscope);
+
+
 
     // new Button(m_controller::getBButton)
     //   .whileHeld(runBackMotorsCommand);
