@@ -37,6 +37,7 @@ import frc.robot.commands.RunShooterCommand;
 import frc.robot.commands.TestDriveForwardCommand;
 import frc.robot.commands.TestRotateCommand;
 import frc.robot.commands.TurnToAngleCommand;
+import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
@@ -52,7 +53,7 @@ import static frc.robot.Constants.*;
 public class RobotContainer {
 
   private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
-  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  // private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
   private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
   private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
   //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -67,10 +68,11 @@ public class RobotContainer {
   // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
   // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
   // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
-  private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
-  private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
-  private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
+  // private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
+  // private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
+  // private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
   private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
+  // private final TestAutoDriveCommand testAutoDriveCommand = new TestAutoDriveCommand(driveTrainSubsystem, shooterSubsytem);
 
   private final XboxController m_controller = new XboxController(0);
   private final Joystick m_board = new Joystick(1);
@@ -105,20 +107,36 @@ public class RobotContainer {
     //         // No requirements because we don't need to interrupt anything
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
-    //FOR AUTO:
-    // new Button(m_controller::getAButton)
-    //   .whenPressed(DriveToDistanceCommand);
+    // FOR AUTO:
+    new Button(m_controller::getAButton)
+      .whenPressed(DriveToDistanceCommand);
 
     //FOR CLIMBER:
     //  new Button(m_controller::getAButton)
     //     .whileHeld(runMotorsCommand);
 
     //FOR SHOOTER:
-    new Button(m_controller::getAButton)
-      .whileHeld(runShooterCommand);
+    // new Button(m_controller::getAButton)
+    //   .whileHeld(runShooterCommand);
 
-     new Button(m_controller::getBButton)
-        .whenPressed(turnToAngleCommand);
+    // new Button(m_controller::getRightBumper)
+    //   .whenPressed(testAutoDriveCommand);
+
+    // new Button(m_controller::getBButtonPressed)
+    //   .whileHeld(shooterSubsytem::runShooterPH1);
+
+    // new Button(m_controller::getBButtonReleased)
+    //   .whenPressed(shooterSubsytem::stopShooterPH1);
+
+    //   new Button(m_controller::getYButtonPressed)
+    //   .whileHeld(shooterSubsytem::runShooterPH2);
+
+    // new Button(m_controller::getYButtonReleased)
+    //   .whenPressed(shooterSubsytem::stopShooterPH2);
+
+
+    //  new Button(m_controller::getBButton)
+    //     .whenPressed(turnToAngleCommand);
 
       new Button(m_controller::getYButton)
         .whenPressed(driveTrainSubsystem::zeroGyroscope);
@@ -149,8 +167,8 @@ public class RobotContainer {
     // new Button(m_controller::getBackButton)
     //      .whileHeld(deactivateHookPistonCommand);
 
-    new Button(m_controller::getLeftStickButtonPressed)
-            .whenPressed(driveTrainSubsystem::resetEncoders);
+    // new Button(m_controller::getLeftStickButtonPressed)
+    //         .whenPressed(driveTrainSubsystem::resetEncoders);
     
 
 
@@ -170,43 +188,43 @@ public class RobotContainer {
 
     
     // Create config for trajectory
-    TrajectoryConfig config =
-      new TrajectoryConfig(
-          kMaxSpeedMetersPerSecond,
-          kMaxAccelerationMetersPerSecondSquared)
-          // Add kinematics to ensure max speed is actually obeyed
-          .setKinematics(driveTrainSubsystem.m_kinematics);
+    // TrajectoryConfig config =
+    //   new TrajectoryConfig(
+    //       kMaxSpeedMetersPerSecond,
+    //       kMaxAccelerationMetersPerSecondSquared)
+    //       // Add kinematics to ensure max speed is actually obeyed
+    //       .setKinematics(driveTrainSubsystem.m_kinematics);
 
-    Trajectory exampleTrajectory =
-      TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these two interior waypoints, making an 's' curve path
-        List.of(new Translation2d(0, 1)),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(0, 1, new Rotation2d(Math.PI/2)),
-        config);
+    // Trajectory exampleTrajectory =
+    //   TrajectoryGenerator.generateTrajectory(
+    //     // Start at the origin facing the +X direction
+    //     new Pose2d(0, 0, new Rotation2d(0)),
+    //     // Pass through these two interior waypoints, making an 's' curve path
+    //     List.of(new Translation2d(0, 1)),
+    //     // End 3 meters straight ahead of where we started, facing forward
+    //     new Pose2d(0, 1, new Rotation2d(Math.PI/2)),
+    //     config);
 
-    var thetaController =
-      new ProfiledPIDController(
-          kPThetaController, 0, 0, kThetaControllerConstraints);
-      thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    // var thetaController =
+    //   new ProfiledPIDController(
+    //       kPThetaController, 0, 0, kThetaControllerConstraints);
+    //   thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    SwerveControllerCommand swerveControllerCommand =
-        new SwerveControllerCommand(
-            exampleTrajectory,
-            driveTrainSubsystem::getPose, // Functional interface to feed supplier
-            driveTrainSubsystem.m_kinematics,
+    // SwerveControllerCommand swerveControllerCommand =
+    //     new SwerveControllerCommand(
+    //         exampleTrajectory,
+    //         driveTrainSubsystem::getPose, // Functional interface to feed supplier
+    //         driveTrainSubsystem.m_kinematics,
 
-            // Position controllers
-            new PIDController(kPXController, 0, 0),
-            new PIDController(kPYController, 0, 0),
-            thetaController,
-            driveTrainSubsystem::setModuleStates,
-            driveTrainSubsystem);
+    //         // Position controllers
+    //         new PIDController(kPXController, 0, 0),
+    //         new PIDController(kPYController, 0, 0),
+    //         thetaController,
+    //         driveTrainSubsystem::setModuleStates,
+    //         driveTrainSubsystem);
 
-    // Reset odometry to the starting pose of the trajectory.
-    driveTrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+    // // Reset odometry to the starting pose of the trajectory.
+    // driveTrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
 
     // Run path following command, then stop at the end.
     // return swerveControllerCommand.andThen(() -> m_drivetrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
