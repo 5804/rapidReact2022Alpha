@@ -54,7 +54,7 @@ public class RobotContainer {
 
   private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
   // private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
+  // private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
   private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
   //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
@@ -68,11 +68,11 @@ public class RobotContainer {
   // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
   // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
   // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
-  // private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
-  // private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
-  // private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
-  private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
-  // private final TestAutoDriveCommand testAutoDriveCommand = new TestAutoDriveCommand(driveTrainSubsystem, shooterSubsytem);
+  private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
+  private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
+  private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
+  // private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
+  private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
 
   private final XboxController m_controller = new XboxController(0);
   private final Joystick m_board = new Joystick(1);
@@ -119,8 +119,8 @@ public class RobotContainer {
     // new Button(m_controller::getAButton)
     //   .whileHeld(runShooterCommand);
 
-    // new Button(m_controller::getRightBumper)
-    //   .whenPressed(testAutoDriveCommand);
+    new Button(m_controller::getRightBumper)
+      .whenPressed(testAutoDriveCommand);
 
     // new Button(m_controller::getBButtonPressed)
     //   .whileHeld(shooterSubsytem::runShooterPH1);
@@ -135,8 +135,8 @@ public class RobotContainer {
     //   .whenPressed(shooterSubsytem::stopShooterPH2);
 
 
-    //  new Button(m_controller::getBButton)
-    //     .whenPressed(turnToAngleCommand);
+     new Button(m_controller::getBButton)
+        .whenPressed(turnToAngleCommand);
 
       new Button(m_controller::getYButton)
         .whenPressed(driveTrainSubsystem::zeroGyroscope);

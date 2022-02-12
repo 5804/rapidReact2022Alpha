@@ -15,12 +15,12 @@ import frc.robot.subsystems.ShooterSubsytem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class TestAutoDriveCommandGroup extends SequentialCommandGroup {
   /** Creates a new TestAutoDriveCommand. */
-  public TestAutoDriveCommandGroup(DrivetrainSubsystem dts, ShooterSubsytem shootSub) {
+  public TestAutoDriveCommandGroup(DrivetrainSubsystem dts) { //FIXME NEED TO IMPORT SHOOTER SUBSYSTEM
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveToDistanceCommand(dts, 1.0),
+    addCommands(new DriveToDistanceCommand(dts, 12),
                 new TurnToAngleCommand(dts, 90, 1),
-                new DriveToDistanceCommand(dts, 1.0),
+                new DriveToDistanceCommand(dts, 12),
                 new TurnToAngleCommand(dts, 90, 1)
                 );
   }

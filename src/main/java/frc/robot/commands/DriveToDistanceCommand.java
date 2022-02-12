@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 
@@ -20,6 +21,7 @@ public class DriveToDistanceCommand extends CommandBase {
   public double initialClicks;
   public double initialClicksAverage;
   public double desiredClicks;
+  private double clicksTravelled = 0;
 
   public DriveToDistanceCommand(DrivetrainSubsystem dts, double distance) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -27,20 +29,26 @@ public class DriveToDistanceCommand extends CommandBase {
     drivetrainSubsystem = dts;
     desiredDistance = distance;
     addRequirements(drivetrainSubsystem);
-    ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-      tab.addNumber("Left Module Clicks", ()->getClicksNeeded(distance));
+    // ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+    //   tab.addNumber("Left Module Clicks", ()->getClicksNeeded(distance));
+
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    desiredClicks = getClicksNeeded(desiredDistance);
+    clicksTravelled = 0;
     drivetrainSubsystem.resetEncoders();
+    desiredClicks = getClicksNeeded(desiredDistance);
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    
+   SmartDashboard.putNumber("Desired Clicks", desiredClicks);
+  
    drivetrainSubsystem.driveForward(1);
   // drivetrainSubsystem.drive(new ChassisSpeeds(0.2, 0, 0));
   }
@@ -48,7 +56,9 @@ public class DriveToDistanceCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+   
     drivetrainSubsystem.drive(new ChassisSpeeds(0,0,0));
+    drivetrainSubsystem.resetEncoders();
   }
 
   // Returns true when the command should end.
@@ -57,11 +67,13 @@ public class DriveToDistanceCommand extends CommandBase {
 
     // this if statement checks the reading of the encoder used to check average encoder values. 
     // we will now make it read the encoder values of only one encoder, after running reset encoder value method
-    if (Math.abs(drivetrainSubsystem.getFrontLeftEncoderValue()) >= desiredClicks) { 
+    if (clicksTravelled >= desiredClicks) { 
+      SmartDashboard.putBoolean("Is Finished", true);
       return true;
     } else {
+      SmartDashboard.putBoolean("Is Finished", false);
+      clicksTravelled = Math.abs(drivetrainSubsystem.getFrontLeftEncoderValue());
       return false;
-
     }
   }
 
