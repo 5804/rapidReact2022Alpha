@@ -51,36 +51,45 @@ import static frc.robot.Constants.*;
 
 
 public class RobotContainer {
-
+  
   private final XboxController m_controller = new XboxController(0);
+ 
+  //Button Board
   private final Joystick m_board = new Joystick(1);
+  
+  //Test Shooter Joystick
   private final Joystick shooterStick = new Joystick(2);
   
+  //FOR DRIVETRAIN:
+    private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
 
-  private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
+  //FOR LIMELIGHT:
   // private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  // private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
-  private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
-  //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+  //private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
+        
+  //FOR AUTO:
+      private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
+      private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
+      private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
+      private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
+      private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
 
+  //FOR SHOOTER:
+    private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
+    //private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
+      private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem, shooterStick);
+
+  //FOR CLIMBER:
+  //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
   // private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
   // private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
   // private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
   // private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
   // private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
   // private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
-  // //private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
   // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
   // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
   // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
-  private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
-  private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
-  private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
-  // private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
-  private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
-  private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
-  private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem, shooterStick);
-
 
 
   public RobotContainer() {
@@ -111,6 +120,13 @@ public class RobotContainer {
     // new Button(m_controller::getBackButton) // FIXME This button press has an error because the getBackButton function does not have any code
     //         // No requirements because we don't need to interrupt anything
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    //FOR DRIVETRAIN:
+
+    //  new Button(m_controller::getYButton)
+    //    .whenPressed(driveTrainSubsystem::zeroGyroscope);
+
+    // new Button(m_controller::getLeftStickButtonPressed)
+    //         .whenPressed(driveTrainSubsystem::resetEncoders);
 
     // FOR AUTO:
     //new Button(m_controller::getAButton)
@@ -150,29 +166,29 @@ public class RobotContainer {
       shooterButton.whileHeld(runShooterCommand);
 
 
-    //BUTTONS BELOW ARE FOR TESTING SHOOTER SPEED, DELETE LATER
-    //The number corresponds to the shooter speed (ex S3 = 0.3)
+        //BUTTONS BELOW ARE FOR TESTING SHOOTER SPEED, DELETE LATER
+        //The number corresponds to the shooter speed (ex S3 = 0.3)
 
-    final JoystickButton shooterButton3 = new JoystickButton(shooterStick, 2);
-      shooterButton3.whileHeld(shooterSubsytem::runShooterS3);
+        final JoystickButton shooterButton3 = new JoystickButton(shooterStick, 2);
+          shooterButton3.whileHeld(shooterSubsytem::runShooterS3);
 
-    final JoystickButton shooterButton4 = new JoystickButton(shooterStick, 8);
-      shooterButton4.whileHeld(shooterSubsytem::runShooterS4);
+        final JoystickButton shooterButton4 = new JoystickButton(shooterStick, 8);
+          shooterButton4.whileHeld(shooterSubsytem::runShooterS4);
 
-    final JoystickButton shooterButton5 = new JoystickButton(shooterStick, 7);
-      shooterButton5.whileHeld(shooterSubsytem::runShooterS5);
+        final JoystickButton shooterButton5 = new JoystickButton(shooterStick, 7);
+          shooterButton5.whileHeld(shooterSubsytem::runShooterS5);
 
-    final JoystickButton shooterButton6 = new JoystickButton(shooterStick, 6);
-      shooterButton6.whileHeld(shooterSubsytem::runShooterS6);
+        final JoystickButton shooterButton6 = new JoystickButton(shooterStick, 6);
+          shooterButton6.whileHeld(shooterSubsytem::runShooterS6);
 
-    final JoystickButton shooterButton7 = new JoystickButton(shooterStick, 9);
-      shooterButton7.whileHeld(shooterSubsytem::runShooterS7);
+        final JoystickButton shooterButton7 = new JoystickButton(shooterStick, 9);
+          shooterButton7.whileHeld(shooterSubsytem::runShooterS7);
 
-    final JoystickButton shooterButton8 = new JoystickButton(shooterStick, 10);
-      shooterButton8.whileHeld(shooterSubsytem::runShooterS8);
+        final JoystickButton shooterButton8 = new JoystickButton(shooterStick, 10);
+          shooterButton8.whileHeld(shooterSubsytem::runShooterS8);
 
-    final JoystickButton shooterButton9 = new JoystickButton(shooterStick, 11);
-      shooterButton9.whileHeld(shooterSubsytem::runShooterS9);
+        final JoystickButton shooterButton9 = new JoystickButton(shooterStick, 11);
+          shooterButton9.whileHeld(shooterSubsytem::runShooterS9);
 
      new Button(m_controller::getBButtonPressed)
      .whileHeld(runShooterCommand);
@@ -185,18 +201,9 @@ public class RobotContainer {
 
     // new Button(m_controller::getYButtonReleased)
     //   .whenPressed(shooterSubsytem::stopShooterPH2);
-
-    //  new Button(m_controller::getYButton)
-    //    .whenPressed(driveTrainSubsystem::zeroGyroscope);
-
-    // new Button(m_controller::getLeftStickButtonPressed)
-    //         .whenPressed(driveTrainSubsystem::resetEncoders);
     
-
-
-    // final JoystickButton b2 = new JoystickButton(m_board, 2);
-    //     b2.whileHeld(runRightMotor);
- 
+    // final JoystickButton b2 = new JoystickButton(m_board, 2); Keep this cause I like having the button syntax
+    //     b2.whileHeld(runRightMotor); 
 
   }
 
