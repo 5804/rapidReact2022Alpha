@@ -4,15 +4,19 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsytem;
 
 public class RunShooterCommand extends CommandBase {
   private final ShooterSubsytem shooterSubsytem;
+  private final Joystick leftStick;
+
   /** Creates a new RunShooter. */
-  public RunShooterCommand(ShooterSubsytem shooter) {
+  public RunShooterCommand(ShooterSubsytem shooter, Joystick left) {
     // Use addRequirements() here to declare subsystem dependencies.
     shooterSubsytem = shooter;
+    leftStick = left;
 
     addRequirements(shooterSubsytem);
   }
@@ -24,7 +28,8 @@ public class RunShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsytem.runShooter();
+    shooterSubsytem.runShooter(leftStick.getRawAxis(3));
+  
   }
 
   // Called once the command ends or is interrupted.

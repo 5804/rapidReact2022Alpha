@@ -52,13 +52,14 @@ import static frc.robot.Constants.*;
 
 public class RobotContainer {
 
-
-
-
+  private final XboxController m_controller = new XboxController(0);
+  private final Joystick m_board = new Joystick(1);
+  private final Joystick shooterStick = new Joystick(2);
   
+
   private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
   // private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
+  // private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
   private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
   //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
 
@@ -75,15 +76,12 @@ public class RobotContainer {
   private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
   private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
   private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
-  private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
+  // private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
   private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
+  private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
+  private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem, shooterStick);
 
-  private final XboxController m_controller = new XboxController(0);
-  private final Joystick m_board = new Joystick(1);
 
-    //FOR TEST SPEED CONTROLLER JOYSTICK
-  // private final Joystick testJoystick = new Joystick(0);
-  
 
   public RobotContainer() {
     // Set up the default command for the drivetrain.
@@ -114,29 +112,23 @@ public class RobotContainer {
     //         // No requirements because we don't need to interrupt anything
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
 
+    // FOR AUTO:
+    //new Button(m_controller::getAButton)
+    //  .whenPressed(DriveToDistanceCommand);
 
-    //FOR DRIVE: 
-
-
-
-
-    // // FOR AUTO:
-    // new Button(m_controller::getAButton)
-    //   .whenPressed(DriveToDistanceCommand);
-    
     // new Button(m_controller::getRightBumper)
-    //   .whenPressed(testAutoDriveCommand);
+   //   .whenPressed(testAutoDriveCommand);
 
-    //  new Button(m_controller::getBButton)
-    //     .whenPressed(turnToAngleCommand);
+    // new Button(m_controller::getBButton)
+    //    .whenPressed(turnToAngleCommand);
 
-    //   new Button(m_controller::getYButton)
-    //     .whenPressed(driveTrainSubsystem::zeroGyroscope);
+    // // // new Button(m_controller::getRightBumper)
+    // // //     .whileHeld(alignToGoalWithLimelightCommand);
 
     //FOR CLIMBER:
-    //  new Button(m_controller::getBButton)
+    //  new Button(m_controller::getAButton)
     //     .whileHeld(runMotorsCommand);
-
+  
     // new Button(m_controller::getBButton)
     //   .whileHeld(runBackMotorsCommand);
 
@@ -145,25 +137,45 @@ public class RobotContainer {
 
     // new Button(m_controller::getYButton)
     //      .whileHeld(deactivateTopPistonCommand);
-    
-    //  new Button(m_controller::getStartButton)
-    //      .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
     //  new Button(m_controller::getLeftBumper)
     //      .whenPressed(deactivateBottomPistonCommand);
     
-    //  new Button(m_controller::getRightBumper)
-    //      .whileHeld(activateHookPistonCommand);
+    //  new Button(m_controller::getStartButton)
+    //      .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
-    // new Button(m_controller::getBackButton)
-    //      .whileHeld(deactivateHookPistonCommand);
-  
+
     //FOR SHOOTER:
-    new Button(m_controller::getAButton)
-      .whileHeld(runShooterCommand);
+    final JoystickButton shooterButton = new JoystickButton(shooterStick, 1);
+      shooterButton.whileHeld(runShooterCommand);
 
-        // new Button(m_controller::getBButtonPressed)
-    //   .whileHeld(shooterSubsytem::runShooterPH1);
+
+    //BUTTONS BELOW ARE FOR TESTING SHOOTER SPEED, DELETE LATER
+    //The number corresponds to the shooter speed (ex S3 = 0.3)
+
+    final JoystickButton shooterButton3 = new JoystickButton(shooterStick, 2);
+      shooterButton3.whileHeld(shooterSubsytem::runShooterS3);
+
+    final JoystickButton shooterButton4 = new JoystickButton(shooterStick, 8);
+      shooterButton4.whileHeld(shooterSubsytem::runShooterS4);
+
+    final JoystickButton shooterButton5 = new JoystickButton(shooterStick, 7);
+      shooterButton5.whileHeld(shooterSubsytem::runShooterS5);
+
+    final JoystickButton shooterButton6 = new JoystickButton(shooterStick, 6);
+      shooterButton6.whileHeld(shooterSubsytem::runShooterS6);
+
+    final JoystickButton shooterButton7 = new JoystickButton(shooterStick, 9);
+      shooterButton7.whileHeld(shooterSubsytem::runShooterS7);
+
+    final JoystickButton shooterButton8 = new JoystickButton(shooterStick, 10);
+      shooterButton8.whileHeld(shooterSubsytem::runShooterS8);
+
+    final JoystickButton shooterButton9 = new JoystickButton(shooterStick, 11);
+      shooterButton9.whileHeld(shooterSubsytem::runShooterS9);
+
+     new Button(m_controller::getBButtonPressed)
+     .whileHeld(runShooterCommand);
 
     // new Button(m_controller::getBButtonReleased)
     //   .whenPressed(shooterSubsytem::stopShooterPH1);
@@ -174,14 +186,8 @@ public class RobotContainer {
     // new Button(m_controller::getYButtonReleased)
     //   .whenPressed(shooterSubsytem::stopShooterPH2);
 
-
-    //FOR TEST SHOOTER JOYSTICK:
-    // final JoystickButton shooterButton = new JoystickButton(testJoystick, 0);
-    // shooterButton.whileHeld(RunShooterCommand);
-
-    // // // new Button(m_controller::getRightBumper)
-    // // //     .whileHeld(alignToGoalWithLimelightCommand);
-
+    //  new Button(m_controller::getYButton)
+    //    .whenPressed(driveTrainSubsystem::zeroGyroscope);
 
     // new Button(m_controller::getLeftStickButtonPressed)
     //         .whenPressed(driveTrainSubsystem::resetEncoders);
