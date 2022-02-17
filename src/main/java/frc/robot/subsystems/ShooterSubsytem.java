@@ -21,8 +21,12 @@ public class ShooterSubsytem extends SubsystemBase {
   public WPI_TalonFX accelerator;
 
   public double initialTargetVelocity = 2000;
+  public double initialTargetVelocityLow = 3500;
+  public double initialTargetVelocityHigh = 6500;
   public double sliderAddTargetVelocity;
   public double targetVelocity;
+  public double targetVelocityLow;
+  public double targetVelocityHigh;
 
   /** Creates a new ShooterSubsytem. */
   public ShooterSubsytem() {
@@ -65,17 +69,13 @@ public class ShooterSubsytem extends SubsystemBase {
     // This sets the accelerator motors to 12 volts at 100%
     accelerator.enableVoltageCompensation(true);
     accelerator.configVoltageCompSaturation(12);
-
-    SmartDashboard.putNumber("Velocity Setpoint", targetVelocity);
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber("Actual Velocity", leftShooter.getSelectedSensorVelocity());
-
-    // Add the sliderAddTargetVelocity number to the smartdashboard
-    SmartDashboard.putNumber("Slider Add Target Velocity", sliderAddTargetVelocity);
+    SmartDashboard.putNumber("Velocity Setpoint", targetVelocity);
     
   }
 
@@ -89,6 +89,20 @@ public class ShooterSubsytem extends SubsystemBase {
     targetVelocity = initialTargetVelocity + sliderAddTargetVelocity;
     leftShooter.set(TalonFXControlMode.Velocity, targetVelocity);
 
+  }
+
+  public void setShooterSpeedLowGoal(double slider) {
+    sliderAddTargetVelocity = (((slider*-1) + 1)/2)*1000;
+    targetVelocityLow = initialTargetVelocityLow + sliderAddTargetVelocity;
+
+    leftShooter.set(TalonFXControlMode.Velocity, targetVelocityLow);
+  }
+
+  public void setShooterSpeedHighGoal(double slider) {
+    sliderAddTargetVelocity = (((slider*-1) + 1)/2)*2000;
+
+    targetVelocityHigh = initialTargetVelocityHigh + sliderAddTargetVelocity;
+    leftShooter.set(TalonFXControlMode.Velocity, targetVelocityHigh);
   }
 
   //TEST METHODS FOR SHOOTER SPEEDS: DELETE LATER!!!!

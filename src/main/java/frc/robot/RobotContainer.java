@@ -34,6 +34,8 @@ import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
 import frc.robot.commands.RunShooterCommand;
+import frc.robot.commands.ShootHighGoalCommand;
+import frc.robot.commands.ShootLowGoalCommand;
 import frc.robot.commands.TestDriveForwardCommand;
 import frc.robot.commands.TestRotateCommand;
 import frc.robot.commands.TurnToAngleCommand;
@@ -74,22 +76,25 @@ public class RobotContainer {
       private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
       private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
 
+
   //FOR SHOOTER:
     private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
     //private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
-      private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem, shooterStick);
+    private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem, shooterStick);
+    private final ShootLowGoalCommand shootLowGoalCommand = new ShootLowGoalCommand(shooterSubsytem, shooterStick);
+    private final ShootHighGoalCommand shootHighGoalCommand = new ShootHighGoalCommand(shooterSubsytem, shooterStick);
 
   //FOR CLIMBER:
-  //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-  // private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
-  // private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
-  // private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
-  // private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
-  // private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
-  // private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
-  // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
-  // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
-  // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
+      //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+      // private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
+      // private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
+      // private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
+      // private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
+      // private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
+      // private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
+      // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
+      // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
+      // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
 
 
   public RobotContainer() {
@@ -120,45 +125,47 @@ public class RobotContainer {
     // new Button(m_controller::getBackButton) // FIXME This button press has an error because the getBackButton function does not have any code
     //         // No requirements because we don't need to interrupt anything
     //         .whenPressed(m_drivetrainSubsystem::zeroGyroscope);
+    
+
     //FOR DRIVETRAIN:
 
-    //  new Button(m_controller::getYButton)
-    //    .whenPressed(driveTrainSubsystem::zeroGyroscope);
+         new Button(m_controller::getYButton)
+        .whenPressed(driveTrainSubsystem::zeroGyroscope);
 
-    // new Button(m_controller::getLeftStickButtonPressed)
-    //         .whenPressed(driveTrainSubsystem::resetEncoders);
+        // new Button(m_controller::getLeftStickButtonPressed)
+        //         .whenPressed(driveTrainSubsystem::resetEncoders);
 
     // FOR AUTO:
-    //new Button(m_controller::getAButton)
-    //  .whenPressed(DriveToDistanceCommand);
+        //new Button(m_controller::getAButton)
+        //  .whenPressed(DriveToDistanceCommand);
 
-    // new Button(m_controller::getRightBumper)
-   //   .whenPressed(testAutoDriveCommand);
+        // new Button(m_controller::getRightBumper)
+      //   .whenPressed(testAutoDriveCommand);
 
-    // new Button(m_controller::getBButton)
-    //    .whenPressed(turnToAngleCommand);
+        // new Button(m_controller::getBButton)
+        //    .whenPressed(turnToAngleCommand);
 
     // // // new Button(m_controller::getRightBumper)
     // // //     .whileHeld(alignToGoalWithLimelightCommand);
 
     //FOR CLIMBER:
-    //  new Button(m_controller::getAButton)
-    //     .whileHeld(runMotorsCommand);
-  
-    // new Button(m_controller::getBButton)
-    //   .whileHeld(runBackMotorsCommand);
+        //  new Button(m_controller::getAButton)
+        //     .whileHeld(runMotorsCommand);
+      
+        // new Button(m_controller::getBButton)
+        //   .whileHeld(runBackMotorsCommand);
 
-    // new Button(m_controller::getXButton)
-    //     .whileHeld(activateTopPistonCommand);
+        // new Button(m_controller::getXButton)
+        //     .whileHeld(activateTopPistonCommand);
 
-    // new Button(m_controller::getYButton)
-    //      .whileHeld(deactivateTopPistonCommand);
+        // new Button(m_controller::getYButton)
+        //      .whileHeld(deactivateTopPistonCommand);
 
-    //  new Button(m_controller::getLeftBumper)
-    //      .whenPressed(deactivateBottomPistonCommand);
-    
-    //  new Button(m_controller::getStartButton)
-    //      .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
+        //  new Button(m_controller::getLeftBumper)
+        //      .whenPressed(deactivateBottomPistonCommand);
+        
+        //  new Button(m_controller::getStartButton)
+        //      .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
 
     //FOR SHOOTER:
@@ -169,8 +176,11 @@ public class RobotContainer {
         //BUTTONS BELOW ARE FOR TESTING SHOOTER SPEED, DELETE LATER
         //The number corresponds to the shooter speed (ex S3 = 0.3)
 
-        final JoystickButton shooterButton3 = new JoystickButton(shooterStick, 2);
-          shooterButton3.whileHeld(shooterSubsytem::runShooterS3);
+        final JoystickButton shooterButton2 = new JoystickButton(shooterStick, 2);
+          shooterButton2.whileHeld(shootLowGoalCommand);
+
+          final JoystickButton shooterButton3 = new JoystickButton(shooterStick, 3);
+          shooterButton3.whileHeld(shootHighGoalCommand);
 
         final JoystickButton shooterButton4 = new JoystickButton(shooterStick, 8);
           shooterButton4.whileHeld(shooterSubsytem::runShooterS4);
