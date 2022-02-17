@@ -28,7 +28,7 @@ public class RunShooterCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsytem.runShooter(leftStick.getRawAxis(3));
+    shooterSubsytem.setShooterSpeed(leftStick.getRawAxis(3));
   
   }
 
