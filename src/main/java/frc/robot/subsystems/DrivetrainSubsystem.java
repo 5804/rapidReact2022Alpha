@@ -11,6 +11,7 @@ import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -29,6 +30,12 @@ import edu.wpi.first.wpilibj.SPI;
 import static frc.robot.Constants.*;
 
 public class DrivetrainSubsystem extends SubsystemBase {
+
+      public ProfiledPIDController thetaController =
+      new ProfiledPIDController(
+          kPThetaController, 0, 0, kThetaControllerConstraints);
+
+
   /**
    * The maximum voltage that will be delivered to the drive motors.
    * <p>

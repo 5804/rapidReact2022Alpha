@@ -6,6 +6,10 @@ package frc.robot;
 
 import java.util.List;
 
+import com.pathplanner.lib.PathPlanner;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,6 +21,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -30,6 +35,7 @@ import frc.robot.commands.DeactivateBottomPistonCommand;
 import frc.robot.commands.DeactivateHookPistonCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveToDistanceCommand;
+import frc.robot.commands.FollowPathCommand;
 import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
@@ -53,6 +59,8 @@ import static frc.robot.Constants.*;
 
 
 public class RobotContainer {
+
+  private final SendableChooser sendableChooser = new SendableChooser<Command>();
   
   private final XboxController m_controller = new XboxController(0);
  
@@ -75,6 +83,8 @@ public class RobotContainer {
       private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
       private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
       private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
+
+      PathPlannerTrajectory straightDrive1 = PathPlanner.loadPath("StraightDrive1", 8, 5);
 
 
   //FOR SHOOTER:
@@ -112,6 +122,9 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
+
+    // All sendable chooser options
+    sendableChooser.setDefaultOption("Straight Drive 1", new FollowPathCommand(driveTrainSubsystem, straightDrive1));
   }
 
   /**
@@ -223,35 +236,38 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
+    // // An ExampleCommand will run in autonomous
 
     
-    // Create config for trajectory
-    // TrajectoryConfig config =
-    //   new TrajectoryConfig(
-    //       kMaxSpeedMetersPerSecond,
-    //       kMaxAccelerationMetersPerSecondSquared)
-    //       // Add kinematics to ensure max speed is actually obeyed
-    //       .setKinematics(driveTrainSubsystem.m_kinematics);
+    // // Create config for trajectory
+    // // TrajectoryConfig config =
+    // //   new TrajectoryConfig(
+    // //       kMaxSpeedMetersPerSecond,
+    // //       kMaxAccelerationMetersPerSecondSquared)
+    // //       // Add kinematics to ensure max speed is actually obeyed
+    // //       .setKinematics(driveTrainSubsystem.m_kinematics);
 
-    // Trajectory exampleTrajectory =
-    //   TrajectoryGenerator.generateTrajectory(
-    //     // Start at the origin facing the +X direction
-    //     new Pose2d(0, 0, new Rotation2d(0)),
-    //     // Pass through these two interior waypoints, making an 's' curve path
-    //     List.of(new Translation2d(0, 1)),
-    //     // End 3 meters straight ahead of where we started, facing forward
-    //     new Pose2d(0, 1, new Rotation2d(Math.PI/2)),
-    //     config);
+    // // Trajectory exampleTrajectory =
+    // //   TrajectoryGenerator.generateTrajectory(
+    // //     // Start at the origin facing the +X direction
+    // //     new Pose2d(0, 0, new Rotation2d(0)),
+    // //     // Pass through these two interior waypoints, making an 's' curve path
+    // //     List.of(new Translation2d(0, 1)),
+    // //     // End 3 meters straight ahead of where we started, facing forward
+    // //     new Pose2d(0, 1, new Rotation2d(Math.PI/2)),
+    // //     config);
+
+    // PathPlannerTrajectory examplePath = PathPlanner.loadPath("StraightDrive3", 8, 5);
+
 
     // var thetaController =
     //   new ProfiledPIDController(
     //       kPThetaController, 0, 0, kThetaControllerConstraints);
     //   thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
-    // SwerveControllerCommand swerveControllerCommand =
-    //     new SwerveControllerCommand(
-    //         exampleTrajectory,
+    // PPSwerveControllerCommand swerveControllerCommand =
+    //     new PPSwerveControllerCommand(
+    //         examplePath,
     //         driveTrainSubsystem::getPose, // Functional interface to feed supplier
     //         driveTrainSubsystem.m_kinematics,
 
@@ -263,14 +279,16 @@ public class RobotContainer {
     //         driveTrainSubsystem);
 
     // // Reset odometry to the starting pose of the trajectory.
-    // driveTrainSubsystem.resetOdometry(exampleTrajectory.getInitialPose());
+    // driveTrainSubsystem.resetOdometry(examplePath.getInitialPose());
 
-    // Run path following command, then stop at the end.
-    // return swerveControllerCommand.andThen(() -> m_drivetrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
-    return new InstantCommand();
+    // // Run path following command, then stop at the end.
+    // return swerveControllerCommand.andThen(() -> driveTrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
+    // // return swerveControllerCommand;
 
-    // this is a message from the push from february 2:
-    // the robot was able to move in the x direction but not the y direction
+    // // this is a message from the push from february 2:
+    // // the robot was able to move in the x direction but not the y direction
+
+    return (Command) sendableChooser.getSelected();
   }
 
   private static double deadband(double value, double deadband) {
