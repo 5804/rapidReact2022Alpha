@@ -62,7 +62,7 @@ public class AutonomousTestCommand extends CommandBase {
 
     var thetaController =
       new ProfiledPIDController(
-          kPThetaController, 0, 0, kThetaControllerConstraints);
+          kPThetaController, 0, kDThetaController, kThetaControllerConstraints);
       thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     SwerveControllerCommand swerveControllerCommand =

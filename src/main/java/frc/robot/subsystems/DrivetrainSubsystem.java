@@ -251,6 +251,7 @@ public double target = (getGyroscopeRotation().getDegrees());
 
     SmartDashboard.putNumber("Raw Angle", getRawRoation());
     SmartDashboard.putNumber("current angle", getGyroscopeRotation().getDegrees());
+    m_odometry.update(getGyroscopeRotation(), states);
 //     SmartDashboard.putNumber("Target", target);
 
 
@@ -303,4 +304,5 @@ public double target = (getGyroscopeRotation().getDegrees());
         m_backRightModule.resetDriveEncoder();
   }
   
+
 }
