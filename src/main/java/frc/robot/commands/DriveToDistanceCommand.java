@@ -40,6 +40,9 @@ public class DriveToDistanceCommand extends CommandBase {
     clicksTravelled = 0;
     drivetrainSubsystem.resetEncoders();
     desiredClicks = getClicksNeeded(desiredDistance);
+    while (drivetrainSubsystem.getFrontRightEncoderValue() != 0) {
+      drivetrainSubsystem.resetEncoders();
+    }
 
   }
 
@@ -49,7 +52,13 @@ public class DriveToDistanceCommand extends CommandBase {
     
    SmartDashboard.putNumber("Desired Clicks", desiredClicks);
   
-   drivetrainSubsystem.driveForward(1);
+   if (desiredDistance > 0) {
+    drivetrainSubsystem.driveForward(1);
+   }
+   else {
+     drivetrainSubsystem.driveBackward(1);
+   }
+   
   // drivetrainSubsystem.drive(new ChassisSpeeds(0.2, 0, 0));
   }
 
@@ -72,7 +81,7 @@ public class DriveToDistanceCommand extends CommandBase {
       return true;
     } else {
       SmartDashboard.putBoolean("Is Finished", false);
-      clicksTravelled = Math.abs(drivetrainSubsystem.getFrontLeftEncoderValue());
+      clicksTravelled = Math.abs(drivetrainSubsystem.getFrontRightEncoderValue());
       return false;
     }
   }
@@ -87,6 +96,7 @@ public class DriveToDistanceCommand extends CommandBase {
     // this will deliver ticks needed given a desired distance in inches
     double tickin = ((2048*6.86)/(Math.PI*4));
     double clicks = tickin*desiredDistance;
+    clicks = Math.abs(clicks);
     return clicks;  
 }
 }

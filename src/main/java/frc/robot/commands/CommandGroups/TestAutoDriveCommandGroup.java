@@ -6,6 +6,7 @@ package frc.robot.commands.CommandGroups;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveToDistanceCommand;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.ShooterSubsytem;
@@ -18,10 +19,10 @@ public class TestAutoDriveCommandGroup extends SequentialCommandGroup {
   public TestAutoDriveCommandGroup(DrivetrainSubsystem dts) { //FIXME NEED TO IMPORT SHOOTER SUBSYSTEM
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new DriveToDistanceCommand(dts, 12),
-                new TurnToAngleCommand(dts, 90, 1),
-                new DriveToDistanceCommand(dts, 12),
-                new TurnToAngleCommand(dts, 90, 1)
+    addCommands(new DriveToDistanceCommand(dts, 39.37),
+                new TurnToAngle(-35, dts),
+                new DriveToDistanceCommand(dts, 120),
+                new TurnToAngle(-180, dts)
                 );
   }
 }

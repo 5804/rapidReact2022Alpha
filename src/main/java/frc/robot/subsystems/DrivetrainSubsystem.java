@@ -273,6 +273,13 @@ public double target = (getGyroscopeRotation().getDegrees());
         m_backRightModule.set(speed, 0);
   }
 
+  public void driveBackward(double speed) {
+      m_frontLeftModule.set(-1*speed, 0);
+      m_frontRightModule.set(-1*speed, 0);
+      m_backLeftModule.set(-1*speed, 0);
+      m_backRightModule.set(-1*speed, 0);
+  }
+
   public void rotate(double rotationSpeed) {
         drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(

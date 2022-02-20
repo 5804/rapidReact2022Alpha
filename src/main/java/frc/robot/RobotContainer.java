@@ -44,6 +44,7 @@ import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.ShootLowGoalCommand;
 import frc.robot.commands.TestDriveForwardCommand;
 import frc.robot.commands.TestRotateCommand;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -78,11 +79,12 @@ public class RobotContainer {
   //private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
         
   //FOR AUTO:
-      // private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 12);
-      // private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
-      // private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
-      // private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
-      // private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
+      private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, -12);
+      private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
+      private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
+      private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
+      private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
+      private final TurnToAngle turnToAngle = new TurnToAngle(45, driveTrainSubsystem);
 
       // PathPlannerTrajectory straightDrive1 = PathPlanner.loadPath("DriveCurve2", 8, 5);
 
@@ -149,14 +151,15 @@ public class RobotContainer {
         //         .whenPressed(driveTrainSubsystem::resetEncoders);
 
     // FOR AUTO:
-        //new Button(m_controller::getAButton)
-        //  .whenPressed(DriveToDistanceCommand);
+        new Button(m_controller::getAButton)
+         .whenPressed(DriveToDistanceCommand);
 
-        // new Button(m_controller::getRightBumper)
-      //   .whenPressed(testAutoDriveCommand);
+        new Button(m_controller::getRightBumper)
+        .whenPressed(testAutoDriveCommand);
 
-        // new Button(m_controller::getBButton)
-        //    .whenPressed(turnToAngleCommand);
+        new Button(m_controller::getBButton)
+           .whenPressed(turnToAngle);
+
 
     // // // new Button(m_controller::getRightBumper)
     // // //     .whileHeld(alignToGoalWithLimelightCommand);
@@ -279,7 +282,7 @@ public class RobotContainer {
     driveTrainSubsystem);
 
     // // Reset odometry to the starting pose of the trajectory.
-    // driveTrainSubsystem.resetOdometry(examplePath.getInitialPose());
+    driveTrainSubsystem.resetOdometry(examplePath.getInitialPose());
 
     // // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> driveTrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
