@@ -6,11 +6,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.PathPlannerTrajectory;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,6 +27,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.SPI;
 
@@ -34,6 +38,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
       public ProfiledPIDController thetaController =
       new ProfiledPIDController(
           kPThetaController, 0, 0, kThetaControllerConstraints);
+      
 
 
   /**
@@ -103,6 +108,7 @@ public double target = (getGyroscopeRotation().getDegrees());
 
   public DrivetrainSubsystem() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+    thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     // There are 4 methods you can call to create your swerve modules.
     // The method you use depends on what motors you are using.
@@ -285,6 +291,22 @@ public double target = (getGyroscopeRotation().getDegrees());
         double wheelRadius = Units.inchesToMeters(2); 
         double clicks = (desiredDistance/wheelRadius)*clicksPerRadians;
         return clicks;  
+  }
+
+  public Command createCommandForTrajectory(PathPlannerTrajectory trajectory) {
+      return new PPSwerveControllerCommand(
+            trajectory,
+            this::getPose, // Functional interface to feed supplier
+            this.m_kinematics,
+      
+            // Position controllers
+            new PIDController(kPXController, 0, 0),
+            new PIDController(kPYController, 0, 0),
+            thetaController,
+            this::setModuleStates,
+            this
+      );
+
   }
 
   public void driveForward(double speed) {

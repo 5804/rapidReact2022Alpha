@@ -44,6 +44,7 @@ import frc.robot.commands.RunShooterCommand;
 import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.ShootLowGoalCommand;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -128,7 +129,8 @@ public class RobotContainer {
     configureButtonBindings();
 
     // All sendable chooser options
-    // sendableChooser.setDefaultOption("Straight Drive 1", new FollowPathCommand(driveTrainSubsystem, straightDrive1));
+    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsytem));
+    SmartDashboard.putData("Auto Selector", sendableChooser);
   }
 
   /**
@@ -243,62 +245,15 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // // An ExampleCommand will run in autonomous
 
-    
-    //Create config for trajectory
-    TrajectoryConfig config =
-    new TrajectoryConfig(
-    kMaxSpeedMetersPerSecond,
-    kMaxAccelerationMetersPerSecondSquared)
-    // Add kinematics to ensure max speed is actually obeyed
-    .setKinematics(driveTrainSubsystem.m_kinematics);
-
-    // Trajectory exampleTrajectory =
-    //   TrajectoryGenerator.generateTrajectory(
-    //     // Start at the origin facing the +X direction
-    //     new Pose2d(0, 0, new Rotation2d(0)),
-    //     // Pass through these two interior waypoints, making an 's' curve path
-    //     List.of(new Translation2d(0, 1)),
-    //     // End 3 meters straight ahead of where we started, facing forward
-    //     new Pose2d(0, 1, new Rotation2d(0)),
-    //     config);
-
-    PathPlannerTrajectory examplePath = PathPlanner.loadPath("AutoTest1", 3, 1);
-
-
-    var thetaController =
-    new ProfiledPIDController(
-    kPThetaController, 0, kDThetaController, kThetaControllerConstraints);
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    PPSwerveControllerCommand swerveControllerCommand =
-    new PPSwerveControllerCommand(
-    examplePath,
-    driveTrainSubsystem::getPose, // Functional interface to feed supplier
-    driveTrainSubsystem.m_kinematics,
-
-    // Position controllers
-    new PIDController(kPXController, 0, 0),
-    new PIDController(kPYController, 0, 0),
-    thetaController,
-    driveTrainSubsystem::setModuleStates,
-    driveTrainSubsystem);
-
-    // // Reset odometry to the starting pose of the trajectory.
-    driveTrainSubsystem.resetOdometry(examplePath.getInitialPose());
-    SmartDashboard.putNumber("Current X", driveTrainSubsystem.getPose().getX()); 
-    SmartDashboard.putNumber("Current Y", driveTrainSubsystem.getPose().getY()); 
-    SmartDashboard.putNumber("Auto Angle", driveTrainSubsystem.getPose().getRotation().getDegrees()); 
-    driveTrainSubsystem.resetEncoders();
-
     // // Run path following command, then stop at the end.
-    return swerveControllerCommand.andThen(() -> driveTrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
+    // return driveTrainSubsystem.createCommandForTrajectory(examplePath).andThen(() -> driveTrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
     //return swerveControllerCommand;
     // return new InstantCommand();
 
     // // this is a message from the push from february 2:
     // // the robot was able to move in the x direction but not the y direction
 
-   // return (Command) sendableChooser.getSelected();
+   return (Command) sendableChooser.getSelected();
   }
 
   private static double deadband(double value, double deadband) {
