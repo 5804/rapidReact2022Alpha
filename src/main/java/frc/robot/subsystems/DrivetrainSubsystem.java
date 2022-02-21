@@ -91,6 +91,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
   private final SwerveModule m_frontRightModule;
   private final SwerveModule m_backLeftModule;
   private final SwerveModule m_backRightModule;
+Pose2d targetPose;
 
 public double target = (getGyroscopeRotation().getDegrees());
 
@@ -221,7 +222,7 @@ public double target = (getGyroscopeRotation().getDegrees());
   }
 
   public void resetOdometry(Pose2d pose) {
-        m_odometry.resetPosition(pose, m_navx.getRotation2d());
+        m_odometry.resetPosition(pose, getGyroscopeRotation());
   }
 
   public void resetGyro() {
@@ -236,6 +237,15 @@ public double target = (getGyroscopeRotation().getDegrees());
         m_backLeftModule.set(desiredStates[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, desiredStates[2].angle.getRadians());
         m_backRightModule.set(desiredStates[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, desiredStates[3].angle.getRadians());
 
+        desiredStates[0].speedMetersPerSecond = Math.abs(m_frontLeftModule.getDriveVelocity());
+        desiredStates[1].speedMetersPerSecond = Math.abs(m_frontRightModule.getDriveVelocity());
+        desiredStates[2].speedMetersPerSecond = Math.abs(m_backLeftModule.getDriveVelocity());
+        desiredStates[3].speedMetersPerSecond = Math.abs(m_backRightModule.getDriveVelocity());
+        m_odometry.update(getGyroscopeRotation(), desiredStates);
+
+        SmartDashboard.putNumber("Current X", getPose().getX()); 
+        SmartDashboard.putNumber("Current Y", getPose().getY()); 
+        SmartDashboard.putNumber("Auto Angle", getPose().getRotation().getDegrees()); 
   }
 
   @Override
@@ -251,8 +261,19 @@ public double target = (getGyroscopeRotation().getDegrees());
 
     SmartDashboard.putNumber("Raw Angle", getRawRoation());
     SmartDashboard.putNumber("current angle", getGyroscopeRotation().getDegrees());
-    m_odometry.update(getGyroscopeRotation(), states);
+    SmartDashboard.putNumber("Current X", getPose().getX()); 
+    SmartDashboard.putNumber("Current Y", getPose().getY());
+
+    
 //     SmartDashboard.putNumber("Target", target);
+
+      
+      SmartDashboard.putNumber("Current Angle", getPose().getRotation().getDegrees()); 
+     // SmartDashboard.putNumber("Target Pose Angle", targetPose.getRotation().getDegrees());
+
+
+
+
 
 
   }

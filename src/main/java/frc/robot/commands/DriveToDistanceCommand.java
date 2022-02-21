@@ -53,10 +53,10 @@ public class DriveToDistanceCommand extends CommandBase {
    SmartDashboard.putNumber("Desired Clicks", desiredClicks);
   
    if (desiredDistance > 0) {
-    drivetrainSubsystem.driveForward(1);
+    drivetrainSubsystem.driveForward(3);
    }
    else {
-     drivetrainSubsystem.driveBackward(1);
+     drivetrainSubsystem.driveBackward(3);
    }
    
   // drivetrainSubsystem.drive(new ChassisSpeeds(0.2, 0, 0));

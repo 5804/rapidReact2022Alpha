@@ -22,6 +22,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -122,6 +123,13 @@ public class RobotContainer {
            () -> modifyAxis((-1*m_controller.getRightX())) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
 
+
+
+      //FIXME, probably remove this, does not work
+      // SmartDashboard.putNumber("Current X", driveTrainSubsystem.getPose().getX()); 
+      // SmartDashboard.putNumber("Current Y", driveTrainSubsystem.getPose().getY()); 
+      // SmartDashboard.putNumber("Current Angle", driveTrainSubsystem.getPose().getRotation().getDegrees()); 
+
     // Configure the button bindings
     configureButtonBindings();
 
@@ -147,8 +155,8 @@ public class RobotContainer {
          new Button(m_controller::getYButton)
         .whenPressed(driveTrainSubsystem::zeroGyroscope);
 
-        // new Button(m_controller::getLeftStickButtonPressed)
-        //         .whenPressed(driveTrainSubsystem::resetEncoders);
+        new Button(m_controller::getLeftStickButtonPressed)
+                .whenPressed(driveTrainSubsystem::resetEncoders);
 
     // FOR AUTO:
         new Button(m_controller::getAButton)
@@ -260,7 +268,7 @@ public class RobotContainer {
     //     new Pose2d(0, 1, new Rotation2d(0)),
     //     config);
 
-    PathPlannerTrajectory examplePath = PathPlanner.loadPath("StartToA", 3, 1);
+    PathPlannerTrajectory examplePath = PathPlanner.loadPath("AutoTest1", 3, 1);
 
 
     var thetaController =
@@ -283,10 +291,15 @@ public class RobotContainer {
 
     // // Reset odometry to the starting pose of the trajectory.
     driveTrainSubsystem.resetOdometry(examplePath.getInitialPose());
+    SmartDashboard.putNumber("Current X", driveTrainSubsystem.getPose().getX()); 
+    SmartDashboard.putNumber("Current Y", driveTrainSubsystem.getPose().getY()); 
+    SmartDashboard.putNumber("Auto Angle", driveTrainSubsystem.getPose().getRotation().getDegrees()); 
+    driveTrainSubsystem.resetEncoders();
 
     // // Run path following command, then stop at the end.
     return swerveControllerCommand.andThen(() -> driveTrainSubsystem.drive(new ChassisSpeeds(0.0, 0.0, 0.0)));
     //return swerveControllerCommand;
+    // return new InstantCommand();
 
     // // this is a message from the push from february 2:
     // // the robot was able to move in the x direction but not the y direction
