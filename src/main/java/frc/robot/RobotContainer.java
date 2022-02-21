@@ -43,10 +43,7 @@ import frc.robot.commands.RunRightMotor;
 import frc.robot.commands.RunShooterCommand;
 import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.ShootLowGoalCommand;
-import frc.robot.commands.TestDriveForwardCommand;
-import frc.robot.commands.TestRotateCommand;
 import frc.robot.commands.TurnToAngle;
-import frc.robot.commands.TurnToAngleCommand;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -81,9 +78,6 @@ public class RobotContainer {
         
   //FOR AUTO:
       private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, -12);
-      private final TestDriveForwardCommand testDriveForwardCommand = new TestDriveForwardCommand(driveTrainSubsystem);
-      private final TestRotateCommand testRotateCommand = new TestRotateCommand(driveTrainSubsystem, 1);
-      private final TurnToAngleCommand turnToAngleCommand = new TurnToAngleCommand(driveTrainSubsystem, 45, -1);
       private final TestAutoDriveCommandGroup testAutoDriveCommand = new TestAutoDriveCommandGroup(driveTrainSubsystem);
       private final TurnToAngle turnToAngle = new TurnToAngle(45, driveTrainSubsystem);
 
