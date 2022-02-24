@@ -149,7 +149,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {
+  private void configureButtonBindings() { 
     // Back button zeros the gyroscope
     // new Button(m_controller::getBackButton) // FIXME This button press has an error because the getBackButton function does not have any code
     //         // No requirements because we don't need to interrupt anything
@@ -191,7 +191,7 @@ public class RobotContainer {
          new Button(climbController::getLeftBumper)
              .whenPressed(deactivateBottomPistonCommand);
         
-         new Button(climbController::getStartButton)
+         new Button(climbController::getRightBumper)
              .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
 
