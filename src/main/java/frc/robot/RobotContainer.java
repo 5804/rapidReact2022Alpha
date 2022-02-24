@@ -44,6 +44,7 @@ import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
 import frc.robot.commands.RunShooterCommand;
 import frc.robot.commands.ShootHighGoalJoystickCommand;
+import frc.robot.commands.ShootLowGoalCommand;
 import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
@@ -67,12 +68,15 @@ public class RobotContainer {
   private final SendableChooser sendableChooser = new SendableChooser<Command>();
   
   private final XboxController m_controller = new XboxController(0);
- 
-  //Button Board
-  private final Joystick m_board = new Joystick(1);
   
+  //Climber Joystick
+  private final XboxController climbController = new XboxController(1);  
+
+  //Button Board
+  private final Joystick m_board = new Joystick(2);
+
   //Test Shooter Joystick
-  private final Joystick shooterStick = new Joystick(2);
+  // private final Joystick shooterStick = new Joystick(2);
   
   //FOR DRIVETRAIN:
     private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
@@ -93,21 +97,20 @@ public class RobotContainer {
     private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     //private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
-    private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsystem, shooterStick);
-    private final ShootHighGoalCommand shootLowGoalCommand = new ShootHighGoalCommand(shooterSubsystem);
+    private final ShootLowGoalCommand shootLowGoalCommand = new ShootLowGoalCommand(shooterSubsystem);
     private final ShootHighGoalCommand shootHighGoalCommand = new ShootHighGoalCommand(shooterSubsystem);
     private final FireShooterCommandGroup fireShooterCommandGroup = new FireShooterCommandGroup(shooterSubsystem, intakeSubsystem);
 
   //FOR CLIMBER:
-      //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-      // private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
-      // private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
-      // private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
-      // private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
-      // private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
-      // private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
-      // private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
-      // private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
+      private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
+      private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
+      private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
+      private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
+      private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
+      private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
+      private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
+      private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
+      private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
       // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
 
 
@@ -123,7 +126,7 @@ public class RobotContainer {
            () -> modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
            () -> modifyAxis((-1*m_controller.getRightX())) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
-    shooterSubsystem.setDefaultCommand(new ShootHighGoalCommand(shooterSubsystem));
+    // shooterSubsystem.setDefaultCommand(new ShootLowGoalCommand(shooterSubsystem));
 
 
 
@@ -173,28 +176,28 @@ public class RobotContainer {
     // // //     .whileHeld(alignToGoalWithLimelightCommand);
 
     //FOR CLIMBER:
-        //  new Button(m_controller::getAButton)
-        //     .whileHeld(runMotorsCommand);
+         new Button(m_controller::getAButton)
+            .whileHeld(runMotorsCommand);
       
-        // new Button(m_controller::getBButton)
-        //   .whileHeld(runBackMotorsCommand);
+        new Button(m_controller::getBButton)
+          .whileHeld(runBackMotorsCommand);
 
-        // new Button(m_controller::getXButton)
-        //     .whileHeld(activateTopPistonCommand);
+        new Button(climbController::getXButton)
+            .whileHeld(activateTopPistonCommand);
 
-        // new Button(m_controller::getYButton)
-        //      .whileHeld(deactivateTopPistonCommand);
+        new Button(climbController::getYButton)
+             .whileHeld(deactivateTopPistonCommand);
 
-        //  new Button(m_controller::getLeftBumper)
-        //      .whenPressed(deactivateBottomPistonCommand);
+         new Button(climbController::getLeftBumper)
+             .whenPressed(deactivateBottomPistonCommand);
         
-        //  new Button(m_controller::getStartButton)
-        //      .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
+         new Button(climbController::getStartButton)
+             .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
 
     //FOR SHOOTER:
     
-    new Button(m_controller::getBButton).toggleWhenPressed(new StartEndCommand(shooterSubsystem::stopShooter,
+    new Button(m_controller::getXButton).toggleWhenPressed(new StartEndCommand(shooterSubsystem::stopShooter,
     shooterSubsystem::setShooterSpeedLowGoal,
     shooterSubsystem));
 
@@ -206,8 +209,8 @@ public class RobotContainer {
 
     new RightTriggerPressed().whenActive(fireShooterCommandGroup);
 
-    new Button(m_controller::getBButtonPressed)
-     .whileHeld(runShooterCommand);
+    // new Button(m_controller::getBButtonPressed)
+    //  .whileHeld(runShooterCommand);
 
     // new Button(m_controller::getBButtonReleased)
     //   .whenPressed(shooterSubsytem::stopShooterPH1);

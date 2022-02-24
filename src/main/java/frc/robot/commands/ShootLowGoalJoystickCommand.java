@@ -30,7 +30,7 @@ public class ShootLowGoalJoystickCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setShooterSpeedLowGoal(leftStick.getRawAxis(3));
+    shooterSubsystem.setJoystickShooterSpeedLowGoal(leftStick.getRawAxis(3));
   }
 
   // Called once the command ends or is interrupted.

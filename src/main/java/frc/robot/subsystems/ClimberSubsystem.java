@@ -26,8 +26,8 @@ public class ClimberSubsystem extends SubsystemBase {
   public DoubleSolenoid hookPiston;
 
   public ClimberSubsystem() {
-    leftWinch = new WPI_TalonFX(2);
-    rightWinch = new WPI_TalonFX(1);
+    leftWinch = new WPI_TalonFX(3);
+    rightWinch = new WPI_TalonFX(4);
 
     leftWinch.configFactoryDefault();
     rightWinch.configFactoryDefault();

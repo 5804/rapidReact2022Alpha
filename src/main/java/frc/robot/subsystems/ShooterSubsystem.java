@@ -32,8 +32,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public ShooterSubsystem() {
 
     // Initialize three motors, two for the shooter and one for the accelerator
-    leftShooter = new WPI_TalonFX(60);  
-    rightShooter = new WPI_TalonFX(61);
+    leftShooter = new WPI_TalonFX(5);  
+    rightShooter = new WPI_TalonFX(6);
     accelerator = new WPI_TalonFX(62);
 
     // Configuring the factory default for all motors
@@ -91,7 +91,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   }
 
-  public void setShooterSpeedLowGoal(double slider) {
+  public void setJoystickShooterSpeedLowGoal(double slider) {
     sliderAddTargetVelocity = (((slider*-1) + 1)/2)*1000;
     targetVelocityLow = initialTargetVelocityLow + sliderAddTargetVelocity;
 
@@ -106,11 +106,11 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeedHighGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, initialTargetVelocityHigh);
+    leftShooter.set(TalonFXControlMode.Velocity, 6500);
   }
 
   public void setShooterSpeedLowGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, initialTargetVelocityLow);
+    leftShooter.set(TalonFXControlMode.Velocity, 3500);
   }
 
   public void stopShooter() {
