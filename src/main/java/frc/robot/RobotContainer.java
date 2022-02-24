@@ -48,11 +48,11 @@ import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
-import frc.robot.subsystems.ShooterSubsytem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.commands.DeactivateTopPistonCommand;
 import frc.robot.commands.ActivateHookPistonCommand;
-import frc.robot.subsystems.ShooterSubsytem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.DeactivateHookPistonCommand;
 
 import static frc.robot.Constants.*;
@@ -86,7 +86,7 @@ public class RobotContainer {
 
 
   //FOR SHOOTER:
-    private final ShooterSubsytem shooterSubsytem = new ShooterSubsytem();
+    private final ShooterSubsystem shooterSubsytem = new ShooterSubsystem();
     //private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
     private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem, shooterStick);
     private final ShootLowGoalCommand shootLowGoalCommand = new ShootLowGoalCommand(shooterSubsytem, shooterStick);

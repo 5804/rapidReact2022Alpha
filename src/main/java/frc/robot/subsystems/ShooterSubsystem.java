@@ -14,7 +14,7 @@ import static frc.robot.Constants.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ShooterSubsytem extends SubsystemBase {
+public class ShooterSubsystem extends SubsystemBase {
 
   public WPI_TalonFX rightShooter;
   public WPI_TalonFX leftShooter;
@@ -29,7 +29,7 @@ public class ShooterSubsytem extends SubsystemBase {
   public double targetVelocityHigh;
 
   /** Creates a new ShooterSubsytem. */
-  public ShooterSubsytem() {
+  public ShooterSubsystem() {
 
     // Initialize three motors, two for the shooter and one for the accelerator
     leftShooter = new WPI_TalonFX(60);  

@@ -6,14 +6,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsytem;
+import frc.robot.subsystems.ShooterSubsystem;
 
 public class RunShooterCommand extends CommandBase {
-  private final ShooterSubsytem shooterSubsytem;
+  private final ShooterSubsystem shooterSubsytem;
   private final Joystick leftStick;
 
   /** Creates a new RunShooter. */
-  public RunShooterCommand(ShooterSubsytem shooter, Joystick left) {
+  public RunShooterCommand(ShooterSubsystem shooter, Joystick left) {
     // Use addRequirements() here to declare subsystem dependencies.
     shooterSubsytem = shooter;
     leftStick = left;
