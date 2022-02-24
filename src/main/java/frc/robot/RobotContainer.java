@@ -26,9 +26,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.ActivateBottomPistonCommand;
 import frc.robot.commands.ActivateTopPistonCommand;
 import frc.robot.commands.AlignToGoalWithLimelightCommand;
@@ -41,12 +43,14 @@ import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
 import frc.robot.commands.RunShooterCommand;
+import frc.robot.commands.ShootHighGoalJoystickCommand;
 import frc.robot.commands.ShootHighGoalCommand;
-import frc.robot.commands.ShootLowGoalCommand;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
@@ -86,11 +90,13 @@ public class RobotContainer {
 
 
   //FOR SHOOTER:
-    private final ShooterSubsystem shooterSubsytem = new ShooterSubsystem();
+    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     //private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
-    private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem, shooterStick);
-    private final ShootLowGoalCommand shootLowGoalCommand = new ShootLowGoalCommand(shooterSubsytem, shooterStick);
-    private final ShootHighGoalCommand shootHighGoalCommand = new ShootHighGoalCommand(shooterSubsytem, shooterStick);
+    private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsystem, shooterStick);
+    private final ShootHighGoalCommand shootLowGoalCommand = new ShootHighGoalCommand(shooterSubsystem);
+    private final ShootHighGoalCommand shootHighGoalCommand = new ShootHighGoalCommand(shooterSubsystem);
+    private final FireShooterCommandGroup fireShooterCommandGroup = new FireShooterCommandGroup(shooterSubsystem, intakeSubsystem);
 
   //FOR CLIMBER:
       //private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -117,6 +123,7 @@ public class RobotContainer {
            () -> modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
            () -> modifyAxis((-1*m_controller.getRightX())) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
     ));
+    shooterSubsystem.setDefaultCommand(new ShootHighGoalCommand(shooterSubsystem));
 
 
 
@@ -129,7 +136,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // All sendable chooser options
-    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsytem));
+    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     SmartDashboard.putData("Auto Selector", sendableChooser);
   }
 
@@ -151,18 +158,15 @@ public class RobotContainer {
          new Button(m_controller::getYButton)
         .whenPressed(driveTrainSubsystem::zeroGyroscope);
 
-        new Button(m_controller::getLeftStickButtonPressed)
-                .whenPressed(driveTrainSubsystem::resetEncoders);
-
     // FOR AUTO:
-        new Button(m_controller::getAButton)
-         .whenPressed(DriveToDistanceCommand);
+        // new Button(m_controller::getAButton)
+        //  .whenPressed(DriveToDistanceCommand);
 
-        new Button(m_controller::getRightBumper)
-        .whenPressed(testAutoDriveCommand);
+        // new Button(m_controller::getRightBumper)
+        // .whenPressed(testAutoDriveCommand);
 
-        new Button(m_controller::getBButton)
-           .whenPressed(turnToAngle);
+        // new Button(m_controller::getBButton)
+        //    .whenPressed(turnToAngle);
 
 
     // // // new Button(m_controller::getRightBumper)
@@ -189,38 +193,20 @@ public class RobotContainer {
 
 
     //FOR SHOOTER:
-    final JoystickButton shooterButton = new JoystickButton(shooterStick, 1);
-      shooterButton.whileHeld(runShooterCommand);
+    
+    new Button(m_controller::getBButton).toggleWhenPressed(new StartEndCommand(shooterSubsystem::stopShooter,
+    shooterSubsystem::setShooterSpeedLowGoal,
+    shooterSubsystem));
 
+    new Button(m_controller::getLeftBumper)
+      .whileHeld(shootLowGoalCommand);
 
-        //BUTTONS BELOW ARE FOR TESTING SHOOTER SPEED, DELETE LATER
-        //The number corresponds to the shooter speed (ex S3 = 0.3)
+    new Button(m_controller::getRightBumper)
+      .whileHeld(shootHighGoalCommand);
 
-        final JoystickButton shooterButton2 = new JoystickButton(shooterStick, 2);
-          shooterButton2.whileHeld(shootLowGoalCommand);
+    new RightTriggerPressed().whenActive(fireShooterCommandGroup);
 
-          final JoystickButton shooterButton3 = new JoystickButton(shooterStick, 3);
-          shooterButton3.whileHeld(shootHighGoalCommand);
-
-        final JoystickButton shooterButton4 = new JoystickButton(shooterStick, 8);
-          shooterButton4.whileHeld(shooterSubsytem::runShooterS4);
-
-        final JoystickButton shooterButton5 = new JoystickButton(shooterStick, 7);
-          shooterButton5.whileHeld(shooterSubsytem::runShooterS5);
-
-        final JoystickButton shooterButton6 = new JoystickButton(shooterStick, 6);
-          shooterButton6.whileHeld(shooterSubsytem::runShooterS6);
-
-        final JoystickButton shooterButton7 = new JoystickButton(shooterStick, 9);
-          shooterButton7.whileHeld(shooterSubsytem::runShooterS7);
-
-        final JoystickButton shooterButton8 = new JoystickButton(shooterStick, 10);
-          shooterButton8.whileHeld(shooterSubsytem::runShooterS8);
-
-        final JoystickButton shooterButton9 = new JoystickButton(shooterStick, 11);
-          shooterButton9.whileHeld(shooterSubsytem::runShooterS9);
-
-     new Button(m_controller::getBButtonPressed)
+    new Button(m_controller::getBButtonPressed)
      .whileHeld(runShooterCommand);
 
     // new Button(m_controller::getBButtonReleased)
@@ -277,4 +263,49 @@ public class RobotContainer {
 
     return value;
   }
+
+  public class RightTriggerPressed extends Trigger {
+    @Override
+    public boolean get() {
+      return m_controller.getRightTriggerAxis() > 0.5;
+      // This returns whether the trigger is active
+    }
+
+  public void shooterTestBindings () {
+      //  BUTTONS BELOW ARE FOR TESTING SHOOTER SPEED, DELETE LATER
+      //   The number corresponds to the shooter speed (ex S3 = 0.3)
+
+      // final JoystickButton shooterButton = new JoystickButton(shooterStick, 1);
+      // shooterButton.whileHeld(runShooterCommand);
+
+
+      //   final JoystickButton shooterButton2 = new JoystickButton(shooterStick, 2);
+      //     shooterButton2.whileHeld(shootLowGoalCommand);
+
+      //     final JoystickButton shooterButton3 = new JoystickButton(shooterStick, 3);
+      //     shooterButton3.whileHeld(shootHighGoalCommand);
+
+      //   final JoystickButton shooterButton4 = new JoystickButton(shooterStick, 8);
+      //     shooterButton4.whileHeld(shooterSubsytem::runShooterS4);
+
+      //   final JoystickButton shooterButton5 = new JoystickButton(shooterStick, 7);
+      //     shooterButton5.whileHeld(shooterSubsytem::runShooterS5);
+
+      //   final JoystickButton shooterButton6 = new JoystickButton(shooterStick, 6);
+      //     shooterButton6.whileHeld(shooterSubsytem::runShooterS6);
+
+      //   final JoystickButton shooterButton7 = new JoystickButton(shooterStick, 9);
+      //     shooterButton7.whileHeld(shooterSubsytem::runShooterS7);
+
+      //   final JoystickButton shooterButton8 = new JoystickButton(shooterStick, 10);
+      //     shooterButton8.whileHeld(shooterSubsytem::runShooterS8);
+
+      //   final JoystickButton shooterButton9 = new JoystickButton(shooterStick, 11);
+      //     shooterButton9.whileHeld(shooterSubsytem::runShooterS9);
+  }
+
+
+  }
+
+
 }

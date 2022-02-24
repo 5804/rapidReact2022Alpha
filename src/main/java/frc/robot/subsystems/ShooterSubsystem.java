@@ -98,41 +98,61 @@ public class ShooterSubsystem extends SubsystemBase {
     leftShooter.set(TalonFXControlMode.Velocity, targetVelocityLow);
   }
 
-  public void setShooterSpeedHighGoal(double slider) {
+  public void setJoystickShooterSpeedHighGoal(double slider) {
     sliderAddTargetVelocity = (((slider*-1) + 1)/2)*2000;
 
     targetVelocityHigh = initialTargetVelocityHigh + sliderAddTargetVelocity;
     leftShooter.set(TalonFXControlMode.Velocity, targetVelocityHigh);
   }
 
-  //TEST METHODS FOR SHOOTER SPEEDS: DELETE LATER!!!!
-  public void runShooterS3() {
-    leftShooter.set(TalonFXControlMode.PercentOutput, 0.3);
+  public void setShooterSpeedHighGoal() {
+    leftShooter.set(TalonFXControlMode.Velocity, initialTargetVelocityHigh);
   }
 
-  public void runShooterS4() {
-    leftShooter.set(TalonFXControlMode.PercentOutput, 0.4);
+  public void setShooterSpeedLowGoal() {
+    leftShooter.set(TalonFXControlMode.Velocity, initialTargetVelocityLow);
   }
 
-  public void runShooterS5() {
-    leftShooter.set(TalonFXControlMode.PercentOutput, 0.5);
+  public void stopShooter() {
+    leftShooter.set(ControlMode.PercentOutput, 0);
   }
 
-  public void runShooterS6() {
-    leftShooter.set(TalonFXControlMode.PercentOutput, 0.6);
+  public void runAccelerator() {
+    accelerator.set(ControlMode.PercentOutput, 1);
   }
 
-  public void runShooterS7() {
-    leftShooter.set(TalonFXControlMode.PercentOutput, 0.7);
+  public void stopAccelerator() {
+    accelerator.set(ControlMode.PercentOutput, 0);
   }
 
-  public void runShooterS8() {
-    leftShooter.set(TalonFXControlMode.PercentOutput, 0.8);
-  }
+  // //TEST METHODS FOR SHOOTER SPEEDS: DELETE LATER!!!!
+  // public void runShooterS3() {
+  //   leftShooter.set(TalonFXControlMode.PercentOutput, 0.3);
+  // }
 
-  public void runShooterS9() {
-    leftShooter.set(TalonFXControlMode.PercentOutput, 0.9);
-  }
+  // public void runShooterS4() {
+  //   leftShooter.set(TalonFXControlMode.PercentOutput, 0.4);
+  // }
+
+  // public void runShooterS5() {
+  //   leftShooter.set(TalonFXControlMode.PercentOutput, 0.5);
+  // }
+
+  // public void runShooterS6() {
+  //   leftShooter.set(TalonFXControlMode.PercentOutput, 0.6);
+  // }
+
+  // public void runShooterS7() {
+  //   leftShooter.set(TalonFXControlMode.PercentOutput, 0.7);
+  // }
+
+  // public void runShooterS8() {
+  //   leftShooter.set(TalonFXControlMode.PercentOutput, 0.8);
+  // }
+
+  // public void runShooterS9() {
+  //   leftShooter.set(TalonFXControlMode.PercentOutput, 0.9);
+  // }
   //public void runShooter() {  
   //  shooter.set(ControlMode.PercentOutput, 1);
   //}
@@ -144,10 +164,7 @@ public class ShooterSubsystem extends SubsystemBase {
   //public void runShooterPH2 () {
   //  shooterPH2.set(ControlMode.PercentOutput, 1.0);
   //}
-  
-  public void stopShooter() {
-    leftShooter.set(ControlMode.PercentOutput, 0);
-  }
+
 
   //public void stopShooterPH1() {
   //  shooterPH1.set(ControlMode.PercentOutput, 0);

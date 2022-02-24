@@ -9,16 +9,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ShooterSubsystem;
 
 public class ShootHighGoalCommand extends CommandBase {
-  /** Creates a new ShootHighGoalCommand. */
-
   private final ShooterSubsystem shooterSubsystem;
-  private final Joystick joystick;
 
-  public ShootHighGoalCommand(ShooterSubsystem shoot, Joystick stick) {
+  public ShootHighGoalCommand(ShooterSubsystem shoot) {
     // Use addRequirements() here to declare subsystem dependencies.
-    shooterSubsystem = shoot;
-    joystick = stick;
 
+    shooterSubsystem = shoot;
+    addRequirements(shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,13 +25,13 @@ public class ShootHighGoalCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.setShooterSpeedHighGoal(joystick.getRawAxis(3));
+    shooterSubsystem.setShooterSpeedHighGoal();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.stopShooter();
+    // shooterSubsystem.stopShooter();
   }
 
   // Returns true when the command should end.
