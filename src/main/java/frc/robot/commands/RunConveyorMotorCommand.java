@@ -5,15 +5,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
-public class ActivateAcceleratorCommand extends CommandBase {
-  /** Creates a new ActivateAcceleratorCommand. */
-  private final ShooterSubsystem shooterSubsystem;
-  
-  public ActivateAcceleratorCommand(ShooterSubsystem shooter) {
-    shooterSubsystem = shooter; 
-    addRequirements(shooterSubsystem);
+public class RunConveyorMotorCommand extends CommandBase {
+  /** Creates a new RunIntakeMotorsCommand. */
+  private final IntakeSubsystem intakeSubsystem;
+  public RunConveyorMotorCommand(IntakeSubsystem intake) {
+    intakeSubsystem = intake;
+
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -23,24 +23,18 @@ public class ActivateAcceleratorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.runAccelerator();
+    intakeSubsystem.runConveyorMotor();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.stopAccelerator();
+    intakeSubsystem.stopConveyorMotor();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
-    // if (shooterSubsystem.accelerator.getMotorOutputPercent() > .95) {
-    //   return true;
-    // } else {
-    //     return false; 
-    }
   }
-
-
+}

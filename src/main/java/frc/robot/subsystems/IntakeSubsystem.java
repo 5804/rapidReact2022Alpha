@@ -4,12 +4,26 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
+  public WPI_TalonFX intakeMotor;
+  public WPI_TalonFX conveyorMotor;
+
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    
+    intakeMotor = new WPI_TalonFX(8);
+    conveyorMotor = new WPI_TalonFX(9);
+
+    intakeMotor.configFactoryDefault();
+    conveyorMotor.configFactoryDefault();
+
+    intakeMotor.setNeutralMode(NeutralMode.Brake);
+    conveyorMotor.setNeutralMode(NeutralMode.Brake);
 
   }
 
@@ -17,4 +31,23 @@ public class IntakeSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+
+  public void runIntakeMotor() {
+    intakeMotor.set(TalonFXControlMode.PercentOutput, -1);
+  }
+
+  public void runConveyorMotor() {
+    conveyorMotor.set(TalonFXControlMode.PercentOutput, -1);
+  }
+
+  public void stopIntakeMotor() {
+    intakeMotor.set(TalonFXControlMode.PercentOutput, 0);
+  }
+
+  public void stopConveyorMotor() {
+    conveyorMotor.set(TalonFXControlMode.PercentOutput, 0);
+  } 
+
+
 }
