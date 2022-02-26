@@ -42,6 +42,7 @@ import frc.robot.commands.DriveToDistanceCommand;
 import frc.robot.commands.FollowPathCommand;
 import frc.robot.commands.RunBackMotorsCommand;
 import frc.robot.commands.RunConveyorMotorCommand;
+import frc.robot.commands.RunIntakeAndConveyor;
 import frc.robot.commands.RunIntakeMotorsCommand;
 import frc.robot.commands.RunMotorsCommand;
 import frc.robot.commands.RunRightMotor;
@@ -99,6 +100,7 @@ public class RobotContainer {
     private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final RunIntakeMotorsCommand runIntakeMotorsCommand = new RunIntakeMotorsCommand(intakeSubsystem);
     private final RunConveyorMotorCommand runConveyorMotorCommand = new RunConveyorMotorCommand(intakeSubsystem);
+    private final RunIntakeAndConveyor runIntakeAndConveyor = new RunIntakeAndConveyor(intakeSubsystem);
 
 
   //FOR SHOOTER:
@@ -209,11 +211,14 @@ public class RobotContainer {
     shooterSubsystem::setShooterSpeedLowGoal,
     shooterSubsystem));
 
-    new Button(m_controller::getXButton)
-      .whileHeld(runIntakeMotorsCommand);
+    // new Button(m_controller::getXButton)
+    //   .whileHeld(runIntakeMotorsCommand);
 
-    new Button(m_controller::getYButton)
-      .whileHeld(runConveyorMotorCommand);
+    // new Button(m_controller::getYButton)
+    //   .whileHeld(runConveyorMotorCommand);
+
+    new Button(m_controller::getXButton)
+      .whileHeld(runIntakeAndConveyor);
 
     new Button(m_controller::getLeftBumper)
       .whileHeld(shootLowGoalCommand);
