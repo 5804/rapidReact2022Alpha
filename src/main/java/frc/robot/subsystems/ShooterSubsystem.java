@@ -84,7 +84,8 @@ public class ShooterSubsystem extends SubsystemBase {
     // Getting the value of the slider and adjust the velocity of the shooter accordingly
     // The slider goes from -1 to 1, and the math scales it from 0 to 1, then multiply by 5000 to get the 
     // ticks per 100ms to add to the base target velocity
-    sliderAddTargetVelocity = (((slider*-1) + 1)/2)*8000;
+    // sliderAddTargetVelocity = (((slider*-1) + 1)/2)*8000;
+
     // The setpoint for the shooter is equal to the base target velocity plus the velocity added by the slider
     targetVelocity = initialTargetVelocity + sliderAddTargetVelocity;
     leftShooter.set(TalonFXControlMode.Velocity, targetVelocity);
@@ -107,10 +108,12 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setShooterSpeedHighGoal() {
     leftShooter.set(TalonFXControlMode.Velocity, -6500);
+    targetVelocity = 6500;
   }
 
   public void setShooterSpeedLowGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, -1000); //WAS 3500
+    leftShooter.set(TalonFXControlMode.Velocity, -3500); //WAS 3500
+    targetVelocity = 3500;
   }
 
   public void stopShooter() {
@@ -156,24 +159,6 @@ public class ShooterSubsystem extends SubsystemBase {
   //public void runShooter() {  
   //  shooter.set(ControlMode.PercentOutput, 1);
   //}
-
-  //public void runShooterPH1 () {
-  //  shooterPH1.set(ControlMode.PercentOutput, 1.0);
-  //}
-
-  //public void runShooterPH2 () {
-  //  shooterPH2.set(ControlMode.PercentOutput, 1.0);
-  //}
-
-
-  //public void stopShooterPH1() {
-  //  shooterPH1.set(ControlMode.PercentOutput, 0);
- // }
-
-  //public void stopShooterPH2() {
-  //  shooterPH2.set(ControlMode.PercentOutput, 0);
-  //
-//}
     
 }
 

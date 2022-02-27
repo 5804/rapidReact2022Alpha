@@ -35,12 +35,15 @@ public class ClimberSubsystem extends SubsystemBase {
     leftWinch.setNeutralMode(NeutralMode.Brake);
     rightWinch.setNeutralMode(NeutralMode.Brake);
 
-    topPiston = new DoubleSolenoid(1,PneumaticsModuleType.REVPH, 1, 0);
-    bottomPiston = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 2, 3);
+    topPiston = new DoubleSolenoid(1,PneumaticsModuleType.REVPH, 2, 3);
+    bottomPiston = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 1, 0);
     hookPiston = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 4, 5);
     //solenoid = new DoubleSolenoid(50, PneumaticsModuleType.CTREPCM, 1, 0); // this is suspect, the first argument of this function wasn't originally there
     compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     compressor.enableDigital();
+
+    activateHookPiston();
+    resetWinchEncoders();
   }
 
   public void activateTopPiston() {
@@ -105,5 +108,10 @@ public class ClimberSubsystem extends SubsystemBase {
   public void stopMotors() {
     leftWinch.set(0);
     rightWinch.set(0);
+  }
+
+  public void resetWinchEncoders() {
+    leftWinch.setSelectedSensorPosition(0);
+    rightWinch.setSelectedSensorPosition(0);
   }
 }

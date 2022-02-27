@@ -80,7 +80,7 @@ public final class Constants {
     public static final int kTimeoutMs = 30;
     public static final int kPIDLoopIdx = 0;
 
-    public static final Gains kGains_Velocit = new Gains(0.5, 0.0, 0.0, 1023/20660.0);
+    public static final Gains kGains_Velocit = new Gains(0.049, 0.1, 0.0, 0.0);
 
 }
 

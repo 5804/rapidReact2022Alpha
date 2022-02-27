@@ -53,6 +53,11 @@ import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S1_3BallCommandGroup;
+import frc.robot.commands.CommandGroups.S2_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S2_3BallCommandGroup;
+import frc.robot.commands.CommandGroups.S3_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S3_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -150,6 +155,12 @@ public class RobotContainer {
 
     // All sendable chooser options
     sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+    sendableChooser.addOption("2-2Ball", new S2_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));//ADD IN REQUIRMENTS
+    sendableChooser.addOption("3-2Ball", new S3_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+    sendableChooser.addOption("1-3Ball", new S1_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+    sendableChooser.addOption("2-3Ball", new S2_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+    sendableChooser.addOption("3-3Ball", new S3_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+
     SmartDashboard.putData("Auto Selector", sendableChooser);
   }
 
@@ -186,36 +197,50 @@ public class RobotContainer {
     // // //     .whileHeld(alignToGoalWithLimelightCommand);
 
     //FOR CLIMBER:
-        //  new Button(climbController::getAButton)
-        //     .whileHeld(runMotorsCommand);
+         new Button(climbController::getAButton)
+            .whileHeld(runMotorsCommand);
       
-        // new Button(climbController::getBButton)
-        //   .whileHeld(runBackMotorsCommand);
+        new Button(climbController::getBButton)
+          .whileHeld(runBackMotorsCommand);
 
-        // new Button(climbController::getXButton)
-        //     .whileHeld(activateTopPistonCommand);
+        new Button(climbController::getXButton)
+            .whileHeld(activateTopPistonCommand);
 
-        // new Button(climbController::getYButton)
-        //      .whileHeld(deactivateTopPistonCommand);
+        new Button(climbController::getYButton)
+             .whileHeld(deactivateTopPistonCommand);
 
-        //  new Button(climbController::getLeftBumper)
-        //      .whenPressed(deactivateBottomPistonCommand);
+         new Button(climbController::getLeftBumper)
+             .whenPressed(deactivateBottomPistonCommand);
         
-        //  new Button(climbController::getRightBumper)
-        //      .whileHeld(activateBottomPistonCommand); // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
+         new Button(climbController::getRightBumper)
+             .whileHeld(activateBottomPistonCommand);
+
+        new Button(climbController::getStartButton)
+              .whenPressed(activateHookPistonCommand);
+
+        new Button(climbController::getBackButton)
+              .whenPressed(deactivateHookPistonCommand);
+
+        new Button(climbController::getLeftStickButton)
+              .whenPressed(climberSubsystem::resetWinchEncoders);
+
+         // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
 
     //FOR SHOOTER:
     
-    new Button(m_controller::getBButton).toggleWhenPressed(new StartEndCommand(shooterSubsystem::stopShooter,
-    shooterSubsystem::setShooterSpeedLowGoal,
-    shooterSubsystem));
+    // new Button(m_controller::getBButton).toggleWhenPressed(new StartEndCommand(shooterSubsystem::stopShooter,
+    // shooterSubsystem::setShooterSpeedLowGoal,
+    // shooterSubsystem));
 
     // new Button(m_controller::getXButton)
     //   .whileHeld(runIntakeMotorsCommand);
 
     // new Button(m_controller::getYButton)
     //   .whileHeld(runConveyorMotorCommand);
+
+    new Button(m_controller::getBButton)
+      .whenPressed(shooterSubsystem::stopShooter);
 
     new Button(m_controller::getXButton)
       .whileHeld(runIntakeAndConveyor);
@@ -227,7 +252,7 @@ public class RobotContainer {
       .whileHeld(shootHighGoalCommand);
 
     new Button(m_controller::getAButton)
-      .whileHeld(activateAcceleratorCommand);
+      .whileHeld(runIntakeMotorsCommand);
 
     new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
     // new Button(m_controller::getBButtonPressed)

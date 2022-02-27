@@ -34,11 +34,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
 
   public void runIntakeMotor() {
-    intakeMotor.set(TalonFXControlMode.PercentOutput, -1);
+    intakeMotor.set(TalonFXControlMode.PercentOutput, -0.5);
   }
 
   public void runConveyorMotor() {
-    conveyorMotor.set(TalonFXControlMode.PercentOutput, -1);
+    conveyorMotor.set(TalonFXControlMode.PercentOutput, 0.5);
   }
 
   public void stopIntakeMotor() {
