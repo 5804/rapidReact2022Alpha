@@ -8,11 +8,17 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
   public WPI_TalonFX intakeMotor;
   public WPI_TalonFX conveyorMotor;
+
+  public DoubleSolenoid intakePiston;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -25,6 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.setNeutralMode(NeutralMode.Brake);
     conveyorMotor.setNeutralMode(NeutralMode.Brake);
 
+    intakePiston = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 6, 7);
   }
 
   @Override
@@ -49,5 +56,11 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyorMotor.set(TalonFXControlMode.PercentOutput, 0);
   } 
 
+  public void extendIntakePiston() {
+    intakePiston.set(DoubleSolenoid.Value.kForward);
+  }
 
-}
+  public void retractIntakePiston() {
+    intakePiston.set(DoubleSolenoid.Value.kReverse);
+  }
+ }

@@ -5,11 +5,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class RetractIntakeCommand extends CommandBase {
   /** Creates a new RetractIntakeCommand. */
-  public RetractIntakeCommand() {
+
+  private final IntakeSubsystem intakeSubsystem;
+
+  public RetractIntakeCommand(IntakeSubsystem is) {
     // Use addRequirements() here to declare subsystem dependencies.
+
+    intakeSubsystem = is;
+    addRequirements(intakeSubsystem);
+
   }
 
   // Called when the command is initially scheduled.
@@ -18,7 +26,10 @@ public class RetractIntakeCommand extends CommandBase {
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    intakeSubsystem.stopIntakeMotor();
+    intakeSubsystem.retractIntakePiston();
+  }
 
   // Called once the command ends or is interrupted.
   @Override
