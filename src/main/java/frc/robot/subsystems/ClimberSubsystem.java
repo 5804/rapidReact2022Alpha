@@ -43,6 +43,8 @@ public class ClimberSubsystem extends SubsystemBase {
     compressor.enableDigital();
 
     activateHookPiston();
+    activateBottomPiston();
+    activateTopPiston();
     resetWinchEncoders();
   }
 
@@ -54,11 +56,11 @@ public class ClimberSubsystem extends SubsystemBase {
     topPiston.set(DoubleSolenoid.Value.kReverse);
   }
   
-  public void activateBottonPiston() {
+  public void activateBottomPiston() {
     bottomPiston.set(DoubleSolenoid.Value.kForward);
    }
  
-   public void deactivateBottonPiston() {
+   public void deactivateBottomPiston() {
     bottomPiston.set(DoubleSolenoid.Value.kReverse);
    }
 

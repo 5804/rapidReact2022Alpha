@@ -8,16 +8,22 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class IntakeSubsystem extends SubsystemBase {
   public WPI_TalonFX intakeMotor;
   public WPI_TalonFX conveyorMotor;
 
+  public DoubleSolenoid intakePiston;
+
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
     intakeMotor = new WPI_TalonFX(8);
     conveyorMotor = new WPI_TalonFX(9);
+    
+    intakePiston = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 6, 7);
 
     intakeMotor.configFactoryDefault();
     conveyorMotor.configFactoryDefault();
@@ -32,9 +38,16 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
+  public void activateIntakePiston() {
+    intakePiston.set(DoubleSolenoid.Value.kForward);
+  }
+
+  public void deactivateIntakePiston() {
+    intakePiston.set(DoubleSolenoid.Value.kReverse);
+  }
 
   public void runIntakeMotor() {
-    intakeMotor.set(TalonFXControlMode.PercentOutput, -0.5);
+    intakeMotor.set(TalonFXControlMode.PercentOutput, 0.5);
   }
 
   public void runConveyorMotor() {
@@ -48,6 +61,5 @@ public class IntakeSubsystem extends SubsystemBase {
   public void stopConveyorMotor() {
     conveyorMotor.set(TalonFXControlMode.PercentOutput, 0);
   } 
-
 
 }

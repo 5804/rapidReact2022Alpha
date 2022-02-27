@@ -226,6 +226,16 @@ public class RobotContainer {
 
          // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
+    //FOR INTAKE:
+    // new Button(m_controller::getBButton).toggleWhenPressed(new StartEndCommand(shooterSubsystem::stopShooter,
+    // shooterSubsystem::setShooterSpeedLowGoal,
+    // shooterSubsystem));
+
+    new Button(m_controller::getBackButton).toggleWhenPressed(new StartEndCommand(intakeSubsystem::activateIntakePiston, 
+    intakeSubsystem::deactivateIntakePiston,
+    intakeSubsystem));
+
+
 
     //FOR SHOOTER:
     
@@ -242,13 +252,11 @@ public class RobotContainer {
     new Button(m_controller::getBButton)
       .whenPressed(shooterSubsystem::stopShooter);
 
-    // new Button(m_controller::getXButton)
-    //   .whileHeld(runIntakeAndConveyor);
-
     new Button(m_controller::getXButton)
-      .whileHeld(runConveyorMotorCommand);
+      .whileHeld(runIntakeAndConveyor);
 
-
+    // new Button(m_controller::getXButton)
+    //   .whileHeld(runConveyorMotorCommand);
 
     new Button(m_controller::getLeftBumper)
       .whileHeld(shootLowGoalCommand);
