@@ -242,8 +242,13 @@ public class RobotContainer {
     new Button(m_controller::getBButton)
       .whenPressed(shooterSubsystem::stopShooter);
 
+    // new Button(m_controller::getXButton)
+    //   .whileHeld(runIntakeAndConveyor);
+
     new Button(m_controller::getXButton)
-      .whileHeld(runIntakeAndConveyor);
+      .whileHeld(runConveyorMotorCommand);
+
+
 
     new Button(m_controller::getLeftBumper)
       .whileHeld(shootLowGoalCommand);
