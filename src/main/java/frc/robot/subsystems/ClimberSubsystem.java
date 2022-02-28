@@ -42,10 +42,11 @@ public class ClimberSubsystem extends SubsystemBase {
     compressor = new Compressor(1, PneumaticsModuleType.REVPH);
     compressor.enableDigital();
 
-    activateHookPiston();
-    activateBottomPiston();
-    activateTopPiston();
     resetWinchEncoders();
+    activateHookPiston();
+    deactivateTopPiston();
+    activateBottomPiston();
+    
   }
 
   public void activateTopPiston() {

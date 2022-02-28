@@ -31,6 +31,8 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotor.setNeutralMode(NeutralMode.Brake);
     conveyorMotor.setNeutralMode(NeutralMode.Brake);
 
+    intakeMotor.enableVoltageCompensation(true);
+    conveyorMotor.enableVoltageCompensation(true);
   }
 
   @Override
