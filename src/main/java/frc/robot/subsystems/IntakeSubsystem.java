@@ -25,12 +25,15 @@ public class IntakeSubsystem extends SubsystemBase {
     
     intakePiston = new DoubleSolenoid(1, PneumaticsModuleType.REVPH, 6, 7);
 
+    // Config factory default for both motors
     intakeMotor.configFactoryDefault();
     conveyorMotor.configFactoryDefault();
 
+    // Set the motors so they immediately stop when signals are no longer being sent to them
     intakeMotor.setNeutralMode(NeutralMode.Brake);
     conveyorMotor.setNeutralMode(NeutralMode.Brake);
 
+    // Enabling and setting voltage compensation for both motors
     intakeMotor.enableVoltageCompensation(true);
     conveyorMotor.enableVoltageCompensation(true);
     intakeMotor.configVoltageCompSaturation(12);
