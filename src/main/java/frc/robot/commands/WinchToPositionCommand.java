@@ -29,7 +29,7 @@ public class WinchToPositionCommand extends CommandBase {
       climberSubsystem.runMotors();
     }
     else {
-      climberSubsystem.runBackMotors();
+      climberSubsystem.runBackMotors(); // this line will never run because if its greater, the conditional in the isFinished() command will already stop the command
     }
   } 
 
