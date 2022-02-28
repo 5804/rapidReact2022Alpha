@@ -33,6 +33,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     intakeMotor.enableVoltageCompensation(true);
     conveyorMotor.enableVoltageCompensation(true);
+    intakeMotor.configVoltageCompSaturation(12);
+    conveyorMotor.configVoltageCompSaturation(12);
   }
 
   @Override
