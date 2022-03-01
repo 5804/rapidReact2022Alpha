@@ -44,7 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
     // Setting brake mode to coast
     leftShooter.setNeutralMode(NeutralMode.Coast);
     rightShooter.setNeutralMode(NeutralMode.Coast);
-    accelerator.setNeutralMode(NeutralMode.Coast);
+    accelerator.setNeutralMode(NeutralMode.Brake);
 
     leftShooter.setInverted(TalonFXInvertType.CounterClockwise);
     rightShooter.setInverted(TalonFXInvertType.Clockwise);
@@ -112,8 +112,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeedLowGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, -3500); //WAS 3500
-    targetVelocity = 3500;
+    leftShooter.set(TalonFXControlMode.Velocity, -2500); //WAS 3500
+    targetVelocity = 2500;
   }
 
   public void stopShooter() {
@@ -126,6 +126,10 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void stopAccelerator() {
     accelerator.set(ControlMode.PercentOutput, 0);
+  }
+
+  public void fullShooterSpeed() {
+    leftShooter.set(ControlMode.PercentOutput, 1);
   }
 
   // //TEST METHODS FOR SHOOTER SPEEDS: DELETE LATER!!!!

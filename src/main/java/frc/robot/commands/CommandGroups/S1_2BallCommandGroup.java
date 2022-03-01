@@ -10,7 +10,14 @@ import com.pathplanner.lib.PathPlannerTrajectory;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.AUTORunIntakeAndConveyorCommand;
+import frc.robot.commands.AUTOShootHighGoalCommand;
+import frc.robot.commands.ExtendIntakeCommand;
+import frc.robot.commands.RunIntakeAndConveyor;
+import frc.robot.commands.ShootHighGoalCommand;
+import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,14 +25,19 @@ import frc.robot.subsystems.ShooterSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class S1_2BallCommandGroup extends SequentialCommandGroup {
   /** Creates a new S1_2BallCommandGroup. */
-  public S1_2BallCommandGroup(DrivetrainSubsystem dts, ShooterSubsystem shooter) { //TODO IMPLIMENT SHOOTER
+  public S1_2BallCommandGroup(DrivetrainSubsystem dts, ShooterSubsystem shooter, IntakeSubsystem is) { //TODO IMPLIMENT SHOOTER
     PathPlannerTrajectory trajectory1 = PathPlanner.loadPath("Start1ToA", 3, 1);
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new ExtendIntakeCommand(is),
+      new AUTOShootHighGoalCommand(shooter),
+      new AUTORunIntakeAndConveyorCommand(is),
       new InstantCommand(()-> dts.resetOdometry(trajectory1.getInitialPose())),
-          dts.createCommandForTrajectory(trajectory1).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0)))
+      dts.createCommandForTrajectory(trajectory1).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
+      new FireShooterCommandGroup(shooter, is),
+      new TurnToAngle(45, dts)
     );
 
   }

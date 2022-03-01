@@ -44,17 +44,17 @@ public class ClimberSubsystem extends SubsystemBase {
 
     resetWinchEncoders();
     activateHookPiston();
-    deactivateTopPiston();
+    activateTopPiston();
     activateBottomPiston();
     
   }
 
   public void activateTopPiston() {
-    topPiston.set(DoubleSolenoid.Value.kForward);
+    topPiston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void deactivateTopPiston() {
-    topPiston.set(DoubleSolenoid.Value.kReverse);
+    topPiston.set(DoubleSolenoid.Value.kForward);
   }
   
   public void activateBottomPiston() {

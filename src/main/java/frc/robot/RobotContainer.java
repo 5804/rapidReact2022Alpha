@@ -154,10 +154,10 @@ public class RobotContainer {
     configureButtonBindings();
 
     // All sendable chooser options
-    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
     sendableChooser.addOption("2-2Ball", new S2_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));//ADD IN REQUIRMENTS
     sendableChooser.addOption("3-2Ball", new S3_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
-    sendableChooser.addOption("1-3Ball", new S1_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+    sendableChooser.addOption("1-3Ball", new S1_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
     sendableChooser.addOption("2-3Ball", new S2_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("3-3Ball", new S3_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
 
@@ -231,8 +231,8 @@ public class RobotContainer {
     // shooterSubsystem::setShooterSpeedLowGoal,
     // shooterSubsystem));
 
-    new Button(m_controller::getBackButton).toggleWhenPressed(new StartEndCommand(intakeSubsystem::activateIntakePiston, 
-    intakeSubsystem::deactivateIntakePiston,
+    new Button(m_controller::getBackButton).toggleWhenPressed(new StartEndCommand(intakeSubsystem::deactivateIntakePiston, 
+    intakeSubsystem::activateIntakePiston,
     intakeSubsystem));
 
 
@@ -243,6 +243,12 @@ public class RobotContainer {
     // shooterSubsystem::setShooterSpeedLowGoal,
     // shooterSubsystem));
 
+    // new Button(m_controller::getXButton).toggleWhenPressed( new StartEndCommand(intakeSubsystem::runIntakeMotor,
+    //     intakeSubsystem::runIntakeMotor,
+    //     intakeSubsystem));
+
+    new Button(m_controller::getXButton)
+      .toggleWhenActive(runIntakeAndConveyor);
     // new Button(m_controller::getXButton)
     //   .whileHeld(runIntakeMotorsCommand);
 
@@ -252,8 +258,6 @@ public class RobotContainer {
     new Button(m_controller::getBButton)
       .whenPressed(shooterSubsystem::stopShooter);
 
-    new Button(m_controller::getXButton)
-      .whileHeld(runIntakeAndConveyor);
 
     // new Button(m_controller::getXButton)
     //   .whileHeld(runConveyorMotorCommand);
@@ -265,7 +269,7 @@ public class RobotContainer {
       .whileHeld(shootHighGoalCommand);
 
     new Button(m_controller::getAButton)
-      .whileHeld(runIntakeMotorsCommand);
+      .whenPressed(shooterSubsystem::fullShooterSpeed);
 
     new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
     // new Button(m_controller::getBButtonPressed)

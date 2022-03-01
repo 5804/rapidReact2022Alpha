@@ -30,14 +30,17 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyorMotor.configFactoryDefault();
 
     // Set the motors so they immediately stop when signals are no longer being sent to them
-    intakeMotor.setNeutralMode(NeutralMode.Brake);
+    intakeMotor.setNeutralMode(NeutralMode.Coast);
     conveyorMotor.setNeutralMode(NeutralMode.Brake);
+    
 
     // Enabling and setting voltage compensation for both motors
     intakeMotor.enableVoltageCompensation(true);
     conveyorMotor.enableVoltageCompensation(true);
     intakeMotor.configVoltageCompSaturation(12);
     conveyorMotor.configVoltageCompSaturation(12);
+
+    deactivateIntakePiston();
   }
 
   @Override
@@ -46,11 +49,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void activateIntakePiston() {
-    intakePiston.set(DoubleSolenoid.Value.kForward);
+    intakePiston.set(DoubleSolenoid.Value.kReverse);
   }
 
   public void deactivateIntakePiston() {
-    intakePiston.set(DoubleSolenoid.Value.kReverse);
+    intakePiston.set(DoubleSolenoid.Value.kForward);
   }
 
   public void runIntakeMotor() {

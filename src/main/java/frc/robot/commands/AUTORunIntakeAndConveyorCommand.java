@@ -9,12 +9,12 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class RunIntakeAndConveyor extends CommandBase {
+public class AUTORunIntakeAndConveyorCommand extends CommandBase {
   /** Creates a new RunIntakeAndConveyor. */
 
   private final IntakeSubsystem intakeSubsystem;
 
-  public RunIntakeAndConveyor(IntakeSubsystem is) {
+  public AUTORunIntakeAndConveyorCommand(IntakeSubsystem is) {
     // Use addRequirements() here to declare subsystem dependencies.
 
     intakeSubsystem = is;
@@ -35,13 +35,12 @@ public class RunIntakeAndConveyor extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stopConveyorMotor();
-    intakeSubsystem.stopIntakeMotor();
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
