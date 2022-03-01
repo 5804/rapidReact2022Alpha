@@ -81,12 +81,12 @@ public class ClimberSubsystem extends SubsystemBase {
   }
 
   public void runMotors() {
-    leftWinch.set(ControlMode.PercentOutput, 1.0);
+    leftWinch.set(ControlMode.PercentOutput, -1.0);
     rightWinch.set(ControlMode.PercentOutput, 1.0);
   }
 
   public void runBackMotors() {
-    leftWinch.set(ControlMode.PercentOutput, -1.0);
+    leftWinch.set(ControlMode.PercentOutput, 1.0);
     rightWinch.set(ControlMode.PercentOutput, -1.0);
   }
 
