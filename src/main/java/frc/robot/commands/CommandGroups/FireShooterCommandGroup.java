@@ -5,6 +5,7 @@
 package frc.robot.commands.CommandGroups;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.AUTOActivateAcceleratorCommand;
 import frc.robot.commands.AUTORunIntakeAndConveyorCommand;
 import frc.robot.commands.ActivateAcceleratorCommand;
 import frc.robot.commands.RunConveyorMotorCommand;
@@ -21,8 +22,8 @@ public class FireShooterCommandGroup extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ActivateAcceleratorCommand(shooter),
-      new RunIntakeAndConveyor(intake)
+      new AUTOActivateAcceleratorCommand(shooter),
+      new AUTORunIntakeAndConveyorCommand(intake)
       //FIXME ADD IN CONVEYOR BELT WHEN ADDED TO ROBOT
     );
   }
