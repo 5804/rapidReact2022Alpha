@@ -34,7 +34,7 @@ public class LimelightSubsystem extends SubsystemBase {
   }
 
   public double getSteeringValue() {
-    double STEER_K = 0.03;  
+    double STEER_K = 0.1;  
 
     // how hard to turn toward the target
     // final double DRIVE_K = 0.26;                    // how hard to drive fwd toward the target
@@ -42,8 +42,8 @@ public class LimelightSubsystem extends SubsystemBase {
     // final double MAX_DRIVE = 0.7;                   // Simple speed limit so we don't drive too fast
 
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    // double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    // double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
 
     double signumtx = Math.signum(tx);
 

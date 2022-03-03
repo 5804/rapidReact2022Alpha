@@ -58,7 +58,7 @@ public final class Constants {
 
     // Limelight constants
     public static final double LIMELIGHT_DEADBAND = 1;
-	public static final double MIN_STEER_K = .4;
+	public static final double MIN_STEER_K = .6;
 
     // The autonomous command needs these values
     public static final double kMaxSpeedMetersPerSecond = 3.1;

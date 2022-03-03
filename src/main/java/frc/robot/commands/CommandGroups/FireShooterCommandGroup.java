@@ -22,8 +22,8 @@ public class FireShooterCommandGroup extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AUTOActivateAcceleratorCommand(shooter),
-      new AUTORunIntakeAndConveyorCommand(intake)
+      new ActivateAcceleratorCommand(shooter),
+      new RunConveyorMotorCommand(intake)
       //FIXME ADD IN CONVEYOR BELT WHEN ADDED TO ROBOT
     );
   }

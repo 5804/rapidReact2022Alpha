@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -34,12 +35,16 @@ public class AlignToGoalWithLimelightCommand extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    // while((int)NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").getNumber(0) != 3) {
+      NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    steerCommand = limelightSubsystem.getSteeringValue();
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3);
+    steerCommand = -1 * limelightSubsystem.getSteeringValue();
 
     // When the limelight button is pressed, this code will run:
     // The code below will tell the drivetrain to NOT translate, which is why both of the translations are set to 0
@@ -57,11 +62,31 @@ public class AlignToGoalWithLimelightCommand extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+        // But it will tell the robot to rotate at a given speed based on the reading from the limelight
+        driveTrainSubsystem.drive(
+          ChassisSpeeds.fromFieldRelativeSpeeds(
+            0, // translation x supplier is 0
+            0, // translation y supplier is 0
+            0, // we only want the robot to rotate, so this value is nonzero
+            new Rotation2d(0) // i dont know why we need this line...
+          )
+            );
+            
+    // NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // if ((int)NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").getNumber(0) != 3) {
+    //   return false;
+    // }
+    if (( NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) > -1 
+          && (NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0) < 1))) {
+      return true;
+    } else {
+      return false;
+    }
+    
   }
 }

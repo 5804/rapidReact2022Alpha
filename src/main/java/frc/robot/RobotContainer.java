@@ -88,11 +88,11 @@ public class RobotContainer {
   // private final Joystick shooterStick = new Joystick(2);
   
   //FOR DRIVETRAIN:
-    private final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
+    public static final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
 
   //FOR LIMELIGHT:
-  // private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
-  //private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, m_drivetrainSubsystem);
+  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  private final AlignToGoalWithLimelightCommand alignToGoalWithLimelightCommand = new AlignToGoalWithLimelightCommand(limelightSubsystem, driveTrainSubsystem);
         
   //FOR AUTO:
       private final Command DriveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, -12);
@@ -102,14 +102,14 @@ public class RobotContainer {
       // PathPlannerTrajectory straightDrive1 = PathPlanner.loadPath("DriveCurve2", 8, 5);
 
 //FOR INTAKE:
-    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+    public static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final RunIntakeMotorsCommand runIntakeMotorsCommand = new RunIntakeMotorsCommand(intakeSubsystem);
     private final RunConveyorMotorCommand runConveyorMotorCommand = new RunConveyorMotorCommand(intakeSubsystem);
-    private final RunIntakeAndConveyor runIntakeAndConveyor = new RunIntakeAndConveyor(intakeSubsystem);
+    public final RunIntakeAndConveyor runIntakeAndConveyor = new RunIntakeAndConveyor(intakeSubsystem);
 
 
   //FOR SHOOTER:
-    private final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
+    public static final ShooterSubsystem shooterSubsystem = new ShooterSubsystem();
     private final ActivateAcceleratorCommand activateAcceleratorCommand = new ActivateAcceleratorCommand(shooterSubsystem);
     //private final RunShooterCommand runShooterCommand = new RunShooterCommand(shooterSubsytem);
     private final ShootLowGoalCommand shootLowGoalCommand = new ShootLowGoalCommand(shooterSubsystem);
@@ -154,7 +154,7 @@ public class RobotContainer {
     configureButtonBindings();
 
     // All sendable chooser options
-    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
+    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("2-2Ball", new S2_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));//ADD IN REQUIRMENTS
     sendableChooser.addOption("3-2Ball", new S3_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("1-3Ball", new S1_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
@@ -181,6 +181,8 @@ public class RobotContainer {
 
          new Button(m_controller::getStartButton)
         .whenPressed(driveTrainSubsystem::zeroGyroscope);
+        
+        new LeftTriggerPressed().whileActiveContinuous(alignToGoalWithLimelightCommand);
 
     // FOR AUTO:
         // new Button(m_controller::getAButton)
@@ -336,6 +338,15 @@ public class RobotContainer {
       return m_controller.getRightTriggerAxis() > 0.5;
       // This returns whether the trigger is active
     }
+  }
+
+   public class LeftTriggerPressed extends Trigger {
+      @Override
+      public boolean get() {
+        return m_controller.getLeftTriggerAxis() > 0.5;
+        // This returns whether the trigger is active
+      }
+    }
 
   public void shooterTestBindings () {
       //  BUTTONS BELOW ARE FOR TESTING SHOOTER SPEED, DELETE LATER
@@ -371,7 +382,7 @@ public class RobotContainer {
   }
 
 
-  }
+  
 
-
+  
 }
