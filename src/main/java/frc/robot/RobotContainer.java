@@ -21,6 +21,7 @@ import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Joystick;
@@ -39,13 +40,17 @@ import frc.robot.commands.DeactivateBottomPistonCommand;
 import frc.robot.commands.DeactivateHookPistonCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveToDistanceCommand;
+import frc.robot.commands.DrivetrainSubsystem;
 import frc.robot.commands.FollowPathCommand;
-import frc.robot.commands.RunBackMotorsCommand;
+import frc.robot.commands.WinchInCommand;
 import frc.robot.commands.RunConveyorMotorCommand;
 import frc.robot.commands.RunIntakeAndConveyor;
 import frc.robot.commands.RunIntakeMotorsCommand;
-import frc.robot.commands.RunMotorsCommand;
+import frc.robot.commands.RunLeftMotorBackCommand;
+import frc.robot.commands.RunLeftMotorCommand;
+import frc.robot.commands.WinchOutCommand;
 import frc.robot.commands.RunRightMotor;
+import frc.robot.commands.RunRightMotorBackCommand;
 import frc.robot.commands.RunShooterCommand;
 import frc.robot.commands.ShootHighGoalJoystickCommand;
 import frc.robot.commands.ShootLowGoalCommand;
@@ -59,7 +64,6 @@ import frc.robot.commands.CommandGroups.S2_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.S3_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.S3_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
-import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -77,12 +81,9 @@ public class RobotContainer {
   private final SendableChooser sendableChooser = new SendableChooser<Command>();
   
   private final XboxController m_controller = new XboxController(0);
-  
-  //Climber Joystick
-  private final XboxController climbController = new XboxController(1);  
 
   //Button Board
-  private final Joystick m_board = new Joystick(2);
+  private final Joystick climbBoard = new Joystick(1);
 
   //Test Shooter Joystick
   // private final Joystick shooterStick = new Joystick(2);
@@ -118,14 +119,18 @@ public class RobotContainer {
 
   //FOR CLIMBER:
       private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
-      private final RunMotorsCommand runMotorsCommand = new RunMotorsCommand(climberSubsystem);
-      private final RunBackMotorsCommand runBackMotorsCommand = new RunBackMotorsCommand(climberSubsystem);
+      private final WinchOutCommand winchOutCommand = new WinchOutCommand(climberSubsystem);
+      private final WinchInCommand winchInCommand = new WinchInCommand(climberSubsystem);
       private final ActivateTopPistonCommand activateTopPistonCommand = new ActivateTopPistonCommand(climberSubsystem);
       private final DeactivateTopPistonCommand deactivateTopPistonCommand = new DeactivateTopPistonCommand(climberSubsystem);
       private final ActivateBottomPistonCommand activateBottomPistonCommand = new ActivateBottomPistonCommand(climberSubsystem);
       private final DeactivateBottomPistonCommand deactivateBottomPistonCommand = new DeactivateBottomPistonCommand(climberSubsystem);
       private final ActivateHookPistonCommand activateHookPistonCommand = new ActivateHookPistonCommand(climberSubsystem);
       private final DeactivateHookPistonCommand deactivateHookPistonCommand = new DeactivateHookPistonCommand(climberSubsystem);
+      private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
+      private final RunRightMotorBackCommand runRightMotorBackCommand = new RunRightMotorBackCommand(climberSubsystem);
+      private final RunLeftMotorCommand runLeftMotorCommand = new RunLeftMotorCommand(climberSubsystem);
+      private final RunLeftMotorBackCommand runLeftMotorBackCommand = new RunLeftMotorBackCommand(climberSubsystem);
       // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
 
 
@@ -199,32 +204,70 @@ public class RobotContainer {
     // // //     .whileHeld(alignToGoalWithLimelightCommand);
 
     //FOR CLIMBER:
-         new Button(climbController::getAButton)
-            .whileHeld(runMotorsCommand);
-      
-        new Button(climbController::getBButton)
-          .whileHeld(runBackMotorsCommand);
+ 
 
-        new Button(climbController::getXButton)
-            .whileHeld(activateTopPistonCommand);
+        final JoystickButton b1 = new JoystickButton(climbBoard, 1); 
+        b1.whenPressed(activateTopPistonCommand); 
 
-        new Button(climbController::getYButton)
-             .whileHeld(deactivateTopPistonCommand);
-
-         new Button(climbController::getLeftBumper)
-             .whenPressed(deactivateBottomPistonCommand);
+        final JoystickButton b2 = new JoystickButton(climbBoard, 2); 
+        b2.whenPressed(deactivateTopPistonCommand); 
         
-         new Button(climbController::getRightBumper)
-             .whileHeld(activateBottomPistonCommand);
+        final JoystickButton b3 = new JoystickButton(climbBoard, 3); 
+        b3.whenPressed(activateBottomPistonCommand); 
 
-        new Button(climbController::getStartButton)
-              .whenPressed(activateHookPistonCommand);
+        final JoystickButton b4 = new JoystickButton(climbBoard, 4); 
+        b4.whenPressed(deactivateBottomPistonCommand); 
 
-        new Button(climbController::getBackButton)
-              .whenPressed(deactivateHookPistonCommand);
+        final JoystickButton b5 = new JoystickButton(climbBoard, 5); 
+        b5.whenPressed(activateHookPistonCommand); 
 
-        new Button(climbController::getLeftStickButton)
-              .whenPressed(climberSubsystem::resetWinchEncoders);
+        final JoystickButton b6 = new JoystickButton(climbBoard, 6); 
+        b6.whenPressed(deactivateHookPistonCommand); 
+
+        new BoardStickForward().whileActiveContinuous(winchInCommand);
+
+        new BoardStickBackwards().whileActiveContinuous(winchOutCommand);
+
+        final JoystickButton b7 = new JoystickButton(climbBoard, 7); 
+        b7.whileHeld(runLeftMotorCommand); 
+
+        final JoystickButton b8 = new JoystickButton(climbBoard, 8); 
+        b8.whileHeld(runLeftMotorBackCommand); 
+
+        final JoystickButton b9 = new JoystickButton(climbBoard, 9); 
+        b9.whileHeld(runRightMotor); 
+
+        final JoystickButton b10 = new JoystickButton(climbBoard, 10); 
+        b10.whileHeld(runRightMotorBackCommand); 
+
+               //  new Button(climbController::getAButton)
+        //     .whileHeld(runMotorsCommand);
+      
+        // new Button(climbController::getBButton)
+        //   .whileHeld(runBackMotorsCommand);
+
+        // new Button(climbController::getXButton)
+        //     .whileHeld(activateTopPistonCommand);
+
+        // new Button(climbController::getYButton)
+        //      .whileHeld(deactivateTopPistonCommand);
+
+        //  new Button(climbController::getLeftBumper)
+        //      .whenPressed(deactivateBottomPistonCommand);
+        
+        //  new Button(climbController::getRightBumper)
+        //      .whileHeld(activateBottomPistonCommand);
+
+        // new Button(climbController::getStartButton)
+        //       .whenPressed(activateHookPistonCommand);
+
+        // new Button(climbController::getBackButton)
+        //       .whenPressed(deactivateHookPistonCommand);
+
+        // new Button(climbController::getLeftStickButton)
+        //       .whenPressed(climberSubsystem::resetWinchEncoders);
+    
+
 
          // if you write "{subsystem}::{function in the subsystem}" it counts as a command, so we could use it in command groups
 
@@ -251,18 +294,9 @@ public class RobotContainer {
 
     new Button(m_controller::getXButton)
       .toggleWhenActive(runIntakeAndConveyor);
-    // new Button(m_controller::getXButton)
-    //   .whileHeld(runIntakeMotorsCommand);
-
-    // new Button(m_controller::getYButton)
-    //   .whileHeld(runConveyorMotorCommand);
 
     new Button(m_controller::getBButton)
       .whenPressed(shooterSubsystem::stopShooter);
-
-
-    // new Button(m_controller::getXButton)
-    //   .whileHeld(runConveyorMotorCommand);
 
     new Button(m_controller::getLeftBumper)
       .whileHeld(shootLowGoalCommand);
@@ -274,21 +308,6 @@ public class RobotContainer {
       .whenPressed(shooterSubsystem::fullShooterSpeed);
 
     new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
-    // new Button(m_controller::getBButtonPressed)
-    //  .whileHeld(runShooterCommand);
-
-    // new Button(m_controller::getBButtonReleased)
-    //   .whenPressed(shooterSubsytem::stopShooterPH1);
-
-    //   new Button(m_controller::getYButtonPressed)
-    //   .whileHeld(shooterSubsytem::runShooterPH2);
-
-    // new Button(m_controller::getYButtonReleased)
-    //   .whenPressed(shooterSubsytem::stopShooterPH2);
-    
-    // final JoystickButton b2 = new JoystickButton(m_board, 2); Keep this cause I like having the button syntax
-    //     b2.whileHeld(runRightMotor); 
-
   }
 
   /*
@@ -344,6 +363,22 @@ public class RobotContainer {
       @Override
       public boolean get() {
         return m_controller.getLeftTriggerAxis() > 0.5;
+        // This returns whether the trigger is active
+      }
+    }
+
+    public class BoardStickForward extends Trigger {
+      @Override
+      public boolean get() {
+        return climbBoard.getRawAxis(1) > 0.7;
+        // This returns whether the trigger is active
+      }
+    }
+    
+    public class BoardStickBackwards extends Trigger {
+      @Override
+      public boolean get() {
+        return climbBoard.getRawAxis(1) < -0.7;
         // This returns whether the trigger is active
       }
     }

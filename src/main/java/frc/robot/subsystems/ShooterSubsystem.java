@@ -107,8 +107,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeedHighGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, -6500);
-    targetVelocity = 6500;
+    leftShooter.set(TalonFXControlMode.Velocity, -8500);
+    targetVelocity = 7500;
   }
 
   public void setShooterSpeedLowGoal() {
