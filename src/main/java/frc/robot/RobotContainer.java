@@ -61,8 +61,10 @@ import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S1_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.S2_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S2_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S2_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.S3_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S3_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S3_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -174,6 +176,8 @@ public class RobotContainer {
     sendableChooser.addOption("2-3Ball", new S2_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("3-3Ball", new S3_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("1-2BallLOW", new S1_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("2-2BallLOW", new S2_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("3-2BallLOW", new S3_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     SmartDashboard.putData("Auto Selector", sendableChooser);
   }
 
@@ -232,9 +236,9 @@ public class RobotContainer {
         final JoystickButton b6 = new JoystickButton(climbBoard, 6); 
         b6.whenPressed(deactivateHookPistonCommand); 
 
-        new BoardStickForward().whileActiveContinuous(winchInCommand);
+        new BoardStickForward().whileActiveContinuous(winchOutCommand);
 
-        new BoardStickBackwards().whileActiveContinuous(winchOutCommand);
+        new BoardStickBackwards().whileActiveContinuous(winchInCommand);
 
         final JoystickButton b7 = new JoystickButton(climbBoard, 7); 
         b7.whileHeld(runLeftMotorCommand); 
