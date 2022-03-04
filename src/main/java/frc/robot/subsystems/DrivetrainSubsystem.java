@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
@@ -314,6 +314,20 @@ public double target = (getGyroscopeRotation().getDegrees());
         m_frontRightModule.set(speed, 0);
         m_backLeftModule.set(speed, 0);
         m_backRightModule.set(speed, 0);
+  }
+
+  public void driveForwardAt80() {
+      m_frontLeftModule.set(0.8, 0);
+      m_frontRightModule.set(0.8, 0);
+      m_backLeftModule.set(0.8, 0);
+      m_backRightModule.set(0.8, 0);
+  }
+
+  public void driveBackwardAt80() {
+      m_frontLeftModule.set(-0.8, 0);
+      m_frontRightModule.set(-0.8, 0);
+      m_backLeftModule.set(-0.8, 0);
+      m_backRightModule.set(-0.8, 0);
   }
 
   public void driveBackward(double speed) {

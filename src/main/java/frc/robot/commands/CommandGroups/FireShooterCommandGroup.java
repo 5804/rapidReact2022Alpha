@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.AUTOActivateAcceleratorCommand;
 import frc.robot.commands.AUTORunIntakeAndConveyorCommand;
 import frc.robot.commands.ActivateAcceleratorCommand;
+import frc.robot.commands.RetractIntakeCommand;
 import frc.robot.commands.RunConveyorMotorCommand;
 import frc.robot.commands.RunIntakeAndConveyor;
 import frc.robot.subsystems.IntakeSubsystem;

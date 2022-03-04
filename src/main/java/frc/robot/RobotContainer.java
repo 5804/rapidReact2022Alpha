@@ -39,8 +39,8 @@ import frc.robot.commands.AlignToGoalWithLimelightCommand;
 import frc.robot.commands.DeactivateBottomPistonCommand;
 import frc.robot.commands.DeactivateHookPistonCommand;
 import frc.robot.commands.DefaultDriveCommand;
+import frc.robot.commands.DriveAtSpeed80Command;
 import frc.robot.commands.DriveToDistanceCommand;
-import frc.robot.commands.DrivetrainSubsystem;
 import frc.robot.commands.FollowPathCommand;
 import frc.robot.commands.WinchInCommand;
 import frc.robot.commands.RunConveyorMotorCommand;
@@ -69,6 +69,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.commands.DeactivateTopPistonCommand;
 import frc.robot.commands.ActivateHookPistonCommand;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -91,6 +92,8 @@ public class RobotContainer {
   
   //FOR DRIVETRAIN:
     public static final DrivetrainSubsystem driveTrainSubsystem = new DrivetrainSubsystem();
+    private final DriveToDistanceCommand driveToDistanceCommand = new DriveToDistanceCommand(driveTrainSubsystem, 8);
+    private final DriveAtSpeed80Command driveAtSpeed80Command = new DriveAtSpeed80Command(driveTrainSubsystem);
 
   //FOR LIMELIGHT:
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
@@ -304,6 +307,15 @@ public class RobotContainer {
 
     new Button(m_controller::getRightBumper)
       .whileHeld(shootHighGoalCommand);
+      
+    // final POVButton upButton = new POVButton(m_controller, 0, 1);
+    // upButton.whileHeld(driveAtSpeed80Command); 
+
+    // new POVButton(m_controller, 0, 1).whileHeld(driveAtSpeed80Command);
+
+    // // new POVButton(m_controller, 0).whileHeld(driveAtSpeed80Command);
+    // new Button(m_controller::getAButton)
+    //   .whenPressed(driveToDistanceCommand);
 
     new Button(m_controller::getAButton)
       .whenPressed(shooterSubsystem::fullShooterSpeed);
