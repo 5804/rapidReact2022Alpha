@@ -312,11 +312,11 @@ public class RobotContainer {
     // upPOV.whileHeld(driveAtSpeed80Command);
 
     // new POVButton(m_controller, 0).whileHeld(driveAtSpeed80Command);
-    // new Button(m_controller::getAButton)
-    //   .whenPressed(driveToDistanceCommand);
-
     new Button(m_controller::getAButton)
-      .whenPressed(shooterSubsystem::fullShooterSpeed);
+      .whenPressed(driveToDistanceCommand);
+
+    // new Button(m_controller::getAButton)
+    //   .whenPressed(shooterSubsystem::fullShooterSpeed);
 
     new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
   }
