@@ -87,6 +87,10 @@ public class RobotContainer {
   //Button Board
   private final Joystick climbBoard = new Joystick(1);
 
+  POVButton upPOV = new POVButton(m_controller, 0);
+  POVButton downPOV = new POVButton(m_controller, 180);
+  
+
   //Test Shooter Joystick
   // private final Joystick shooterStick = new Joystick(2);
   
@@ -287,14 +291,6 @@ public class RobotContainer {
 
 
     //FOR SHOOTER:
-    
-    // new Button(m_controller::getBButton).toggleWhenPressed(new StartEndCommand(shooterSubsystem::stopShooter,
-    // shooterSubsystem::setShooterSpeedLowGoal,
-    // shooterSubsystem));
-
-    // new Button(m_controller::getXButton).toggleWhenPressed( new StartEndCommand(intakeSubsystem::runIntakeMotor,
-    //     intakeSubsystem::runIntakeMotor,
-    //     intakeSubsystem));
 
     new Button(m_controller::getXButton)
       .toggleWhenActive(runIntakeAndConveyor);
@@ -311,9 +307,11 @@ public class RobotContainer {
     // final POVButton upButton = new POVButton(m_controller, 0, 1);
     // upButton.whileHeld(driveAtSpeed80Command); 
 
-    // new POVButton(m_controller, 0, 1).whileHeld(driveAtSpeed80Command);
+    // new POVButton(m_controller, 0).whileHeld(driveAtSpeed80Command);
 
-    // // new POVButton(m_controller, 0).whileHeld(driveAtSpeed80Command);
+    // upPOV.whileHeld(driveAtSpeed80Command);
+
+    // new POVButton(m_controller, 0).whileHeld(driveAtSpeed80Command);
     // new Button(m_controller::getAButton)
     //   .whenPressed(driveToDistanceCommand);
 
