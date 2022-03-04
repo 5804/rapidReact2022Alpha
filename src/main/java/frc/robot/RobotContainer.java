@@ -58,6 +58,7 @@ import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S1_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S1_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.S2_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.S2_3BallCommandGroup;
@@ -165,7 +166,7 @@ public class RobotContainer {
     sendableChooser.addOption("1-3Ball", new S1_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
     sendableChooser.addOption("2-3Ball", new S2_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("3-3Ball", new S3_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
-
+    sendableChooser.addOption("1-2BallLOW", new S1_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     SmartDashboard.putData("Auto Selector", sendableChooser);
   }
 
