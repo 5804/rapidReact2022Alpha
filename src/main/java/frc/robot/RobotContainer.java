@@ -240,17 +240,17 @@ public class RobotContainer {
 
         new BoardStickBackwards().whileActiveContinuous(winchInCommand);
 
-        final JoystickButton b7 = new JoystickButton(climbBoard, 7); 
-        b7.whileHeld(runLeftMotorCommand); 
+        final JoystickButton b7 = new JoystickButton(climbBoard, 7); //MAKE RIGHT
+        b7.whileHeld(runRightMotor); 
 
         final JoystickButton b8 = new JoystickButton(climbBoard, 8); 
-        b8.whileHeld(runLeftMotorBackCommand); 
+        b8.whileHeld(runRightMotorBackCommand); 
 
-        final JoystickButton b9 = new JoystickButton(climbBoard, 9); 
-        b9.whileHeld(runRightMotor); 
+        final JoystickButton b9 = new JoystickButton(climbBoard, 9); //MAKE LEFT
+        b9.whileHeld(runLeftMotorCommand); 
 
         final JoystickButton b10 = new JoystickButton(climbBoard, 10); 
-        b10.whileHeld(runRightMotorBackCommand); 
+        b10.whileHeld(runLeftMotorBackCommand); 
 
                //  new Button(climbController::getAButton)
         //     .whileHeld(runMotorsCommand);
