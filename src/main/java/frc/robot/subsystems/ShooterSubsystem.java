@@ -21,7 +21,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public WPI_TalonFX accelerator;
 
   public double initialTargetVelocity = 2000;
-  public double initialTargetVelocityLow = 3500;
+  public double initialTargetVelocityLow = 8000;
   public double initialTargetVelocityHigh = 6500;
   public double sliderAddTargetVelocity;
   public double targetVelocity;
@@ -112,8 +112,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeedLowGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, -2250); //WAS 3500
-    targetVelocity = 2500;
+    leftShooter.set(TalonFXControlMode.Velocity, -6500); //WAS 3500
+    targetVelocity = 6000; //WAS 2250, 2500
   }
 
   public void stopShooter() {
