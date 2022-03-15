@@ -12,6 +12,7 @@ import frc.robot.commands.ActivateAcceleratorCommand;
 import frc.robot.commands.ConveyorToPositionCommand;
 import frc.robot.commands.RunConveyorMotorCommand;
 import frc.robot.commands.ShootHighGoalCommand;
+import frc.robot.commands.StopIntakeCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
@@ -26,9 +27,9 @@ public class FireShooterRoutine extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new AUTOShootHighGoalCommand(ss),
+      new StopIntakeCommand(is),
       new PrepareToShootCommandGroup(ss, is),
-      new AUTOActivateAcceleratorCommand(ss),
+      new ActivateAcceleratorCommand(ss),
       new WaitCommand(0.1),
       new RunConveyorMotorCommand(is)
     );
