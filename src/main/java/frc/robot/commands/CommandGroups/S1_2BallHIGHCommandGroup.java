@@ -25,21 +25,19 @@ import frc.robot.subsystems.ShooterSubsystem;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class S1_2BallCommandGroup extends SequentialCommandGroup {
+public class S1_2BallHIGHCommandGroup extends SequentialCommandGroup {
   /** Creates a new S1_2BallCommandGroup. */
-  public S1_2BallCommandGroup(DrivetrainSubsystem dts, ShooterSubsystem shooter, IntakeSubsystem is, LimelightSubsystem ls) { //TODO IMPLIMENT SHOOTER
+  public S1_2BallHIGHCommandGroup(DrivetrainSubsystem dts, ShooterSubsystem shooter, IntakeSubsystem is, LimelightSubsystem ls) { //TODO IMPLIMENT SHOOTER
     PathPlannerTrajectory trajectory1 = PathPlanner.loadPath("Start1ToA", 3, 1);
 
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ExtendIntakeCommand(is),
-      new AUTOShootHighGoalCommand(shooter),
       new AUTORunIntakeAndConveyorCommand(is),
       new InstantCommand(()-> dts.resetOdometry(trajectory1.getInitialPose())),
       dts.createCommandForTrajectory(trajectory1).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
-      new AlignToGoalWithLimelightCommand(ls, dts),
-      new FireShooterCommandGroup(shooter, is)
+      new AUTOFireShooterRoutine(shooter, is)
   
     );
 

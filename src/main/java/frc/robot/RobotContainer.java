@@ -59,15 +59,17 @@ import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.CommandGroups.AUTOFireShooterRoutine;
 import frc.robot.commands.CommandGroups.BackUp;
+import frc.robot.commands.CommandGroups.ClimbGrabCommandGroup;
+import frc.robot.commands.CommandGroups.ClimbReachCommandGroup;
 import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
 import frc.robot.commands.CommandGroups.FireShooterRoutine;
-import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S1_2BallHIGHCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S1_3BallCommandGroup;
-import frc.robot.commands.CommandGroups.S2_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S2_4BallCommandGroup;
 import frc.robot.commands.CommandGroups.S2_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S2_3BallCommandGroup;
-import frc.robot.commands.CommandGroups.S3_2BallCommandGroup;
+import frc.robot.commands.CommandGroups.S3_2BallHIGHCommandGroup;
 import frc.robot.commands.CommandGroups.S3_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S3_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
@@ -150,6 +152,8 @@ public class RobotContainer {
       private final RunRightMotorBackCommand runRightMotorBackCommand = new RunRightMotorBackCommand(climberSubsystem);
       private final RunLeftMotorCommand runLeftMotorCommand = new RunLeftMotorCommand(climberSubsystem);
       private final RunLeftMotorBackCommand runLeftMotorBackCommand = new RunLeftMotorBackCommand(climberSubsystem);
+      private final ClimbGrabCommandGroup climbGrabBarCommandGroup = new ClimbGrabCommandGroup(climberSubsystem);
+      private final ClimbReachCommandGroup climbTransitionCommandGroup = new ClimbReachCommandGroup(climberSubsystem);
       // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
 
 
@@ -178,13 +182,15 @@ public class RobotContainer {
     configureButtonBindings();
 
     // All sendable chooser options
-    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
-    sendableChooser.addOption("2-2Ball", new S2_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));//ADD IN REQUIRMENTS
-    sendableChooser.addOption("3-2Ball", new S3_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
+    sendableChooser.setDefaultOption("1-2Ball", new S1_2BallHIGHCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("-> 2-4Ball <-", new S2_4BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));//ADD IN REQUIRMENTS
     sendableChooser.addOption("1-3Ball", new S1_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
     sendableChooser.addOption("2-3Ball", new S2_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("3-3Ball", new S3_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("1-2BallLOW", new S1_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("1-2BallHIGH", new S1_2BallHIGHCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("1-2BallLOW", new S1_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("3-2BallHIGH", new S3_2BallHIGHCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
     sendableChooser.addOption("2-2BallLOW", new S2_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("3-2BallLOW", new S3_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("BackUp", new BackUp(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
@@ -263,6 +269,12 @@ public class RobotContainer {
 
         final JoystickButton b10 = new JoystickButton(climbBoard, 10); 
         b10.whileHeld(runLeftMotorBackCommand); 
+
+        final JoystickButton b11 = new JoystickButton(climbBoard, 11); 
+        b11.whenPressed(climbGrabBarCommandGroup); 
+
+        final JoystickButton b12 = new JoystickButton(climbBoard, 12); 
+        b12.whenPressed(climbTransitionCommandGroup); 
 
                //  new Button(climbController::getAButton)
         //     .whileHeld(runMotorsCommand);
