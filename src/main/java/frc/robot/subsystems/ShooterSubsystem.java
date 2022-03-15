@@ -27,6 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public double targetVelocity;
   public double targetVelocityLow;
   public double targetVelocityHigh;
+  public boolean flag = true;
 
   /** Creates a new ShooterSubsytem. */
   public ShooterSubsystem() {
@@ -112,7 +113,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeedLowGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, -6500); //WAS 3500
+    leftShooter.set(TalonFXControlMode.Velocity, -1000); //WAS 3500
     targetVelocity = 6000; //WAS 2250, 2500
   }
 
@@ -122,6 +123,14 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void runAccelerator() {
     accelerator.set(ControlMode.PercentOutput, -1);
+  }
+
+  public void runAcceleratorWithCondition() {
+    if (flag == true) {
+      accelerator.set(ControlMode.PercentOutput, -1);
+    } else {
+      accelerator.set(ControlMode.PercentOutput, -0.5);
+    }
   }
 
   public void runAcceleratorReverse() {

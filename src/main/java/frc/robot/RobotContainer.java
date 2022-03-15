@@ -60,6 +60,7 @@ import frc.robot.commands.TurnToAngle;
 import frc.robot.commands.CommandGroups.AUTOFireShooterRoutine;
 import frc.robot.commands.CommandGroups.BackUp;
 import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
+import frc.robot.commands.CommandGroups.FireShooterRoutine;
 import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S1_3BallCommandGroup;
@@ -133,7 +134,8 @@ public class RobotContainer {
     private final ConveyorToPositionCommand conveyorToPositionCommand1 = new ConveyorToPositionCommand(intakeSubsystem, 2048, -1);
     private final ConveyorToPositionCommand conveyorToPositionCommand2 = new ConveyorToPositionCommand(intakeSubsystem, 5*2048, 1);
     private final AUTOFireShooterRoutine autoFireShooterRoutine = new AUTOFireShooterRoutine(shooterSubsystem, intakeSubsystem);
-
+    private final FireShooterRoutine fireShooterRoutine = new FireShooterRoutine(shooterSubsystem, intakeSubsystem);
+    
   //FOR CLIMBER:
       private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
       private final WinchOutCommand winchOutCommand = new WinchOutCommand(climberSubsystem);
@@ -337,7 +339,8 @@ public class RobotContainer {
     // new Button(m_controller::getAButton)
     //   .whenPressed(shooterSubsystem::fullShooterSpeed);
 
-    new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
+    // new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
+    new RightTriggerPressed().whileActiveContinuous(fireShooterRoutine);
 
 
   }

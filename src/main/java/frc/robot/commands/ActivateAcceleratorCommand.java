@@ -23,19 +23,23 @@ public class ActivateAcceleratorCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooterSubsystem.runAccelerator();
+    // shooterSubsystem.runAccelerator();
+    // This is the new code below that runs on the condition with the flag variable
+    // Mr Sesney will explain and if it doesn't work, comment line 29 out and uncomment line 26. ALso isFinished might need to change back. Test it!
+    shooterSubsystem.runAcceleratorWithCondition();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooterSubsystem.stopAccelerator();
+    // shooterSubsystem.stopAccelerator();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    // return false;
+    return true;
     // if (shooterSubsystem.accelerator.getMotorOutputPercent() > .95) {
     //   return true;
     // } else {
