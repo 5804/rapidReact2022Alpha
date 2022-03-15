@@ -6,21 +6,33 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.ClimberSubsystem;
+import frc.robot.subsystems.DrivetrainSubsystem;
 
 public class WinchToPositionCommand extends CommandBase {
   /** Creates a new WinchToPositionCommand. */
-  private final ClimberSubsystem climberSubsystem;
-  double clicksNeeded;
+
+
+  ClimberSubsystem climberSubsystem;
+  public double clicksNeeded;
+  private double clicksTravelled = 0;
   public WinchToPositionCommand(double clicks, ClimberSubsystem climber) {
     clicksNeeded = clicks;
     climberSubsystem = climber;
+    clicksTravelled = 0;
+
+    addRequirements(climberSubsystem);
 
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    climberSubsystem.resetWinchEncoders();
+    while (climberSubsystem.getWinchEncoders() != 0) {
+      climberSubsystem.resetWinchEncoders();
+    }
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -35,14 +47,17 @@ public class WinchToPositionCommand extends CommandBase {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    climberSubsystem.stopMotors();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (climberSubsystem.leftWinch.getSelectedSensorPosition() >= clicksNeeded) { 
+    if (clicksTravelled >= clicksNeeded) { 
       return true;
     } else {
+      clicksTravelled = Math.abs(climberSubsystem.getWinchEncoders());
       return false;
     }
   }

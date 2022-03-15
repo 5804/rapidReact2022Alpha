@@ -113,6 +113,10 @@ public class ClimberSubsystem extends SubsystemBase {
     rightWinch.set(0);
   }
 
+  public double getWinchEncoders() {
+    return rightWinch.getSelectedSensorPosition();
+  }
+
   public void resetWinchEncoders() {
     leftWinch.setSelectedSensorPosition(0);
     rightWinch.setSelectedSensorPosition(0);

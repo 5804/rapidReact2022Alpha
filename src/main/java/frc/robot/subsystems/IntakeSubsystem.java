@@ -64,6 +64,10 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyorMotor.set(TalonFXControlMode.PercentOutput, 0.2);
   }
 
+  public void runConveyorMotorBackward() {
+    conveyorMotor.set(TalonFXControlMode.PercentOutput, -0.2);
+  }
+
   public void stopIntakeMotor() {
     intakeMotor.set(TalonFXControlMode.PercentOutput, 0);
   }
@@ -72,4 +76,11 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyorMotor.set(TalonFXControlMode.PercentOutput, 0);
   } 
 
+  public double getConveyorEncoderValue () {
+    return conveyorMotor.getSelectedSensorPosition();
+  }
+
+  public void resetConveyorEncoder() {
+    conveyorMotor.setSelectedSensorPosition(0);
+  }
 }

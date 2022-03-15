@@ -36,6 +36,7 @@ import frc.robot.commands.ActivateAcceleratorCommand;
 import frc.robot.commands.ActivateBottomPistonCommand;
 import frc.robot.commands.ActivateTopPistonCommand;
 import frc.robot.commands.AlignToGoalWithLimelightCommand;
+import frc.robot.commands.ConveyorToPositionCommand;
 import frc.robot.commands.DeactivateBottomPistonCommand;
 import frc.robot.commands.DeactivateHookPistonCommand;
 import frc.robot.commands.DefaultDriveCommand;
@@ -56,6 +57,7 @@ import frc.robot.commands.ShootHighGoalJoystickCommand;
 import frc.robot.commands.ShootLowGoalCommand;
 import frc.robot.commands.ShootHighGoalCommand;
 import frc.robot.commands.TurnToAngle;
+import frc.robot.commands.CommandGroups.AUTOFireShooterRoutine;
 import frc.robot.commands.CommandGroups.BackUp;
 import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallCommandGroup;
@@ -68,6 +70,7 @@ import frc.robot.commands.CommandGroups.S3_2BallCommandGroup;
 import frc.robot.commands.CommandGroups.S3_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S3_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
+import frc.robot.commands.CommandGroups.TestSHtoTCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -127,6 +130,9 @@ public class RobotContainer {
     private final ShootLowGoalCommand shootLowGoalCommand = new ShootLowGoalCommand(shooterSubsystem);
     private final ShootHighGoalCommand shootHighGoalCommand = new ShootHighGoalCommand(shooterSubsystem);
     private final FireShooterCommandGroup fireShooterCommandGroup = new FireShooterCommandGroup(shooterSubsystem, intakeSubsystem);
+    private final ConveyorToPositionCommand conveyorToPositionCommand1 = new ConveyorToPositionCommand(intakeSubsystem, 2048, -1);
+    private final ConveyorToPositionCommand conveyorToPositionCommand2 = new ConveyorToPositionCommand(intakeSubsystem, 5*2048, 1);
+    private final AUTOFireShooterRoutine autoFireShooterRoutine = new AUTOFireShooterRoutine(shooterSubsystem, intakeSubsystem);
 
   //FOR CLIMBER:
       private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -171,7 +177,7 @@ public class RobotContainer {
 
     // All sendable chooser options
     sendableChooser.setDefaultOption("1-2Ball", new S1_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
-    sendableChooser.addOption("2-2Ball", new S2_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));//ADD IN REQUIRMENTS
+    sendableChooser.addOption("2-2Ball", new S2_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));//ADD IN REQUIRMENTS
     sendableChooser.addOption("3-2Ball", new S3_2BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
     sendableChooser.addOption("1-3Ball", new S1_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
     sendableChooser.addOption("2-3Ball", new S2_3BallCommandGroup(driveTrainSubsystem, shooterSubsystem));
@@ -180,6 +186,7 @@ public class RobotContainer {
     sendableChooser.addOption("2-2BallLOW", new S2_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("3-2BallLOW", new S3_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("BackUp", new BackUp(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("SHtoT", new TestSHtoTCommandGroup(driveTrainSubsystem, intakeSubsystem));
     
     SmartDashboard.putData("Auto Selector", sendableChooser);
   }
@@ -305,6 +312,12 @@ public class RobotContainer {
     new Button(m_controller::getBButton)
       .whenPressed(shooterSubsystem::stopShooter);
 
+    // new Button(m_controller::getAButton)
+    //   .whenPressed(driveToDistanceCommand);
+
+    // new Button(m_controller::getAButton)
+    //   .whenPressed(autoFireShooterRoutine);
+
     new Button(m_controller::getLeftBumper)
       .whileHeld(shootLowGoalCommand);
 
@@ -319,13 +332,14 @@ public class RobotContainer {
     // upPOV.whileHeld(driveAtSpeed80Command);
 
     // new POVButton(m_controller, 0).whileHeld(driveAtSpeed80Command);
-    new Button(m_controller::getAButton)
-      .whenPressed(driveToDistanceCommand);
+    
 
     // new Button(m_controller::getAButton)
     //   .whenPressed(shooterSubsystem::fullShooterSpeed);
 
     new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
+
+
   }
 
   /*

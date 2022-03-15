@@ -98,5 +98,5 @@ public class DriveToDistanceCommand extends CommandBase {
     double clicks = tickin*desiredDistance;
     clicks = Math.abs(clicks);
     return clicks;  
-}
+  }
 }

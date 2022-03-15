@@ -124,12 +124,24 @@ public class ShooterSubsystem extends SubsystemBase {
     accelerator.set(ControlMode.PercentOutput, -1);
   }
 
+  public void runAcceleratorReverse() {
+    accelerator.set(ControlMode.PercentOutput, 0.5);
+  }
+
   public void stopAccelerator() {
     accelerator.set(ControlMode.PercentOutput, 0);
   }
 
   public void fullShooterSpeed() {
     leftShooter.set(ControlMode.PercentOutput, 1);
+  }
+
+  public double getAcceleratorEncoderValue () {
+    return accelerator.getSelectedSensorPosition();
+  }
+
+  public void resetAccEncoder() {
+    accelerator.setSelectedSensorPosition(0);
   }
 
   // //TEST METHODS FOR SHOOTER SPEEDS: DELETE LATER!!!!
