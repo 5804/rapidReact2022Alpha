@@ -22,7 +22,7 @@ public class ClimbGrabCommandGroup extends SequentialCommandGroup {
     addCommands(
     new DeactivateTopPistonCommand(css),
     new DeactivateBottomPistonCommand(css),
-    new WaitCommand(0.5),
+    new WaitCommand(0.125),
     new DeactivateHookPistonCommand(css)
     );
     

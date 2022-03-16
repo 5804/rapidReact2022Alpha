@@ -61,6 +61,7 @@ import frc.robot.commands.CommandGroups.AUTOFireShooterRoutine;
 import frc.robot.commands.CommandGroups.BackUp;
 import frc.robot.commands.CommandGroups.ClimbGrabCommandGroup;
 import frc.robot.commands.CommandGroups.ClimbReachCommandGroup;
+import frc.robot.commands.CommandGroups.ClimbTransitionCommandGroup;
 import frc.robot.commands.CommandGroups.FireShooterCommandGroup;
 import frc.robot.commands.CommandGroups.FireShooterRoutine;
 import frc.robot.commands.CommandGroups.S1_2BallHIGHCommandGroup;
@@ -153,7 +154,8 @@ public class RobotContainer {
       private final RunLeftMotorCommand runLeftMotorCommand = new RunLeftMotorCommand(climberSubsystem);
       private final RunLeftMotorBackCommand runLeftMotorBackCommand = new RunLeftMotorBackCommand(climberSubsystem);
       private final ClimbGrabCommandGroup climbGrabBarCommandGroup = new ClimbGrabCommandGroup(climberSubsystem);
-      private final ClimbReachCommandGroup climbTransitionCommandGroup = new ClimbReachCommandGroup(climberSubsystem);
+      // private final ClimbReachCommandGroup climbTransitionCommandGroup = new ClimbReachCommandGroup(climberSubsystem);
+      private final ClimbTransitionCommandGroup climbTransitionCommandGroup = new ClimbTransitionCommandGroup(climberSubsystem);
       // private final RunRightMotor runRightMotor = new RunRightMotor(climberSubsystem);
 
 
@@ -271,10 +273,10 @@ public class RobotContainer {
         b10.whileHeld(runLeftMotorBackCommand); 
 
         final JoystickButton b11 = new JoystickButton(climbBoard, 11); 
-        b11.whenPressed(climbGrabBarCommandGroup); 
+        b11.whenPressed(climbTransitionCommandGroup); 
 
-        final JoystickButton b12 = new JoystickButton(climbBoard, 12); 
-        b12.whenPressed(climbTransitionCommandGroup); 
+        // final JoystickButton b12 = new JoystickButton(climbBoard, 12); 
+        // b12.whenPressed(climbTransitionCommandGroup); 
 
                //  new Button(climbController::getAButton)
         //     .whileHeld(runMotorsCommand);
