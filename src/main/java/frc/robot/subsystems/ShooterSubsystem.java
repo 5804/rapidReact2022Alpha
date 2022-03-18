@@ -129,7 +129,7 @@ public class ShooterSubsystem extends SubsystemBase {
     if (flag == true) {
       accelerator.set(ControlMode.PercentOutput, -0.85);
     } else {
-      accelerator.set(ControlMode.PercentOutput, -0.5);
+      accelerator.set(ControlMode.PercentOutput, -0.6);
     }
   }
 

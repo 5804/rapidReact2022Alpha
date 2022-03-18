@@ -16,6 +16,7 @@ import frc.robot.commands.AlignToGoalWithLimelightCommand;
 import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.RunIntakeAndConveyor;
 import frc.robot.commands.ShootHighGoalCommand;
+import frc.robot.commands.StopIntakeCommand;
 import frc.robot.commands.TurnToAngle;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -37,6 +38,7 @@ public class S1_2BallHIGHCommandGroup extends SequentialCommandGroup {
       new AUTORunIntakeAndConveyorCommand(is),
       new InstantCommand(()-> dts.resetOdometry(trajectory1.getInitialPose())),
       dts.createCommandForTrajectory(trajectory1).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
+      new StopIntakeCommand(is),
       new AUTOFireShooterRoutine(shooter, is)
   
     );

@@ -29,7 +29,7 @@ public class S2_4BallCommandGroup extends SequentialCommandGroup {
     PathPlannerTrajectory trajectory1 = PathPlanner.loadPath("2_StoBtoSH", 3, 3);
     PathPlannerTrajectory trajectory2 = PathPlanner.loadPath("SHtoT2", 3, 3);
     PathPlannerTrajectory trajectory3 = PathPlanner.loadPath("TtoSH", 3, 3);
-    
+
     // TODO: Implement path to get back to shooting position
     // PathPlannerTrajectory trajectory3 = PathPlanner.loadPath("T2toSH", 3, 3);
 
@@ -42,12 +42,13 @@ public class S2_4BallCommandGroup extends SequentialCommandGroup {
       dts.createCommandForTrajectory(trajectory1).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
       new StopIntakeCommand(is),
       new AUTOFireShooterRoutine(shooter, is),
-      new StartIntakeCommand(is),
+      new AUTORunIntakeAndConveyorCommand(is),
       new InstantCommand(()-> dts.resetOdometry(trajectory2.getInitialPose())),
       dts.createCommandForTrajectory(trajectory2).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
       new WaitCommand(1.0),
       new InstantCommand(()-> dts.resetOdometry(trajectory3.getInitialPose())),
       dts.createCommandForTrajectory(trajectory3).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
+      new StartIntakeCommand(is),
       new AUTOFireShooterRoutine(shooter, is)
     );
   }

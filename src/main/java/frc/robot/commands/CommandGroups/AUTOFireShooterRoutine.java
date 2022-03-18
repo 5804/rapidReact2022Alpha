@@ -10,6 +10,7 @@ import frc.robot.commands.AUTOActivateAcceleratorCommand;
 import frc.robot.commands.AUTOShootHighGoalCommand;
 import frc.robot.commands.ConveyorToPositionCommand;
 import frc.robot.commands.ShootHighGoalCommand;
+import frc.robot.commands.StopAcceleratorCommand;
 import frc.robot.commands.StopShooterCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
@@ -30,7 +31,8 @@ public class AUTOFireShooterRoutine extends SequentialCommandGroup {
       new ConveyorToPositionCommand(is, 5*2048, 1),
       new WaitCommand(0.3),
       new ConveyorToPositionCommand(is, 5*2048, 1),
-      new StopShooterCommand(ss)
+      new StopShooterCommand(ss),
+      new StopAcceleratorCommand(ss)
 
     );
   }
