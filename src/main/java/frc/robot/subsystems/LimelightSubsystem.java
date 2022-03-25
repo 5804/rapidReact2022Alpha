@@ -65,6 +65,11 @@ public class LimelightSubsystem extends SubsystemBase {
     return finalSteerCmd;
   }
 
+  private final getDrivingValue() {
+    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+    return ty;
+  }
+
   public boolean isTargetValid() {
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     return tv >= 1.0;
