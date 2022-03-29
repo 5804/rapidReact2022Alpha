@@ -40,9 +40,9 @@ public class AcceleratorToPositionCommand extends CommandBase {
     clicksTravelled = 0;
 
     desiredClicks = desiredDistance;
-    while (shooterSubsystem.getAcceleratorEncoderValue() != 0) {
+    // while (shooterSubsystem.getAcceleratorEncoderValue() != 0) {
       shooterSubsystem.resetAccEncoder();
-    }
+    // }
 
   }
 
@@ -68,10 +68,10 @@ public class AcceleratorToPositionCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (clicksTravelled >= desiredClicks) { 
-      SmartDashboard.putBoolean("Is Finished (Conveyor)", true);
+      // SmartDashboard.putBoolean("Is Finished (Conveyor)", true);
       return true;
     } else {
-      SmartDashboard.putBoolean("Is Finished (Conveyor)", false);
+      // SmartDashboard.putBoolean("Is Finished (Conveyor)", false);
       clicksTravelled = Math.abs(shooterSubsystem.getAcceleratorEncoderValue());
       return false;
     }

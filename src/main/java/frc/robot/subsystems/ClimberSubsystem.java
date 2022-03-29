@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -31,6 +32,16 @@ public class ClimberSubsystem extends SubsystemBase {
 
     leftWinch.configFactoryDefault();
     rightWinch.configFactoryDefault();
+
+    //slow down outputs
+    leftWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 100);
+    leftWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 100);
+    leftWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_14_Turn_PIDF1, 100);
+    leftWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 100);
+    rightWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 100);
+    rightWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 100);
+    rightWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_14_Turn_PIDF1, 100);
+    rightWinch.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 100);
 
     leftWinch.setNeutralMode(NeutralMode.Brake);
     rightWinch.setNeutralMode(NeutralMode.Brake);
@@ -76,8 +87,8 @@ public class ClimberSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Right Winch Value", rightWinch.getSelectedSensorPosition());
-    SmartDashboard.putNumber("Left Winch Value", leftWinch.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Right Winch Value", rightWinch.getSelectedSensorPosition());
+    // SmartDashboard.putNumber("Left Winch Value", leftWinch.getSelectedSensorPosition());
   }
 
   public void runMotors() {

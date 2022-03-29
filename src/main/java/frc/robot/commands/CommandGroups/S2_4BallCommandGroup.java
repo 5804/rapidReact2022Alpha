@@ -28,9 +28,9 @@ public class S2_4BallCommandGroup extends SequentialCommandGroup {
  
   /** Creates a new S2_2BallCommandGroup. */
   public S2_4BallCommandGroup(DrivetrainSubsystem dts, ShooterSubsystem shooter, IntakeSubsystem is, LimelightSubsystem ls) {
-    PathPlannerTrajectory trajectory1 = PathPlanner.loadPath("2_StoBtoSH", 3, 2);
-    PathPlannerTrajectory trajectory2 = PathPlanner.loadPath("SHtoT2", 3, 3);
-    PathPlannerTrajectory trajectory3 = PathPlanner.loadPath("TtoSH", 3, 3);
+    PathPlannerTrajectory trajectory1 = PathPlanner.loadPath("2_StoBtoSH", 5, 5);
+    PathPlannerTrajectory trajectory2 = PathPlanner.loadPath("SHtoT2", 5, 5);
+    PathPlannerTrajectory trajectory3 = PathPlanner.loadPath("TtoSH", 5, 5);
 
     addCommands(
       new ExtendIntakeCommand(is),
@@ -42,7 +42,7 @@ public class S2_4BallCommandGroup extends SequentialCommandGroup {
       new AUTORunIntakeAndConveyorCommand(is),
       new InstantCommand(()-> dts.resetOdometry(trajectory2.getInitialPose())),
       dts.createCommandForTrajectory(trajectory2).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
-      new WaitCommand(1.75),
+      new WaitCommand(1.3),
       new InstantCommand(()-> dts.resetOdometry(trajectory3.getInitialPose())),
       dts.createCommandForTrajectory(trajectory3).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
       new StopIntakeCommand(is),

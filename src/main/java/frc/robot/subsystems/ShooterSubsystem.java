@@ -75,8 +75,8 @@ public class ShooterSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Actual Velocity", leftShooter.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Velocity Setpoint", targetVelocity);
+    // SmartDashboard.putNumber("Actual Velocity", leftShooter.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber("Velocity Setpoint", targetVelocity);
     
   }
 
@@ -108,8 +108,8 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeedHighGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, -7500);
-    targetVelocity = 6000;
+    leftShooter.set(TalonFXControlMode.Velocity, -5000);
+    // targetVelocity = 6000;
   }
 
   public void setShooterSpeedLowGoal() {

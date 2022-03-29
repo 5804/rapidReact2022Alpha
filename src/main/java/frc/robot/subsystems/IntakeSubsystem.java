@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
@@ -28,6 +29,16 @@ public class IntakeSubsystem extends SubsystemBase {
     // Config factory default for both motors
     intakeMotor.configFactoryDefault();
     conveyorMotor.configFactoryDefault();
+
+    // Helps prevent loop overrun, makes these things report every 20 ms rather than 2
+    intakeMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 100);
+    intakeMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 100);
+    intakeMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 100);
+    intakeMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_14_Turn_PIDF1, 100);
+    conveyorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_12_Feedback1, 100);
+    conveyorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_13_Base_PIDF0, 100);
+    conveyorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_14_Turn_PIDF1, 100);
+    conveyorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 100);
 
     // Set the motors so they immediately stop when signals are no longer being sent to them
     intakeMotor.setNeutralMode(NeutralMode.Coast);

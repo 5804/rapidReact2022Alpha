@@ -50,7 +50,7 @@ public class DriveToDistanceCommand extends CommandBase {
   @Override
   public void execute() {
     
-   SmartDashboard.putNumber("Desired Clicks", desiredClicks);
+  //  SmartDashboard.putNumber("Desired Clicks", desiredClicks);
   
    if (desiredDistance > 0) {
     drivetrainSubsystem.driveForward(3);
@@ -77,10 +77,10 @@ public class DriveToDistanceCommand extends CommandBase {
     // this if statement checks the reading of the encoder used to check average encoder values. 
     // we will now make it read the encoder values of only one encoder, after running reset encoder value method
     if (clicksTravelled >= desiredClicks) { 
-      SmartDashboard.putBoolean("Is Finished", true);
+      // SmartDashboard.putBoolean("Is Finished", true);
       return true;
     } else {
-      SmartDashboard.putBoolean("Is Finished", false);
+      // SmartDashboard.putBoolean("Is Finished", false);
       clicksTravelled = Math.abs(drivetrainSubsystem.getFrontRightEncoderValue());
       return false;
     }

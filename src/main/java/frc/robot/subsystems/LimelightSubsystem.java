@@ -27,10 +27,10 @@ public class LimelightSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run
 
     double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-    SmartDashboard.putNumber("tx", tx);
+    // SmartDashboard.putNumber("tx", tx);
 
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-    SmartDashboard.putBoolean("tv", tv >= 1.0);
+    // SmartDashboard.putBoolean("tv", tv >= 1.0);
   }
 
   public double getSteeringValue() {

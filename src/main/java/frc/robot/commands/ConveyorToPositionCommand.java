@@ -39,9 +39,9 @@ public class ConveyorToPositionCommand extends CommandBase {
     clicksTravelled = 0;
 
     desiredClicks = desiredDistance;
-    while (intakeSubsystem.getConveyorEncoderValue() != 0) {
+    // while (intakeSubsystem.getConveyorEncoderValue() != 0) {
       intakeSubsystem.resetConveyorEncoder();
-    }
+    // }
 
   }
 
@@ -67,10 +67,10 @@ public class ConveyorToPositionCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     if (clicksTravelled >= desiredClicks) { 
-      SmartDashboard.putBoolean("Is Finished (Conveyor)", true);
+      // SmartDashboard.putBoolean("Is Finished (Conveyor)", true);
       return true;
     } else {
-      SmartDashboard.putBoolean("Is Finished (Conveyor)", false);
+      // SmartDashboard.putBoolean("Is Finished (Conveyor)", false);
       clicksTravelled = Math.abs(intakeSubsystem.getConveyorEncoderValue());
       return false;
     }

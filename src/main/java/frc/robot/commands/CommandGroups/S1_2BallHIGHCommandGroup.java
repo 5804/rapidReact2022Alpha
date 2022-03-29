@@ -39,6 +39,7 @@ public class S1_2BallHIGHCommandGroup extends SequentialCommandGroup {
       new InstantCommand(()-> dts.resetOdometry(trajectory1.getInitialPose())),
       dts.createCommandForTrajectory(trajectory1).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
       new StopIntakeCommand(is),
+      new AlignToGoalWithLimelightCommand(ls, dts),
       new AUTOFireShooterRoutine(shooter, is)
   
     );

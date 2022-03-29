@@ -134,8 +134,6 @@ public class RobotContainer {
     private final ShootLowGoalCommand shootLowGoalCommand = new ShootLowGoalCommand(shooterSubsystem);
     private final ShootHighGoalCommand shootHighGoalCommand = new ShootHighGoalCommand(shooterSubsystem);
     private final FireShooterCommandGroup fireShooterCommandGroup = new FireShooterCommandGroup(shooterSubsystem, intakeSubsystem);
-    private final ConveyorToPositionCommand conveyorToPositionCommand1 = new ConveyorToPositionCommand(intakeSubsystem, 2048, -1);
-    private final ConveyorToPositionCommand conveyorToPositionCommand2 = new ConveyorToPositionCommand(intakeSubsystem, 5*2048, 1);
     private final AUTOFireShooterRoutine autoFireShooterRoutine = new AUTOFireShooterRoutine(shooterSubsystem, intakeSubsystem);
     private final FireShooterRoutine fireShooterRoutine = new FireShooterRoutine(shooterSubsystem, intakeSubsystem);
     
@@ -192,7 +190,7 @@ public class RobotContainer {
     sendableChooser.addOption("1-2BallLOW", new S1_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("1-2BallHIGH", new S1_2BallHIGHCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("1-2BallLOW", new S1_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
-    sendableChooser.addOption("3-2BallHIGH", new S3_2BallHIGHCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem));
+    sendableChooser.addOption("3-2BallHIGH", new S3_2BallHIGHCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("2-2BallLOW", new S2_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("3-2BallLOW", new S3_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("BackUp", new BackUp(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
