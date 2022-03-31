@@ -29,7 +29,7 @@ public class AUTOFireShooterRoutine extends SequentialCommandGroup {
       new AUTOActivateAcceleratorCommand(ss),
       new WaitCommand(0.25),
       new ConveyorToPositionCommand(is, 4*2048, 1),
-      new WaitCommand(0.75),
+      new WaitCommand(0.3),
       new ConveyorToPositionCommand(is, 5*2048, 1),
       new StopShooterCommand(ss),
       new StopAcceleratorCommand(ss)

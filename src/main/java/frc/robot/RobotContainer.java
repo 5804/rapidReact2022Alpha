@@ -43,6 +43,7 @@ import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.DriveAtSpeed80Command;
 import frc.robot.commands.DriveToDistanceCommand;
 import frc.robot.commands.FollowPathCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.WinchInCommand;
 import frc.robot.commands.RunConveyorMotorCommand;
 import frc.robot.commands.RunIntakeAndConveyor;
@@ -125,6 +126,7 @@ public class RobotContainer {
     private final RunIntakeMotorsCommand runIntakeMotorsCommand = new RunIntakeMotorsCommand(intakeSubsystem);
     private final RunConveyorMotorCommand runConveyorMotorCommand = new RunConveyorMotorCommand(intakeSubsystem);
     public final RunIntakeAndConveyor runIntakeAndConveyor = new RunIntakeAndConveyor(intakeSubsystem);
+    public final IntakeCommand intakeCommand = new IntakeCommand(intakeSubsystem);
 
 
   //FOR SHOOTER:
@@ -135,7 +137,7 @@ public class RobotContainer {
     private final ShootHighGoalCommand shootHighGoalCommand = new ShootHighGoalCommand(shooterSubsystem);
     private final FireShooterCommandGroup fireShooterCommandGroup = new FireShooterCommandGroup(shooterSubsystem, intakeSubsystem);
     private final AUTOFireShooterRoutine autoFireShooterRoutine = new AUTOFireShooterRoutine(shooterSubsystem, intakeSubsystem);
-    private final FireShooterRoutine fireShooterRoutine = new FireShooterRoutine(shooterSubsystem, intakeSubsystem);
+    private final FireShooterRoutine fireShooterRoutine = new FireShooterRoutine(shooterSubsystem, intakeSubsystem, limelightSubsystem, driveTrainSubsystem);
     
   //FOR CLIMBER:
       private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -217,7 +219,7 @@ public class RobotContainer {
          new Button(m_controller::getStartButton)
         .whenPressed(driveTrainSubsystem::zeroGyroscope);
         
-        new LeftTriggerPressed().whileActiveContinuous(alignToGoalWithLimelightCommand);
+        new LeftTriggerPressed().whileActiveContinuous(intakeCommand);
 
     // FOR AUTO:
         // new Button(m_controller::getAButton)
