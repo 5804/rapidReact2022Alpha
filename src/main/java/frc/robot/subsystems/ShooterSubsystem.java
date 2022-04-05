@@ -29,6 +29,8 @@ public class ShooterSubsystem extends SubsystemBase {
   public double targetVelocityHigh;
   public boolean flag = true;
 
+  //Varying speed shooter...
+
   /** Creates a new ShooterSubsytem. */
   public ShooterSubsystem() {
 
@@ -108,7 +110,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void setShooterSpeedHighGoal() {
-    leftShooter.set(TalonFXControlMode.Velocity, -5000);
+    leftShooter.set(TalonFXControlMode.Velocity, -4150);
     // targetVelocity = 6000;
   }
 

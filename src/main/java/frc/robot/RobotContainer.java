@@ -219,7 +219,7 @@ public class RobotContainer {
          new Button(m_controller::getStartButton)
         .whenPressed(driveTrainSubsystem::zeroGyroscope);
         
-        new LeftTriggerPressed().whileActiveContinuous(intakeCommand);
+        new LeftTriggerPressed().whileActiveContinuous(runIntakeAndConveyor);
 
     // FOR AUTO:
         // new Button(m_controller::getAButton)
