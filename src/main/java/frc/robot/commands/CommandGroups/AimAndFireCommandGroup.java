@@ -23,7 +23,7 @@ public class AimAndFireCommandGroup extends SequentialCommandGroup {
     addCommands(
       new ShootHighGoalCommand(shoot), // the isFinished() method of this command returns false, might need to change this
       new AlignToGoalWithLimelightCommand(ls, dts),
-      new FireShooterRoutine(shoot, is) // if this routine only shoots one ball, add the same line on the line below this one
+      new FireShooterRoutine(shoot, is, ls, dts) // if this routine only shoots one ball, add the same line on the line below this one
     );
   }
 }

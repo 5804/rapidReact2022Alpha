@@ -39,22 +39,22 @@ public final class Constants {
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = 22; // FIXME Set front left module drive motor ID
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = 21; // FIXME Set front left module steer motor ID
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = 20; // FIXME Set front left steer encoder ID
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(164.883);  //WAS 166.37
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(166.37);  //WAS 166.37 //164.79
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = 32; // FIXME Set front right drive motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = 31; // FIXME Set front right steer motor ID
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = 30; // FIXME Set front right steer encoder ID
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(93.252); //WAS 93.69
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(93.69); //WAS 93.69 //94.13
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = 12; // FIXME Set back left drive motor ID
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = 11; // FIXME Set back left steer motor ID
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = 10; // FIXME Set back left steer encoder ID
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(172.881); //WAS 172.14
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(172.14); //WAS 172.14 //171.83
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 42; // FIXME Set back right drive motor ID
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 41; // FIXME Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 40; // FIXME Set back right steer encoder ID
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(41.045); // WAS 40.87
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(40.87); // WAS 40.87 //40.61
 
     // Limelight constants
     public static final double LIMELIGHT_DEADBAND = 1;

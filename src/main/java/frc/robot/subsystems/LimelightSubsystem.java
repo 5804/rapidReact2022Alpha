@@ -26,10 +26,10 @@ public class LimelightSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
+    // double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
     // SmartDashboard.putNumber("tx", tx);
 
-    double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
+    // double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
     // SmartDashboard.putBoolean("tv", tv >= 1.0);
   }
 
@@ -65,10 +65,10 @@ public class LimelightSubsystem extends SubsystemBase {
     return finalSteerCmd;
   }
 
-  private final getDrivingValue() {
-    double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-    return ty;
-  }
+  // private final getDrivingValue() {
+  //   double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
+  //   return ty;
+  // }
 
   public boolean isTargetValid() {
     double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
