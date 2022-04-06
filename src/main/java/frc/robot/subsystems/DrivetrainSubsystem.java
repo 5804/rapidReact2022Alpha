@@ -219,7 +219,14 @@ public double target = (getGyroscopeRotation().getDegrees());
   }
 
   public void drive(ChassisSpeeds chassisSpeeds) {
-    m_chassisSpeeds = chassisSpeeds;
+      m_chassisSpeeds = chassisSpeeds;
+      SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
+      SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
+
+      m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
+      m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
+      m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
+      m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
   }
 
   // Need for autonomous command
@@ -256,34 +263,18 @@ public double target = (getGyroscopeRotation().getDegrees());
 
   @Override
   public void periodic() {
-    
-    SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
-
-    m_frontLeftModule.set(states[0].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[0].angle.getRadians());
-    m_frontRightModule.set(states[1].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[1].angle.getRadians());
-    m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
-    m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
 
 //     SmartDashboard.putNumber("Raw Angle", getRawRoation());
 //     SmartDashboard.putNumber("current angle", getGyroscopeRotation().getDegrees());
 //     SmartDashboard.putNumber("Current X", getPose().getX()); 
 //     SmartDashboard.putNumber("Current Y", getPose().getY());
-
     
 //     SmartDashboard.putNumber("Target", target);
-
       
       // SmartDashboard.putNumber("Current Angle", getPose().getRotation().getDegrees()); 
      // SmartDashboard.putNumber("Target Pose Angle", targetPose.getRotation().getDegrees());
 
-
-
-
-
-
   }
-
 
   public double getClicksNeeded(double desiredDistance) {
         double clicksPerDegree = ((2048*6.86)/360);
