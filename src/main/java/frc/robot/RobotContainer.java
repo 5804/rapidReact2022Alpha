@@ -138,6 +138,14 @@ public class RobotContainer {
     private final FireShooterCommandGroup fireShooterCommandGroup = new FireShooterCommandGroup(shooterSubsystem, intakeSubsystem);
     private final AUTOFireShooterRoutine autoFireShooterRoutine = new AUTOFireShooterRoutine(shooterSubsystem, intakeSubsystem);
     private final FireShooterRoutine fireShooterRoutine = new FireShooterRoutine(shooterSubsystem, intakeSubsystem, limelightSubsystem, driveTrainSubsystem);
+  
+  //EXPERIMENTAL:
+    private final RadialDriveCommand radialDriveCommand = new RadialDriveCommand(
+      driveTrainSubsystem,
+      () -> modifyAxis(m_controller.getLeftY()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+      () -> modifyAxis(m_controller.getLeftX()) * DrivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND,
+      () -> modifyAxis((-1*m_controller.getRightX())) * DrivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND
+    );
     
   //FOR CLIMBER:
       private final ClimberSubsystem climberSubsystem = new ClimberSubsystem();
@@ -355,8 +363,11 @@ public class RobotContainer {
 
     // new RightTriggerPressed().whileActiveContinuous(fireShooterCommandGroup);
     new RightTriggerPressed().whileActiveContinuous(fireShooterRoutine);
+    
+    //EXPERIMENTAL CODE
 
-
+    new Button(m_controller::getRightStickButton)
+      .whileHeld(radialDriveCommand);
   }
 
   /*
