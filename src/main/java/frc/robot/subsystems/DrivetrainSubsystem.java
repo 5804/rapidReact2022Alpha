@@ -347,6 +347,46 @@ public double target = (getGyroscopeRotation().getDegrees());
                 )
         );
   }
+      
+    //EXPERIMENTAL CODE
+
+  public double heldAngleToTurn(double d0y, double d0x) {
+      double angleTurning = Math.atan2(d0y, d0x);
+      return angleTurning;
+      }
+  
+  public double getRotSpeedForRadial() {
+        //USE LIMELIGHT GET DISTANCE, ADD RADIUS OF HOOP
+        //CREATE POSE INIT ON INITILIZATION, CALCULATE X AND Y FROM LIGHTLIGHT GET DISTANCE HYPOTENUSE
+      double y0 = -4; //FIX ME, SUPPOSED TO BE Y DISTANCE FROM GOAL .
+      double x0 = -4; //FIX ME
+      Pose2d d0pose = getPose();
+      double d0y = d0pose.getY() + y0;
+      double d0x = d0pose.getX() + x0;
+      double currentAngle = d0pose.getRotation().getRadians();
+      double rotspeed = 0.5; //FIX ME
+      double AOF = 0.1; //ANGLES OF FREEDOM, FIX ME
+      double targetAngle = heldAngleToTurn(d0y, d0x);
+      //double currentAngle = getGyroscopeRotation().getRadians();
+      if(currentAngle < 0) {
+          currentAngle = currentAngle + 2*Math.PI;
+      }
+      if(currentAngle >= 2*Math.PI) {
+          currentAngle = currentAngle - 2*Math.PI;
+      }
+      if(Math.abs(currentAngle - targetAngle) > Math.PI-AOF) {
+          return -1*rotspeed;
+      }
+      if(Math.abs(currentAngle - targetAngle) < Math.PI-AOF) {
+          return 1*rotspeed;
+      }
+      return 0;
+      // if(Math.abs(currentAngle - targetAngle) < AOF) {
+      //     return 0;
+      // }
+  }
+
+  //EXPERIMENTAL CODE
 
   public double getFrontLeftEncoderValue() {
         return m_frontLeftModule.getDriveEncoderValue();
