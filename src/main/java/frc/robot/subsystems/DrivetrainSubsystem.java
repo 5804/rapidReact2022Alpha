@@ -257,6 +257,7 @@ public double target = (getGyroscopeRotation().getDegrees());
   @Override
   public void periodic() {
     
+
     SwerveModuleState[] states = m_kinematics.toSwerveModuleStates(m_chassisSpeeds);
     SwerveDriveKinematics.desaturateWheelSpeeds(states, MAX_VELOCITY_METERS_PER_SECOND);
 
@@ -276,10 +277,6 @@ public double target = (getGyroscopeRotation().getDegrees());
       
       // SmartDashboard.putNumber("Current Angle", getPose().getRotation().getDegrees()); 
      // SmartDashboard.putNumber("Target Pose Angle", targetPose.getRotation().getDegrees());
-
-
-
-
 
 
   }
