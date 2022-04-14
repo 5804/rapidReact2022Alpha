@@ -69,11 +69,13 @@ import frc.robot.commands.CommandGroups.S1_2BallHIGHCommandGroup;
 import frc.robot.commands.CommandGroups.S1_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S1_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.S2_4BallCommandGroup;
+import frc.robot.commands.CommandGroups.S2_4BallCommandGroupBackup;
 import frc.robot.commands.CommandGroups.S2_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S2_3BallCommandGroup;
 import frc.robot.commands.CommandGroups.S3_2BallHIGHCommandGroup;
 import frc.robot.commands.CommandGroups.S3_2BallLOWCommandGroup;
 import frc.robot.commands.CommandGroups.S3_3BallCommandGroup;
+import frc.robot.commands.CommandGroups.SZ_1BallHIGHDfnsCommandGroup;
 import frc.robot.commands.CommandGroups.TestAutoDriveCommandGroup;
 import frc.robot.commands.CommandGroups.TestSHtoTCommandGroup;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -197,6 +199,8 @@ public class RobotContainer {
     sendableChooser.addOption("3-2BallLOW", new S3_2BallLOWCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("BackUp", new BackUp(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     sendableChooser.addOption("SHtoT", new TestSHtoTCommandGroup(driveTrainSubsystem, intakeSubsystem));
+    sendableChooser.addOption("Def1B", new SZ_1BallHIGHDfnsCommandGroup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
+    sendableChooser.addOption("2-4BallBackup", new S2_4BallCommandGroupBackup(driveTrainSubsystem, shooterSubsystem, intakeSubsystem, limelightSubsystem));
     
     SmartDashboard.putData("Auto Selector", sendableChooser);
   }

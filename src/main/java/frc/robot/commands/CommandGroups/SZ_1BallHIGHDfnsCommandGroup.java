@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.AUTORunIntakeAndConveyorCommand;
 import frc.robot.commands.AUTOShootHighGoalCommand;
+import frc.robot.commands.ActivateAcceleratorCommand;
 import frc.robot.commands.AlignToGoalWithLimelightCommand;
 import frc.robot.commands.ExtendIntakeCommand;
 import frc.robot.commands.RunIntakeAndConveyor;
@@ -35,14 +36,12 @@ public class SZ_1BallHIGHDfnsCommandGroup extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ExtendIntakeCommand(is),
-      new AUTORunIntakeAndConveyorCommand(is),
+      new AUTOFireShooterRoutine(shooter, is),
+      new RunIntakeAndConveyor(is),
       new InstantCommand(()-> dts.resetOdometry(trajectory1.getInitialPose())),
       dts.createCommandForTrajectory(trajectory1).andThen(() -> dts.drive(new ChassisSpeeds(0.0, 0.0, 0.0))),
       new StopIntakeCommand(is),
-      new AlignToGoalWithLimelightCommand(ls, dts),
-      new AUTOFireShooterRoutine(shooter, is)
-  
+      new AUTOFireLowShooterRoutine(shooter, is)
     );
-
   }
 }

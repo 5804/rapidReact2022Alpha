@@ -4,12 +4,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
+//import com.ctre.phoenix.sensors.PigeonIMU;
 import com.kauailabs.navx.frc.AHRS;
 import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 import com.swervedrivespecialties.swervelib.Mk3SwerveModuleHelper;
-import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
+//import com.swervedrivespecialties.swervelib.Mk4SwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 
@@ -180,10 +180,10 @@ public double target = (getGyroscopeRotation().getDegrees());
             BACK_RIGHT_MODULE_STEER_ENCODER,
             BACK_RIGHT_MODULE_STEER_OFFSET
     );
-      //   tab.getLayout("Back Left Module", BuiltInLayouts.kList).addNumber("Back Left Module", ()->m_backLeftModule.getDriveEncoderValue());
-      //   tab.getLayout("Back Right Module", BuiltInLayouts.kList).addNumber("Back Right Module", ()->m_backRightModule.getDriveEncoderValue());
-      //   tab.getLayout("Front Left Module", BuiltInLayouts.kList).addNumber("Front Left Module", ()->m_frontLeftModule.getDriveEncoderValue());
-      //   tab.getLayout("Front Right Module", BuiltInLayouts.kList).addNumber("Front Right Module", ()->m_frontRightModule.getDriveEncoderValue());
+        tab.getLayout("Back Left Module", BuiltInLayouts.kList).addNumber("Back Left Module", ()->m_backLeftModule.getDriveEncoderValue());
+        tab.getLayout("Back Right Module", BuiltInLayouts.kList).addNumber("Back Right Module", ()->m_backRightModule.getDriveEncoderValue());
+        tab.getLayout("Front Left Module", BuiltInLayouts.kList).addNumber("Front Left Module", ()->m_frontLeftModule.getDriveEncoderValue());
+        tab.getLayout("Front Right Module", BuiltInLayouts.kList).addNumber("Front Right Module", ()->m_frontRightModule.getDriveEncoderValue());
       
       
   }
@@ -266,10 +266,10 @@ public double target = (getGyroscopeRotation().getDegrees());
     m_backLeftModule.set(states[2].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[2].angle.getRadians());
     m_backRightModule.set(states[3].speedMetersPerSecond / MAX_VELOCITY_METERS_PER_SECOND * MAX_VOLTAGE, states[3].angle.getRadians());
 
-//     SmartDashboard.putNumber("Raw Angle", getRawRoation());
-//     SmartDashboard.putNumber("current angle", getGyroscopeRotation().getDegrees());
-//     SmartDashboard.putNumber("Current X", getPose().getX()); 
-//     SmartDashboard.putNumber("Current Y", getPose().getY());
+    SmartDashboard.putNumber("Raw Angle", getRawRoation());
+    SmartDashboard.putNumber("current angle", getGyroscopeRotation().getDegrees());
+    SmartDashboard.putNumber("Current X", getPose().getX()); 
+    SmartDashboard.putNumber("Current Y", getPose().getY());
 
     
 //     SmartDashboard.putNumber("Target", target);
