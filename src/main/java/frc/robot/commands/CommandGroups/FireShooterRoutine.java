@@ -32,13 +32,12 @@ public class FireShooterRoutine extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new StopIntakeCommand(is),
-      new ExtendIntakeCommand(is),
       new AlignToGoalWithLimelightCommand(ls, dts),
       new PrepareToShootCommandGroup(ss, is),
       new ActivateAcceleratorCommand(ss),
-      new WaitCommand(0.1),
+      new WaitCommand(0.2),
       new ConveyorToPositionCommand(is, 4*2048, 1),
-      new WaitCommand(0.4),
+      new WaitCommand(0.2),
       new ConveyorToPositionCommand(is, 5*2048, 1)
       
     );
@@ -50,5 +49,6 @@ public class FireShooterRoutine extends SequentialCommandGroup {
   public void end(boolean interrupted) {
     shooterSubsystem.stopAccelerator();
     intakeSubsystem.stopConveyorMotor();
+  
   }
 }

@@ -20,7 +20,7 @@ public class PrepareToShootCommandGroup extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new AcceleratorToPositionCommand(ss, 2048, -1),
-      new ConveyorToPositionCommand(is, 128, -1)
+      new ConveyorToPositionCommand(is, 32, -1)
     );
   }
 }
