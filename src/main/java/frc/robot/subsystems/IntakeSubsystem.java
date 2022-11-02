@@ -41,7 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
     conveyorMotor.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 100);
 
     // Set the motors so they immediately stop when signals are no longer being sent to them
-    intakeMotor.setNeutralMode(NeutralMode.Coast);
+    intakeMotor.setNeutralMode(NeutralMode.Brake);
     conveyorMotor.setNeutralMode(NeutralMode.Brake);
     
 

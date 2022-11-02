@@ -255,14 +255,17 @@ public class RobotContainer {
         b4.whenPressed(deactivateBottomPistonCommand); 
 
         final JoystickButton b5 = new JoystickButton(climbBoard, 5); 
-        b5.whenPressed(activateHookPistonCommand); 
+        b5.whenPressed(activateHookPistonCommand);
+
+        new BoardStickForward().whileActiveOnce(winchOutCommand);
+        b5.cancelWhenPressed(winchOutCommand);
+
+        new BoardStickBackwards().whileActiveOnce(winchInCommand);
+        b5.cancelWhenPressed(winchInCommand);
+
 
         final JoystickButton b6 = new JoystickButton(climbBoard, 6); 
         b6.whenPressed(deactivateHookPistonCommand); 
-
-        new BoardStickForward().whileActiveContinuous(winchOutCommand);
-
-        new BoardStickBackwards().whileActiveContinuous(winchInCommand);
 
         final JoystickButton b7 = new JoystickButton(climbBoard, 7); //MAKE RIGHT
         b7.whileHeld(runRightMotor); 
