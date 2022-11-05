@@ -37,7 +37,7 @@ public class FireShooterRoutine extends SequentialCommandGroup {
       new ActivateAcceleratorCommand(ss),
       new WaitCommand(0.2),
       new ConveyorToPositionCommand(is, 4*2048, 1),
-      new WaitCommand(0.2),
+      new WaitCommand(0.3),
       new ConveyorToPositionCommand(is, 5*2048, 1)
       
     );
