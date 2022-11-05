@@ -54,7 +54,7 @@ public final class Constants {
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = 42; // FIXME Set back right drive motor ID
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = 41; // FIXME Set back right steer motor ID
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = 40; // FIXME Set back right steer encoder ID
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(40.87); // WAS 40.87 //40.61 //40.78
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(40.86); // WAS 40.87 //40.61 //40.78
 
     // Limelight constants
     public static final double LIMELIGHT_DEADBAND = 1;

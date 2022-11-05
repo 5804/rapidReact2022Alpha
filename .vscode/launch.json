@@ -9,6 +9,13 @@
       "name": "Launch Main",
       "request": "launch",
       "mainClass": "frc.robot.Main",
+      "projectName": "rapidReact2022Alpha"
+    },
+    {
+      "type": "java",
+      "name": "Launch Main",
+      "request": "launch",
+      "mainClass": "frc.robot.Main",
       "projectName": "2022-6391-Swerve-working"
     },
     {
